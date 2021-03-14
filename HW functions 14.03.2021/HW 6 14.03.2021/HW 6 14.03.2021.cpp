@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-bool UpperRegister(char symbol)
+bool LetterCheck(char symbol)
 {
 	char letterEnd2 = 123, letterEnd1 = 91 , letterStart1 = 64, letterStart2 = 96;   
 	if ((symbol > letterStart1 && symbol < letterEnd1) || (symbol > letterStart2 && symbol < letterEnd2))
@@ -23,7 +23,7 @@ int main()
 	char letter;
 	cin >> letter;
 
-	if (UpperRegister(letter))
+	if (LetterCheck(letter))
 		cout << "Это символ является буквой.\n";
 	else
 		cout << "Этот символ не является буквой.\n";
