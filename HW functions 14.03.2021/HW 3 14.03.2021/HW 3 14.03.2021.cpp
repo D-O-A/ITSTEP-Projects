@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 
 int Max(int num1, int num2)
@@ -13,12 +13,12 @@ int main()
 {
 	cout << "3.\n\n";
 
-	//Íàïèñàòü ôóíêöèþ, êîòîðàÿ íàõîäèò áîëüøåå èç äâóõ öåëûõ ÷èñåë.
+	//ÐÐ°Ð¿Ð¸ÑÐ°Ñ‚ÑŒ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÑŽ, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ Ð±Ð¾Ð»ÑŒÑˆÐµÐµ Ð¸Ð· Ð´Ð²ÑƒÑ… Ñ†ÐµÐ»Ñ‹Ñ… Ñ‡Ð¸ÑÐµÐ».
 
 	setlocale(LC_ALL, "Russian");
 
 	int num1, num2;
-	cout << "Ââåäèòå 2 ÷èñëà:\n";
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ 2 Ñ‡Ð¸ÑÐ»Ð°:\n";
 	cin >> num1 >> num2;
-	cout << "Áîëüøåå ÷èñëî = " << Max(num1, num2) << endl;
+	cout << "Ð‘Ð¾Ð»ÑŒÑˆÐµÐµ Ñ‡Ð¸ÑÐ»Ð¾ = " << Max(num1, num2) << endl;
 }

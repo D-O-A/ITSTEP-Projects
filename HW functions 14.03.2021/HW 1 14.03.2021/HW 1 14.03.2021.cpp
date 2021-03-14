@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 using namespace std;
 
 int Cube(int num)
@@ -10,11 +10,11 @@ int main()
 {
 	cout << "1.\n\n";
 
-	//Íàïèñàòü ôóíêöèş, âû÷èñëÿşùóş êóá öåëîãî ÷èñëà.
+	//ĞĞ°Ğ¿Ğ¸ÑĞ°Ñ‚ÑŒ Ñ„ÑƒĞ½ĞºÑ†Ğ¸Ñ, Ğ²Ñ‹Ñ‡Ğ¸ÑĞ»ÑÑÑ‰ÑƒÑ ĞºÑƒĞ± Ñ†ĞµĞ»Ğ¾Ğ³Ğ¾ Ñ‡Ğ¸ÑĞ»Ğ°.
 
 	setlocale(LC_ALL, "Russian");
 
 	int num;
-	cout << "Ââåäèòå ÷èñëî äëÿ âîçâåäåíèÿ â êóá:"; cin >> num;
+	cout << "Ğ’Ğ²ĞµĞ´Ğ¸Ñ‚Ğµ Ñ‡Ğ¸ÑĞ»Ğ¾ Ğ´Ğ»Ñ Ğ²Ğ¾Ğ·Ğ²ĞµĞ´ĞµĞ½Ğ¸Ñ Ğ² ĞºÑƒĞ±:"; cin >> num;
 	cout << Cube(num) << endl;
 }
