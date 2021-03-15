@@ -255,19 +255,28 @@ int main()
 	//Реализовать 2 варианта вывода каждой фигуры – заполненный и незаполненный.
 
 	setlocale(LC_ALL, "Russian");
+
 	unsigned width, height, branch;
+
 	cout << "Введите длину:"; cin >> width;
 	Square(width);
+
 	cout << "Введите высоту и ширину:\n";
 	cin >> height >> width;
+
 	Rectangle(height, width);
 	cout << "Введите ширину:"; cin >> width;   // рекомендую вводить 15
 	UAflag(width);
+
 	cout << "Введите высоту:"; cin >> height;
 	Triangle(height);
+
 	cout << "Введите диагональ:"; cin >> height;
 	Diamond(height);
+
 	cout << "Введите количество веток и высоту:\n";
 	cin >> branch >> height;
+
 	Tree(branch, height);
+	cout << endl;
 }
