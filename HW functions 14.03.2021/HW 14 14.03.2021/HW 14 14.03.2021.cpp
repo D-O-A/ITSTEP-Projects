@@ -102,7 +102,7 @@ void Triangle(int height)   // равнобедренный треугольни
 	{
 		for (int x = 0; x <= height; x++)
 		{
-			if (y == height || y == -2 * x + height || y == 2 * x + -height || x > -2 * x + height && x < 2 * x + -height - 1)
+			if (y == height || y == -2 * x + height || y == 2 * x + -height)
 				cout << "*";
 			else
 				cout << " ";
@@ -192,7 +192,7 @@ void Tree(int branch, int height)
 
 	cout << endl;
 
-	int n = height; // я кончусь везде исправлять n на height
+
 	for (int y = 0; y <= height; y++) // елка
 	{
 		for (int x = 0; x <= height; x++) // цикл верхушки
