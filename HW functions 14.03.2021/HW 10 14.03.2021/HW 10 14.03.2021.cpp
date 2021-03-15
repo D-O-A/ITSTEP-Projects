@@ -21,6 +21,7 @@ int main()
 	int num1, num2;
 	cout << "Введите 2 числа:\n";
 	cin >> num1 >> num2;
+
 	if (num1 > num2)
 		swap(num1, num2);
 	cout << "Сумма между числами = " << RangeSum(num1, num2) << endl;

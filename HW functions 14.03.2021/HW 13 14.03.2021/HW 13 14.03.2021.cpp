@@ -14,10 +14,15 @@ bool PrimeCheck(int num)
 int main()
 {
 	cout << "13.\n\n";
+
 	//Написать логическую функцию, которая определяет является ли простым заданное число.
+
 	setlocale(LC_ALL, "Russian");
+
 	int num;
+
 	cout << "Введите число:"; cin >> num;
+
 	if (PrimeCheck(num))
 		cout << "Это число является простым.\n";
 	else

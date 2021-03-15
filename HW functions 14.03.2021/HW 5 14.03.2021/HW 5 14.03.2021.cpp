@@ -13,14 +13,14 @@ bool UpperRegister(char symbol)
 int main()
 {
 	cout << "5.\n\n";
-
 	//Написать логическую функцию, которая получает символьный параметр и возвращает true,
 	//если указанный символ является буквой верхнего регистра, и false в противном случае.
 
 	setlocale(LC_ALL, "Russian");
 
-	cout << "Enter a letter:\n";
 	char letter, upper = 64, letterEnd = 122;
+
+	cout << "Enter a letter:\n";
 	cin >> letter;
 
 	if (letter < upper || letter > 122)   // #костыли

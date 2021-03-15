@@ -15,6 +15,7 @@ int main()
 	setlocale(LC_ALL, "Russian");
 
 	int num;
+
 	cout << "Введите число для возведения в куб:"; cin >> num;
 	cout << Cube(num) << endl;
 }

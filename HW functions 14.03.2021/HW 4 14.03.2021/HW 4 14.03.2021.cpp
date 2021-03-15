@@ -15,6 +15,7 @@ int main()
 	setlocale(LC_ALL, "Russian");
 
 	int num1, num2, num3;
+
 	cout << "Введите 3 числа:\n";
 	cin >> num1 >> num2 >> num3;
 	cout << "СА = " << Avg(num1, num2, num3) << endl;

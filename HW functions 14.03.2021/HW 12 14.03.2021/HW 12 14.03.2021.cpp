@@ -25,10 +25,15 @@ bool LuckyTicket(int ticket_num)
 int main()
 {
 	cout << "12.\n\n";
+
 	//Написать функцию, которая определяет является ли «счастливым» заданное шестизначное число.
+
 	setlocale(LC_ALL, "Russian");
+
 	int ticket_num;
+
 	cout << "Введите шестизначное число:"; cin >> ticket_num;
+
 	if (LuckyTicket(ticket_num))
 		cout << "Это число является счастливым!\n";
 	else

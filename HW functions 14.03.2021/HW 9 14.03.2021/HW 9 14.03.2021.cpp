@@ -12,8 +12,11 @@ int Sum(int num)
 int main()
 {
 	cout << "9.\n\n";
+
 	//Написать функцию, вычисляющую сумму целых чисел от 1 до заданного значения.
+
 	setlocale(LC_ALL, "Russian");
+
 	int num;
 	cout << "Введите число:"; cin >> num;
 	while (num < 1)

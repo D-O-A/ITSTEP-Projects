@@ -18,6 +18,7 @@ int main()
 	setlocale(LC_ALL, "Russian");
 
 	int num1, num2;
+
 	cout << "Введите 2 числа:\n";
 	cin >> num1 >> num2;
 	cout << "Меньшее число = " << Min(num1, num2) << endl;
