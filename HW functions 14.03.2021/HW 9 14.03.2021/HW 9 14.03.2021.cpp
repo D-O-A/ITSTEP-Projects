@@ -17,6 +17,9 @@ int main()
 	int num;
 	cout << "Введите число:"; cin >> num;
 	while (num < 1)
-		cout << "Введите число больше 1:"; cin >> num;
+	{
+		cout << "Введите число больше 1:"; 
+		cin >> num;
+	}
 	cout << "Сумма целых чисел от 1 до " << num << " = " << Sum(num) << endl;
 }

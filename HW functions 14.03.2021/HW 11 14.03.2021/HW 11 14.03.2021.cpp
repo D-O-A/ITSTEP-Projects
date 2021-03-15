@@ -14,7 +14,7 @@ int main()
 	cout << "11.\n\n";
 	//Написать функцию, вычисляющую факториал заданного значения.
 	setlocale(LC_ALL, "Russian");
-	int num;
+    int num;
 	cout << "Введите число:"; cin >> num;
 	cout << "Факториал заданного числа = " << Factorial(num) << endl;
 }
