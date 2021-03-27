@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <ctime>
 using namespace std;
 
@@ -13,7 +13,7 @@ void ArrayFill(int arr[], int SIZE)
 int GetUserNum()
 {
 	int num;
-	cout << "Ââåäèòå ÷èñëî:"; cin >> num;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‡Ð¸ÑÐ»Ð¾:"; cin >> num;
 	return num;
 }
 
@@ -28,7 +28,7 @@ int FindUserNum(int arr[], int SIZE, int num)
 
 void PrintCounter(int counter)
 {
-	cout << "Âàøå ÷èñëî âñòðå÷àåòñÿ â ìàññèâå " << counter << " ðàç(à)." << endl;
+	cout << "Ð’Ð°ÑˆÐµ Ñ‡Ð¸ÑÐ»Ð¾ Ð²ÑÑ‚Ñ€ÐµÑ‡Ð°ÐµÑ‚ÑÑ Ð² Ð¼Ð°ÑÑÐ¸Ð²Ðµ " << counter << " Ñ€Ð°Ð·(Ð°)." << endl;
 }
 
 
@@ -36,7 +36,7 @@ int main()
 {
 	cout << "1.\n\n";
 
-	//Íàïèñàòü ôóíêöèþ, êîòîðàÿ ñ÷èòàåò ñêîëüêî ðàç çàäàííîå ÷èñëî âñòðå÷àåòñÿ â ìàññèâå.
+	//ÐÐ°Ð¿Ð¸ÑÐ°Ñ‚ÑŒ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÑŽ, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ ÑÑ‡Ð¸Ñ‚Ð°ÐµÑ‚ ÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ñ€Ð°Ð· Ð·Ð°Ð´Ð°Ð½Ð½Ð¾Ðµ Ñ‡Ð¸ÑÐ»Ð¾ Ð²ÑÑ‚Ñ€ÐµÑ‡Ð°ÐµÑ‚ÑÑ Ð² Ð¼Ð°ÑÑÐ¸Ð²Ðµ.
 
 	setlocale(LC_ALL, "Russian");
 	srand((unsigned)time(0));
