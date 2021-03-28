@@ -2,7 +2,7 @@
 #include <ctime>
 using namespace std;
 
-const int SIZE = 20;
+const int SIZE{ 20 };
 
 void ArrayFill(int arr[], int SIZE)
 {
