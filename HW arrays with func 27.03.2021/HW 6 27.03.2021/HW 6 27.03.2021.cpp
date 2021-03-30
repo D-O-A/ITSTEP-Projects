@@ -12,17 +12,15 @@ void ArrayFill(int arr[], int SIZE)
 
 int GetMinMaxElemDistance(int arr[], int SIZE)
 {
-	int minElem = arr[0];
-	int maxElem = arr[0];
 	int minIndex = 0;
 	int maxIndex = 0;
 
 	for (int i = 1; i < SIZE; i++)
 	{
-		if (arr[i] < minElem)
-			minElem = arr[i], minIndex = i;
-		if (arr[i] > maxElem)
-			maxElem = arr[i], maxIndex = i;
+		if (arr[i] < arr[minIndex])
+			minIndex = i;
+		if (arr[i] > arr[maxIndex])
+			maxIndex = i;
 	}
 
 	if (minIndex > maxIndex)

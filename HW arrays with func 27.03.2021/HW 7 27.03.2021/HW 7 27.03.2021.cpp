@@ -21,7 +21,7 @@ bool PrimeCheck(int element)
 	return true;
 }
 
-int GetPrimeNumberAmount(int arr[], int SIZE)
+int GetPrimeNumberAmount(const int arr[], int SIZE)
 {
 	// передаем каждый элемент массива на проверку делителя в другую функцию
 	int counter = 0;
