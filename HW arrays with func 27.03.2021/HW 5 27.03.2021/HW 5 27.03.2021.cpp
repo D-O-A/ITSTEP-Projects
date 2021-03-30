@@ -14,6 +14,7 @@ int GetMinMaxElemDifference(int arr[], int SIZE)
 {
 	int minElem = arr[0];
 	int maxElem = arr[0];
+
 	for (int i = 1; i < SIZE; i++)
 	{
 		if (arr[i] < minElem)
