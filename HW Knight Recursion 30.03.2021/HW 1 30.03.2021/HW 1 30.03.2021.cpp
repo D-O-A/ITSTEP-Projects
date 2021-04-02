@@ -9,10 +9,7 @@ const int MOVERANGE{ 8 };
 bool CheckMoves(int chessboard[][SIZE], int nextRow, int nextCol)
 {
 	//проверка возможен ли следующий ход
-	if (chessboard[nextRow][nextCol] == 0 && (nextRow >= 0 && nextRow < MOVERANGE && nextCol >= 0 && nextCol < MOVERANGE))
-		return true;
-	else
-		return false;
+	return chessboard[nextRow][nextCol] == 0 && (nextRow >= 0 && nextRow < MOVERANGE&& nextCol >= 0 && nextCol < MOVERANGE);
 }
 
 bool GetKnightMove(int chessboard[][SIZE], int moveRow[], int moveCol[], int y, int x, int move)
