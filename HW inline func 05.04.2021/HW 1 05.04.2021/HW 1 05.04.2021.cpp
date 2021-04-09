@@ -2,9 +2,14 @@
 using namespace std;
 
 // я не придумал как можно еще проще написать "приемлемую" для компилятора inline функцию 
-inline bool IsMin(int num1, int num2)
+inline int GetMin(int num1, int num2)
 {
-	return num1 > num2;
+	return num1 < num2 ? num1 : num2;
+}
+
+inline int GetMax(int num1, int num2)
+{
+	return num1 > num2 ? num1 : num2;
 }
 
 int main()
@@ -20,6 +25,6 @@ int main()
 	cout << "Введите 2 числа:\n"; cin >> num1 >> num2;
 	cout << endl;
 
-	cout << "Минимум двух чисел = " << (IsMin(num1, num2) ? num2 : num1) << endl
-		 << "Максимум двух чисел = " << (IsMin(num1, num2) ? num1 : num2) << endl;
+	cout << "Min = " << GetMin(num1, num2) << endl
+		 << "Max = " << GetMax(num1, num2) << endl;
 }
