@@ -1,7 +1,6 @@
 ﻿#include <iostream>
 using namespace std;
 
-// я не придумал как можно еще проще написать "приемлемую" для компилятора inline функцию 
 inline int GetMin(int num1, int num2)
 {
 	return num1 < num2 ? num1 : num2;
