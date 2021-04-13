@@ -1,8 +1,8 @@
 ﻿#include <iostream>
 using namespace std;
 
-#define CUBE num * num * num
-#define AVG ((double)num1 + num2) / 2
+#define CUBE (num) * (num) * (num)
+#define AVG ((double)(num1) + (num2)) / 2
 
 //#скорость
 inline int __fastcall GetCube(int num)
