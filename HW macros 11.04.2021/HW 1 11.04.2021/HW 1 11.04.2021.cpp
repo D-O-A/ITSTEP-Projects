@@ -2,7 +2,7 @@
 using namespace std;
 
 #define CUBE (num) * (num) * (num)
-#define AVG ((double)(num1) + (num2)) / 2
+#define AVG (((double)(num1) + (num2)) / 2)
 
 //#скорость
 inline int __fastcall GetCube(int num)
@@ -18,7 +18,8 @@ inline double __fastcall GetAvg(int num1, int num2)
 int __fastcall GetNum()
 {
 	int num;
-	cout << "Введите число для вычисления куба: "; cin >> num;
+	cout << "Введите число для вычисления куба: ";
+	cin >> num;
 	return num;
 }
 
