@@ -1,5 +1,5 @@
-#ifndef _bncheader_
-#define _bncheader_
+#ifndef _bnc.h_
+#define _bnc.h_
 
 extern const int SIZE = 4;
 
