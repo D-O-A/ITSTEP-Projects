@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-#include <ctime>;
+#include <ctime>
 #include <conio.h>
 #include <windows.h>
 #include "ConsoleLib.h"
