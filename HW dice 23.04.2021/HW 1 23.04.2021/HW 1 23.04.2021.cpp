@@ -23,7 +23,7 @@ int main()
 	const int x2 = 2;
 	const int y2 = 11;
 
-	SetConsoleSize(100, 40);
+	SetConsoleSize(52, 24);
 	ShowCursor(false);
 
 	int key;
