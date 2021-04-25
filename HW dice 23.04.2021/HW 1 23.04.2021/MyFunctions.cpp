@@ -1,4 +1,4 @@
-#include "ConsoleLib.h"
+п»ї#include "ConsoleLib.h"
 #include <iostream>
 using namespace std;
 
@@ -32,11 +32,11 @@ void DrawDie1(int x, int y)
 	const int vertlength = x + 11;
 	const int horzlength = y + 6;
 
-	//моя функция для рисования углов
+	//РјРѕСЏ С„СѓРЅРєС†РёСЏ РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ СѓРіР»РѕРІ
 	WriteCorners(x, y);
 	WriteChars(x + 1, y, dash, vertlength);
 	WriteChars(x + 1, y + 6, dash, vertlength);
-	//моя функция для рисования "вниз"
+	//РјРѕСЏ С„СѓРЅРєС†РёСЏ РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ "РІРЅРёР·"
 	WriteHorz(x, y + 1, vertdash, horzlength);
 	WriteHorz(x + 14, y + 1, vertdash, horzlength);
 }
@@ -52,11 +52,11 @@ void DrawDie2(int x, int y)
 	const int vertlength = x + 11;
 	const int horzlength = y + 6;
 
-	//моя функция для рисования углов
+	//РјРѕСЏ С„СѓРЅРєС†РёСЏ РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ СѓРіР»РѕРІ
 	WriteCorners(x + 17, y);
 	WriteChars(x + 18, y, dash, vertlength);
 	WriteChars(x + 18, y + 6, dash, vertlength);
-	//моя функция для рисования "вниз"
+	//РјРѕСЏ С„СѓРЅРєС†РёСЏ РґР»СЏ СЂРёСЃРѕРІР°РЅРёСЏ "РІРЅРёР·"
 	WriteHorz(x + 17, y + 1, vertdash, horzlength);
 	WriteHorz(x + 31, y + 1, vertdash, horzlength);
 }
