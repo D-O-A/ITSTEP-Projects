@@ -18,7 +18,6 @@ void Invitation()
 
 void DrawGrid()
 {
-	const unsigned char dash = 196;
 	const unsigned char vertdash = 179;
 
 	for (size_t i = 20; i <= 100; i += 20)
