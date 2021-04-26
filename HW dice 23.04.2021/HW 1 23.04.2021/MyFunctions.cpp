@@ -25,10 +25,6 @@ void DrawDie1(int x, int y)
 {
 	const unsigned char dash = 196;
 	const unsigned char vertdash = 179;
-	const unsigned char topleftcorner = 218;
-	const unsigned char toprightcorner = 191;
-	const unsigned char botleftcorner = 192;
-	const unsigned char botrightcorner = 217;
 	const int vertlength = x + 11;
 	const int horzlength = y + 6;
 
@@ -45,10 +41,6 @@ void DrawDie2(int x, int y)
 {
 	const unsigned char dash = 196;
 	const unsigned char vertdash = 179;
-	const unsigned char topleftcorner = 218;
-	const unsigned char toprightcorner = 191;
-	const unsigned char botleftcorner = 192;
-	const unsigned char botrightcorner = 217;
 	const int vertlength = x + 11;
 	const int horzlength = y + 6;
 
