@@ -67,12 +67,10 @@ void MoveCharDown(int x, char ch, int itercounter, int *plives, int *pspeed, int
 
 		Sleep(*pspeed);
 
-		WriteChar(x, y, Spacebar);
-
-		if (counter > 0)
-		{
+		if (counter == 0)
+			WriteChar(x, y, Spacebar);
+		else if (counter > 0)
 			WriteChar(x, ypos - 1, Spacebar);
-		}
 
 		WriteChar(x, ypos, ch);
 		counter++;
