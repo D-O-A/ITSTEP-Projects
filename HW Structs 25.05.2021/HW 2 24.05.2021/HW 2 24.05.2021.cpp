@@ -1,4 +1,4 @@
-#include <iostream>
+п»ї#include <iostream>
 using namespace std;
 
 struct Fraction
@@ -7,7 +7,7 @@ struct Fraction
 	int denominator;
 };
 
-//тип функции - наша структура, чтобы возвращала нам результат работы как структуру
+//С‚РёРї С„СѓРЅРєС†РёРё - РЅР°С€Р° СЃС‚СЂСѓРєС‚СѓСЂР°, С‡С‚РѕР±С‹ РІРѕР·РІСЂР°С‰Р°Р»Р° РЅР°Рј СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°Р±РѕС‚С‹ РєР°Рє СЃС‚СЂСѓРєС‚СѓСЂСѓ
 Fraction AddFractions(const Fraction& a, const Fraction& b)
 {
 	return { a.numerator * b.denominator + a.denominator * b.numerator, a.denominator * b.denominator };
@@ -35,11 +35,11 @@ void PrintFraction(const Fraction& a)
 
 int main()
 {
-	//тут задаем дроби, лень писать функцию, чтоб пользователь вводил :)
+	//С‚СѓС‚ Р·Р°РґР°РµРј РґСЂРѕР±Рё, Р»РµРЅСЊ РїРёСЃР°С‚СЊ С„СѓРЅРєС†РёСЋ, С‡С‚РѕР± РїРѕР»СЊР·РѕРІР°С‚РµР»СЊ РІРІРѕРґРёР» :)
 	Fraction a = { 2, 3 };
 	Fraction b = { 3, 4 };
 
-	//передаем результат работы одной функции в качестве параметров для другой
+	//РїРµСЂРµРґР°РµРј СЂРµР·СѓР»СЊС‚Р°С‚ СЂР°Р±РѕС‚С‹ РѕРґРЅРѕР№ С„СѓРЅРєС†РёРё РІ РєР°С‡РµСЃС‚РІРµ РїР°СЂР°РјРµС‚СЂРѕРІ РґР»СЏ РґСЂСѓРіРѕР№
 	cout << "Add: ";
 	PrintFraction(AddFractions(a, b));
 
