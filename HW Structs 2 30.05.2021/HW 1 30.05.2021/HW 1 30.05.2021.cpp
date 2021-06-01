@@ -132,7 +132,7 @@ void SearchByName(Location*& total_locations, size_t size)
 		if (result == 0)
 		{
 			PrintLocation(total_locations, i);
-			break;
+			cout << endl;
 		}
 	}
 
@@ -158,7 +158,6 @@ void SearchByDescription(Location*& total_locations, size_t size)
 		{
 			PrintLocation(total_locations, i);
 			cout << endl;
-			//break;
 		}
 	}
 
