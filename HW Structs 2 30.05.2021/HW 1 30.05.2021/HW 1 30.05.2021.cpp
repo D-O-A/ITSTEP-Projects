@@ -44,7 +44,7 @@ void AddLocation(Location*& total_locations, size_t& size)
 	size++;
 }
 
-void PrintLocations(Location*& total_locations, size_t& size)
+void PrintLocations(Location*& total_locations, size_t size)
 {
 	for (size_t i = 0; i < size; i++)
 	{
@@ -63,17 +63,20 @@ void PrintLocation(Location*& total_locations, int i)
 
 void RemoveLastLocation(Location*& total_locations, size_t& size)
 {
-	Location* temp = new Location[size - 1];
-
-	for (size_t i = 0; i < size - 1; i++)
+	if (size != 0)
 	{
-		temp[i] = total_locations[i];
+		Location* temp = new Location[size - 1];
+
+		for (size_t i = 0; i < size - 1; i++)
+		{
+			temp[i] = total_locations[i];
+		}
+
+		delete[] total_locations;
+		total_locations = temp;
+
+		size--;
 	}
-
-	delete[] total_locations;
-	total_locations = temp;
-
-	size--;
 }
 
 size_t SelectLocationToEdit(size_t size)
@@ -167,6 +170,47 @@ void SearchByDescription(Location*& total_locations, size_t size)
 	}
 }
 
+void SaveToBin(Location* total_locations, size_t size)
+{
+	FILE* file;
+	errno_t error_code = fopen_s(&file, "savedata.bin", "w");
+
+	if (error_code != 0)
+	{
+		cout << "Error code - " << error_code << endl;
+		return;
+	}
+
+	fwrite(&size, sizeof(size_t), 1, file);
+	fwrite(total_locations, sizeof(Location), size, file);
+
+	fclose(file);
+}
+
+void ReadFromBin(Location*& total_locations, size_t& size)
+{
+	FILE* file;
+
+	errno_t error_code = fopen_s(&file, "savedata.bin", "r");
+
+	if (error_code != 0)
+	{
+		cout << "Error code - " << error_code << endl;
+		system("pause");
+		return;
+	}
+
+	fread(&size, sizeof(size_t), 1, file);
+
+	total_locations = new Location[size];
+
+	fread(total_locations, sizeof(Location), size, file);
+
+	PrintLocations(total_locations, size);
+
+	fclose(file);
+}
+
 int main()
 {
 	//Написать программу "Справочник покупателя", описывающую торговые точки города: название, адрес, телефоны, специализация, время работы. Количество торговых точек неограничено. Реализовать:
@@ -177,23 +221,18 @@ int main()
 	//•	поиск по названию;
 	//•	поиск по специализации.
 
-	cout << "Input first location:\n";
+	size_t size = NULL;
+	Location* total_locations = nullptr;
 
-	size_t size = 1;
-	Location* total_locations = new Location[size];
-
-	for (size_t i = 0; i < size; i++)
-	{
-		InputLocation(total_locations[i]);
-	}
-
-	system("cls");
+	ReadFromBin(total_locations, size);
 
 	int choice;
 
 	do
 	{
 		choice = PrintMenu();
+
+		system("cls");
 
 		switch (choice)
 		{
@@ -216,6 +255,7 @@ int main()
 			SearchByDescription(total_locations, size);
 			break;
 		case 7:
+			SaveToBin(total_locations, size);
 			exit(0);
 		}
 
