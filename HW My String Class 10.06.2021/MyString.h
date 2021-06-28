@@ -14,11 +14,18 @@ public:
 	void Insert(size_t index, const char* str);
 	void Remove(size_t index, size_t length);
 
+	MyStringClass& operator=(const MyStringClass& str);
+	MyStringClass& operator=(MyStringClass&& str);
+
+	char* operator[](const char* str);
+
 	//debug
 	void PrintStr() const;
 
 private:
 
+	void Copy(const MyStringClass& str);
+	void Clear();
 	char* pstr_ = nullptr;
 	size_t str_len_ = 0;
 

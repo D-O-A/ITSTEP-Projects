@@ -4,27 +4,12 @@ using namespace std;
 
 MyStringClass::MyStringClass(const char* str)
 {
-	size_t length = MyStrLen(str);
-
-	char* temp = new char[length];
-
-	for (size_t i = 0; i < length; i++)
-	{
-		temp[i] = str[i];
-	}
-
-	pstr_ = temp;
-	str_len_ = length;
+	Copy(str);
 }
 
 MyStringClass::~MyStringClass()
 {
-	if (pstr_ != nullptr)
-	{
-		delete[] pstr_;
-		pstr_ = nullptr;
-		str_len_ = 0;
-	}
+	Clear();
 }
 
 MyStringClass::MyStringClass(const MyStringClass& str)
@@ -167,11 +152,71 @@ void MyStringClass::Remove(size_t index, size_t length)
 	str_len_ = str_len_ - length;
 }
 
+MyStringClass& MyStringClass::operator=(const MyStringClass& str)
+{
+	if (this != &str)
+	{
+		Clear();
+		Copy(str);
+	}
+
+	return *this;
+}
+
+MyStringClass& MyStringClass::operator=(MyStringClass&& str)
+{
+	if (this != &str)
+	{
+		Clear();
+		this->pstr_ = str.pstr_;
+		this->str_len_ = str.str_len_;
+
+		str.pstr_ = nullptr;
+		str.str_len_ = 0;
+	}
+	
+	return *this;
+}
+
+char* MyStringClass::operator[](const char* str)
+{
+	for (size_t i = 0; i < str_len_; i++)
+	{
+		if (_stricmp(pstr_, str) == 0)
+		{
+			return pstr_;
+		}
+	}
+
+	return nullptr;
+}
+
 //debug
 void MyStringClass::PrintStr() const
 {
 	for (size_t i = 0; i < str_len_; i++)
 	{
 		cout << pstr_[i];
+	}
+}
+
+void MyStringClass::Copy(const MyStringClass& str)
+{
+	str_len_ = str.str_len_;
+	pstr_ = new char[str_len_];
+
+	for (size_t i = 0; i < str_len_; i++)
+	{
+		pstr_[i] = str.pstr_[i];
+	}
+}
+
+void MyStringClass::Clear()
+{
+	if (pstr_ != nullptr)
+	{
+		delete[] pstr_;
+		pstr_ = nullptr;
+		str_len_ = 0;
 	}
 }
