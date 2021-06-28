@@ -8,22 +8,12 @@ ProductStore::ProductStore(size_t size)
 
 ProductStore::~ProductStore()
 {
-	if (pcollection_ != nullptr)
-	{
-		delete[] pcollection_;
-		pcollection_ = nullptr;
-	}
+	Clear();
 }
 
 ProductStore::ProductStore(const ProductStore& store)
 {
-	size_ = store.size_;
-	pcollection_ = new Product[size_];
-
-	for (size_t i = 0; i < size_; i++)
-	{
-		pcollection_[i].Copy(store.pcollection_[i]);
-	}
+	Copy(store);
 }
 
 void ProductStore::SetAllCollection(const char* name, const char* description, double price, unsigned quantity)
@@ -69,7 +59,7 @@ void ProductStore::AddItem()
 
 	for (size_t i = 0; i < size_; i++)
 	{
-		temp[i].Copy(pcollection_[i]);
+		temp[i] = pcollection_[i];
 	}
 
 	delete[] pcollection_;
@@ -92,17 +82,80 @@ void ProductStore::RemoveItem(size_t index)
 	{
 		if (i < ind)
 		{
-			temp[i].Copy(pcollection_[i]);
+			temp[i] = pcollection_[i];
 		}
 		else if (i > ind)
 		{
-			temp[i - 1].Copy(pcollection_[i]);
+			temp[i - 1] = pcollection_[i];
 		}
 	}
 
 	delete[] pcollection_;
 	pcollection_ = temp;
 	size_--;
+}
+
+size_t ProductStore::operator[](const char* name)
+{
+	for (size_t i = 0; i < size_; i++)
+	{
+		if (_stricmp(pcollection_[i].GetName(), name) == 0)
+		{
+			return i;
+		}
+	}
+
+	return -1;
+}
+
+Product& ProductStore::operator[](size_t index)
+{
+	return pcollection_[index];
+}
+
+ProductStore& ProductStore::operator=(const ProductStore& collection)
+{
+	if (this != &collection)
+	{
+		Clear();
+		Copy(collection);
+	}
+
+	return *this;
+}
+
+ProductStore& ProductStore::operator=(ProductStore&& collection)
+{
+	if (this != &collection)
+	{
+		Clear();
+
+		for (size_t i = 0; i < size_; i++)
+		{
+			this->pcollection_[i] = collection.pcollection_[i];
+		}
+
+		this->size_ = collection.size_;
+
+		collection.pcollection_ = nullptr;
+		collection.size_ = 0;
+	}
+
+	return *this;
+}
+
+void ProductStore::PrintSearchResult(size_t index)
+{
+	size_t key = index + 1;
+
+	if (key >= 1)
+	{
+		PrintCurCollection(key);
+	}
+	else
+	{
+		cout << "Not found!" << endl;
+	}
 }
 
 void ProductStore::PrintAllCollection()
@@ -129,4 +182,26 @@ void ProductStore::PrintCurCollection(size_t index)
 	pcollection_[index - 1].PrintDescription();
 	pcollection_[index - 1].PrintPrice();
 	pcollection_[index - 1].PrintQuantity();
+}
+
+void ProductStore::Clear()
+{
+	if (pcollection_ != nullptr)
+	{
+		delete[] pcollection_;
+		pcollection_ = nullptr;
+	}
+}
+
+void ProductStore::Copy(const ProductStore& store)
+{
+	size_ = store.size_;
+	pcollection_ = new Product[size_];
+
+	for (size_t i = 0; i < size_; i++)
+	{
+		pcollection_[i] = store.pcollection_[i];
+	}
+
+	size_ = store.size_;
 }

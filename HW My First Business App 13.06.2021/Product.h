@@ -10,6 +10,7 @@ public:
 	Product(const char* name);
 	~Product();
 	Product(const Product& product);
+	Product(Product&& product);
 
 	void SetName(const char* name);
 	void SetDescription(const char* description);
@@ -21,7 +22,8 @@ public:
 	double GetPrice();
 	unsigned GetQuantity();
 
-	void Copy(const Product& product);
+	Product& operator=(Product&& product);
+	Product& operator=(const Product& product);
 
 	void PrintName();
 	void PrintDescription();
@@ -31,6 +33,8 @@ public:
 
 private:
 
+	void Clear();
+	void Copy(const Product& product);
 	size_t StrLen(const char* str);
 	char* name_;
 	char* description_;

@@ -4,7 +4,17 @@ using namespace std;
 
 MyStringClass::MyStringClass(const char* str)
 {
-	Copy(str);
+	size_t length = MyStrLen(str);
+
+	char* temp = new char[length];
+
+	for (size_t i = 0; i < length; i++)
+	{
+		temp[i] = str[i];
+	}
+
+	pstr_ = temp;
+	str_len_ = length;
 }
 
 MyStringClass::~MyStringClass()
@@ -14,13 +24,7 @@ MyStringClass::~MyStringClass()
 
 MyStringClass::MyStringClass(const MyStringClass& str)
 {
-	str_len_ = str.str_len_;
-	pstr_ = new char[str_len_];
-
-	for (size_t i = 0; i < str_len_; i++)
-	{
-		pstr_[i] = str.pstr_[i];
-	}
+    Copy(str);
 }
 
 size_t MyStringClass::MyStrLen(const char* str) const
