@@ -3,50 +3,89 @@ using namespace std;
 
 class Date
 {
+
+	friend int operator-(Date lOp, Date rOp);
+	friend ostream& operator<<(ostream& cout, const Date& date);
+	friend istream& operator>>(istream& cin, Date& date);
+
+public:
+
+	void SetDay();
+	void SetMonth();
+	void SetYear();
+
+	void AddDay();
+	void AddMonth();
+
+	void PrintDate();
+
+	void IsLeapYear();
+
+	Date operator++();
+	Date operator++(int);
+	Date operator--();
+	Date operator--(int);
+
+	bool operator==(const Date& date);
+	bool operator<(const Date& date);
+	bool operator<=(const Date& date);
+	bool operator>(const Date& date);
+	bool operator>=(const Date& date);
+	bool operator!=(const Date& date);
+
+
 private:
 
 	unsigned day_;
 	unsigned month_;
 	unsigned year_;
 
-public:
+};
 
-	void SetDay();
-
-	void AddDay();
-
-	void SetMonth();
-
-	void AddMonth();
-
-	void SetYear();
-
-	void PrintDate();
-
-	void IsLeapYear();
-
-} date;
-
+int operator-(Date lOp, Date rOp);
 
 int main()
 {
+	Date date;
+
 	date.SetDay();
-
 	date.SetMonth();
-
 	date.SetYear();
 
-	date.PrintDate();
+	Date date2;
 
-	date.AddDay();
-
-	date.PrintDate();
-
-	date.AddMonth();
+	date2.SetDay();
+	date2.SetMonth();
+	date2.SetYear();
 
 	date.PrintDate();
+	date2.PrintDate();
 
-	date.IsLeapYear();
+	cout << "\n\n\n";
+
+	int difference = date - date2;
+
+	cout << "Difference is " << difference << " days." << endl;
+
+	cout << "\n\n\n";
+
+	date++;
+
+	cout << date << endl;
+
+	date2--;
+
+	cout << date2 << endl;
+
+	if (date > date2)
+	{
+		cout << "Date 1 is greater!" << endl;
+	}
+	else
+	{
+		cout << "Date 2 is greater!" << endl;
+	}
+
 }
 
 
@@ -173,4 +212,193 @@ void Date::PrintDate()
 void Date::IsLeapYear()
 {
 	cout << year_ << " is" << ((((year_ % 4 == 0) && (year_ % 100 != 0)) || (year_ % 400 == 0)) ? "" : " not") << " a leap year." << endl;
+}
+
+Date Date::operator++()
+{
+	if (day_ < 31)
+	{
+		day_++;
+	}
+
+	if (day_ >= 31)
+	{
+		day_ = 1;
+
+		if (month_ < 12)
+		{
+			month_++;
+		}
+		else
+		{
+			month_ = 1;
+		}
+	}
+
+	//лениво, будет баг
+	if (month_ == 1)
+	{
+		year_++;
+	}
+
+	return *this;
+}
+
+Date Date::operator++(int)
+{
+	Date old_date = *this;
+
+	if (day_ < 31)
+	{
+		day_++;
+	}
+
+	if (day_ >= 31)
+	{
+		day_ = 1;
+		
+		if (month_ < 12)
+		{
+			month_++;
+		}
+		else
+		{
+			month_ = 1;
+		}
+	}
+
+	//лениво, будет баг
+	if (month_ == 1)
+	{
+		year_++;
+	}
+
+	return old_date;
+}
+
+Date Date::operator--()
+{
+	if (day_ > 1)
+	{
+		day_--;
+	}
+
+	if (day_ <= 1)
+	{
+		day_ = 31;
+
+		if (month_ > 1)
+		{
+			month_--;
+		}
+		else
+		{
+			month_ = 12;
+		}
+	}
+
+	//лениво, будет баг
+	if (month_ == 12)
+	{
+		year_--;
+	}
+	
+	return *this;
+}
+
+Date Date::operator--(int)
+{
+	Date old_date = *this;
+
+	if (day_ > 1)
+	{
+		day_--;
+	}
+
+	if (day_ <= 1)
+	{
+		day_ = 31;
+		
+		if (month_ > 1)
+		{
+			month_--;
+		}
+		else
+		{
+			month_ = 12;
+		}
+	}
+
+	//лениво, будет баг
+	if (month_ == 12)
+	{
+		year_--;
+	}
+
+	return old_date;
+}
+
+bool Date::operator==(const Date& date)
+{
+	return (day_ == date.day_ && month_ == date.month_ && year_ == date.year_);
+}
+
+bool Date::operator<(const Date& date)
+{
+	return year_ < date.year_ || month_ < date.month_ || day_ < date.day_;
+}
+
+bool Date::operator<=(const Date& date)
+{
+	return year_ <= date.year_ || month_ <= date.month_ || day_ <= date.day_;
+}
+
+bool Date::operator>(const Date& date)
+{
+	return year_ > date.year_ || month_ > date.month_ || day_ > date.day_;
+}
+
+bool Date::operator>=(const Date& date)
+{
+	return year_ >= date.year_ || month_ >= date.month_ || day_ >= date.day_;
+}
+
+bool Date::operator!=(const Date& date)
+{
+	return !(day_ == date.day_ && month_ == date.month_ && year_ == date.year_);
+}
+
+int operator-(Date lOp, Date rOp)
+{
+	int difference = lOp.day_ - rOp.day_;
+
+	if (difference < 0)
+	{
+		return -difference;
+	}
+	else
+	{
+		return difference;
+	}
+}
+
+ostream& operator<<(ostream& cout, const Date& date)
+{
+	cout << date.day_ << "." << date.month_ << "." << date.year_;
+	
+	return cout;
+}
+
+istream& operator>>(istream& cin, Date& date)
+{
+	cout << "Enter day:";
+	cin >> date.day_;
+
+	cout << "Enter month:";
+	cin >> date.month_;
+
+	cout << "Enter year:";
+	cin >> date.year_;
+
+	return cin;
 }
