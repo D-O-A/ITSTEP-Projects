@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 #include <iostream>
 using namespace std;
 
@@ -99,7 +99,7 @@ T SearchKeyElement(T* arr, const size_t size)
 		}
 	}
 
-	// не придумал что нам вернуть если не нашли элемент
+	// РЅРµ РїСЂРёРґСѓРјР°Р» С‡С‚Рѕ РЅР°Рј РІРµСЂРЅСѓС‚СЊ РµСЃР»Рё РЅРµ РЅР°С€Р»Рё СЌР»РµРјРµРЅС‚
 	throw exception("Not found!");
 }
 
