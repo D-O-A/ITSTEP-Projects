@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "Headers.h"
 
@@ -57,11 +57,11 @@ public:
 		}
 		else 
 		{
-			newItem->next_ = head_; //направляем новый элемент на первый в списке
-			head_->prev_ = newItem; //направляем первый элемент списка на новый			
+			newItem->next_ = head_; //РЅР°РїСЂР°РІР»СЏРµРј РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ РЅР° РїРµСЂРІС‹Р№ РІ СЃРїРёСЃРєРµ
+			head_->prev_ = newItem; //РЅР°РїСЂР°РІР»СЏРµРј РїРµСЂРІС‹Р№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР° РЅР° РЅРѕРІС‹Р№			
 		}
 
-		head_ = newItem; //головой списка становится новый элемент
+		head_ = newItem; //РіРѕР»РѕРІРѕР№ СЃРїРёСЃРєР° СЃС‚Р°РЅРѕРІРёС‚СЃСЏ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚
 		size_++;
 	}
 
@@ -119,8 +119,8 @@ public:
 	{
 		DoublyListItem<T>* delItem = nullptr;
 
-		//нет проверки если список пуст. Можно сразу вызвать функцию search, и в случае, если список пуст, вернет исключение "Index out of range"
-		//либо же вариант ниже, сразу проверку на nullptr
+		//РЅРµС‚ РїСЂРѕРІРµСЂРєРё РµСЃР»Рё СЃРїРёСЃРѕРє РїСѓСЃС‚. РњРѕР¶РЅРѕ СЃСЂР°Р·Сѓ РІС‹Р·РІР°С‚СЊ С„СѓРЅРєС†РёСЋ search, Рё РІ СЃР»СѓС‡Р°Рµ, РµСЃР»Рё СЃРїРёСЃРѕРє РїСѓСЃС‚, РІРµСЂРЅРµС‚ РёСЃРєР»СЋС‡РµРЅРёРµ "Index out of range"
+		//Р»РёР±Рѕ Р¶Рµ РІР°СЂРёР°РЅС‚ РЅРёР¶Рµ, СЃСЂР°Р·Сѓ РїСЂРѕРІРµСЂРєСѓ РЅР° nullptr
 	
 		//delItem = search(index);
 
@@ -129,19 +129,19 @@ public:
 			throw exception("List is empty");
 		}
 
-		if (head_ == tail_ && head_ != nullptr) //единственный элемент в списке
+		if (head_ == tail_ && head_ != nullptr) //РµРґРёРЅСЃС‚РІРµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚ РІ СЃРїРёСЃРєРµ
 		{
 			delItem = head_;
 			head_ = nullptr;
 			tail_ = nullptr;			
 		}
-		else if (index == 0) //удаляем из начала
+		else if (index == 0) //СѓРґР°Р»СЏРµРј РёР· РЅР°С‡Р°Р»Р°
 		{
 			delItem = head_;
 			head_ = head_->next_;
 			head_->prev_ = nullptr;
 		}
-		else if (index == size_ - 1) //удаляем с конца
+		else if (index == size_ - 1) //СѓРґР°Р»СЏРµРј СЃ РєРѕРЅС†Р°
 		{
 			delItem = tail_;
 			tail_ = tail_->prev_;
@@ -151,7 +151,7 @@ public:
 		{
 			delItem = search(index);
 			delItem->prev_->next_ = delItem->next_;
-			//неправильно перенаправлен указатель
+			//РЅРµРїСЂР°РІРёР»СЊРЅРѕ РїРµСЂРµРЅР°РїСЂР°РІР»РµРЅ СѓРєР°Р·Р°С‚РµР»СЊ
 			//delItem->prev_->next_ = delItem->prev_;
 			delItem->next_->prev_ = delItem->prev_;
 		}
