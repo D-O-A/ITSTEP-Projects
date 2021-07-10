@@ -7,6 +7,8 @@ class SinglyLinkedList
 {
 public:
 	SinglyLinkedList() = default;
+	SinglyLinkedList(const SinglyLinkedList& that);
+	SinglyLinkedList(SinglyLinkedList&& that);
 	~SinglyLinkedList();
 
 	void AddToBack(const TValue& value); //добавление в конец списка
@@ -15,10 +17,12 @@ public:
 	void RemoveAt(size_t index);
 	void Clear();
 
+	SinglyLinkedList<TValue>& operator=(const SinglyLinkedList& that);
+	SinglyLinkedList<TValue>& operator=(SinglyLinkedList&& that);
+
 	TValue& operator[](size_t index);
 	const TValue& operator[](size_t index) const;
 
-	//ListValue<TValue>* GetIndex(size_t index);
 	void Print() const;
 
 	size_t GetSize() const
@@ -27,9 +31,27 @@ public:
 	}
 
 private:
+	
+	void Copy(const SinglyLinkedList& that);
 	SinglyListItem<TValue>* head_ = nullptr;
 	size_t size_ = 0;
 };
+
+template<typename TValue>
+inline SinglyLinkedList<TValue>::SinglyLinkedList(const SinglyLinkedList& that)
+{
+	Copy(that);
+}
+
+template<typename TValue>
+inline SinglyLinkedList<TValue>::SinglyLinkedList(SinglyLinkedList&& that)
+{
+	head_ = that.head_;
+	size_ = that.size_;
+
+	that.head_ = nullptr;
+	that.size_ = 0;
+}
 
 template<typename TValue>
 inline SinglyLinkedList<TValue>::~SinglyLinkedList()
@@ -88,23 +110,29 @@ inline void SinglyLinkedList<TValue>::AddAt(const TValue& value, size_t index)
 
 	SinglyListItem<TValue>* new_item = new SinglyListItem<TValue>(value);
 
-	if (head_ == nullptr)
+	if (index == 0)
 	{
+		new_item->next_ = head_;
 		head_ = new_item;
 	}
 	else
 	{
-		size_t counter = 0;
+		//size_t counter = 0;
 
 		SinglyListItem<TValue>* cursor = head_;
 
-		while (counter != index)
+		for (size_t i = 0; i < index - 1; i++)
 		{
 			cursor = cursor->next_;
-			counter++;
 		}
 
-		new_item->next_ = cursor;
+		//while (counter != index - 1)
+		//{
+		//	cursor = cursor->next_;
+		//	counter++;
+		//}
+
+		new_item->next_ = cursor->next_;
 
 		cursor->next_ = new_item;
 	}
@@ -166,6 +194,36 @@ inline void SinglyLinkedList<TValue>::Clear()
 }
 
 template<typename TValue>
+inline SinglyLinkedList<TValue>& SinglyLinkedList<TValue>::operator=(const SinglyLinkedList& that)
+{
+	if (this != &that)
+	{
+		Clear();
+		Copy(that);
+	}
+
+	return *this;
+}
+
+template<typename TValue>
+inline SinglyLinkedList<TValue>& SinglyLinkedList<TValue>::operator=(SinglyLinkedList&& that)
+{
+	//как протестировать??
+	if (this != &that)
+	{
+		Clear();
+
+		this->head_ = that.head_;
+		that.head_ = nullptr;
+
+		this->size_ = that.size_;
+		that.size_ = 0;
+	}
+
+	return *this;
+}
+
+template<typename TValue>
 inline TValue& SinglyLinkedList<TValue>::operator[](size_t index)
 {
 	if (index >= size_)
@@ -179,7 +237,7 @@ inline TValue& SinglyLinkedList<TValue>::operator[](size_t index)
 		cursor = cursor->next_;
 	}
 
-	return cursor->value;
+	return cursor->value_;
 }
 
 template<typename TValue>
@@ -199,13 +257,6 @@ inline const TValue& SinglyLinkedList<TValue>::operator[](size_t index) const
 	return cursor->value;
 }
 
-
-//template<typename TValue>
-//inline ListValue<TValue>* SinglyLinkedList<TValue>::GetIndex(size_t index)
-//{
-//	return nullptr;
-//}
-
 template<typename TValue>
 inline void SinglyLinkedList<TValue>::Print()const
 {
@@ -217,4 +268,31 @@ inline void SinglyLinkedList<TValue>::Print()const
 		cursor = cursor->next_;
 	}
 	cout << endl;
+}
+
+template<typename TValue>
+inline void SinglyLinkedList<TValue>::Copy(const SinglyLinkedList& that)
+{
+	SinglyListItem<TValue>* cursor = that.head_;
+	SinglyListItem<TValue>* prev = nullptr;
+
+	while (cursor != nullptr)
+	{
+		SinglyListItem<TValue>* newItem = new SinglyListItem<TValue>(cursor->value_);
+
+		if (cursor == that.head_)
+		{
+			head_ = newItem;
+			prev = head_;
+		}
+		else
+		{
+			prev->next_ = newItem;
+			prev = newItem;
+		}
+
+		cursor = cursor->next_;
+	}
+
+	size_ = that.size_;
 }
