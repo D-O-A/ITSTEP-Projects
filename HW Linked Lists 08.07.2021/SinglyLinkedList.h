@@ -7,8 +7,8 @@ class SinglyLinkedList
 {
 public:
 	SinglyLinkedList() = default;
-	SinglyLinkedList(const SinglyLinkedList& that);
-	SinglyLinkedList(SinglyLinkedList&& that);
+	SinglyLinkedList(const SinglyLinkedList<TValue>& that);
+	SinglyLinkedList(SinglyLinkedList<TValue>&& that);
 	~SinglyLinkedList();
 
 	void AddToBack(const TValue& value); //добавление в конец списка
@@ -17,8 +17,8 @@ public:
 	void RemoveAt(size_t index);
 	void Clear();
 
-	SinglyLinkedList<TValue>& operator=(const SinglyLinkedList& that);
-	SinglyLinkedList<TValue>& operator=(SinglyLinkedList&& that);
+	SinglyLinkedList<TValue>& operator=(const SinglyLinkedList<TValue>& that);
+	SinglyLinkedList<TValue>& operator=(SinglyLinkedList<TValue>&& that);
 
 	TValue& operator[](size_t index);
 	const TValue& operator[](size_t index) const;
@@ -38,13 +38,13 @@ private:
 };
 
 template<typename TValue>
-inline SinglyLinkedList<TValue>::SinglyLinkedList(const SinglyLinkedList& that)
+inline SinglyLinkedList<TValue>::SinglyLinkedList(const SinglyLinkedList<TValue>& that)
 {
 	Copy(that);
 }
 
 template<typename TValue>
-inline SinglyLinkedList<TValue>::SinglyLinkedList(SinglyLinkedList&& that)
+inline SinglyLinkedList<TValue>::SinglyLinkedList(SinglyLinkedList<TValue>&& that)
 {
 	head_ = that.head_;
 	size_ = that.size_;
@@ -194,7 +194,7 @@ inline void SinglyLinkedList<TValue>::Clear()
 }
 
 template<typename TValue>
-inline SinglyLinkedList<TValue>& SinglyLinkedList<TValue>::operator=(const SinglyLinkedList& that)
+inline SinglyLinkedList<TValue>& SinglyLinkedList<TValue>::operator=(const SinglyLinkedList<TValue>& that)
 {
 	if (this != &that)
 	{
@@ -206,7 +206,7 @@ inline SinglyLinkedList<TValue>& SinglyLinkedList<TValue>::operator=(const Singl
 }
 
 template<typename TValue>
-inline SinglyLinkedList<TValue>& SinglyLinkedList<TValue>::operator=(SinglyLinkedList&& that)
+inline SinglyLinkedList<TValue>& SinglyLinkedList<TValue>::operator=(SinglyLinkedList<TValue>&& that)
 {
 	//как протестировать??
 	if (this != &that)
@@ -283,14 +283,13 @@ inline void SinglyLinkedList<TValue>::Copy(const SinglyLinkedList& that)
 		if (cursor == that.head_)
 		{
 			head_ = newItem;
-			prev = head_;
 		}
 		else
 		{
 			prev->next_ = newItem;
-			prev = newItem;
 		}
 
+		prev = newItem;
 		cursor = cursor->next_;
 	}
 

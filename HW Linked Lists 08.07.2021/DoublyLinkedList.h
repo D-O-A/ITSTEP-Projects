@@ -10,16 +10,16 @@ public:
 	DoublyLinkedList() = default;
 	~DoublyLinkedList();
 
-	DoublyLinkedList(const DoublyLinkedList& list);
-	DoublyLinkedList(DoublyLinkedList&& list);
+	DoublyLinkedList(const DoublyLinkedList<T>& list);
+	DoublyLinkedList(DoublyLinkedList<T>&& list);
 
 	void AddToFront(T data);
 	void AddToBack(T data);
 	void AddAt(const T& value, size_t index);
 	void RemoveByIndex(size_t index);
 
-	DoublyLinkedList<T>& operator=(const DoublyLinkedList& that);
-	DoublyLinkedList<T>& operator=(DoublyLinkedList&& that);
+	DoublyLinkedList<T>& operator=(const DoublyLinkedList<T>& that);
+	DoublyLinkedList<T>& operator=(DoublyLinkedList<T>&& that);
 
 	size_t GetSize() const { return size_; }
 	T GetFront() const;
@@ -34,7 +34,6 @@ private:
 	DoublyListItem<T>* search(size_t index);
 	void Copy(const DoublyLinkedList* that);
 
-
 	DoublyListItem<T>* head_ = nullptr;
 	DoublyListItem<T>* tail_ = nullptr;
 
@@ -48,13 +47,13 @@ inline DoublyLinkedList<T>::~DoublyLinkedList()
 }
 
 template<typename T>
-inline DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList& list)
+inline DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList<T>& list)
 {
 	Copy(list);
 }
 
 template<typename T>
-inline DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList&& list)
+inline DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList<T>&& list)
 {
 
 	head_ = list.head_;
@@ -182,7 +181,7 @@ inline void DoublyLinkedList<T>::RemoveByIndex(size_t index)
 }
 
 template<typename T>
-inline DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList& that)
+inline DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList<T>& that)
 {
 	if (this != &that)
 	{
@@ -194,7 +193,7 @@ inline DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedLis
 }
 
 template<typename T>
-inline DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(DoublyLinkedList&& that)
+inline DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(DoublyLinkedList<T>&& that)
 {
 	if (this != &that)
 	{
