@@ -44,4 +44,3 @@ protected:
 	string issuedBy_ = "undefined";
 
 };
-
