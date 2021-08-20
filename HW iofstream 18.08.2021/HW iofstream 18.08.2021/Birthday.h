@@ -28,18 +28,6 @@ public:
 	string SearchDateByName(string name);
 	vector<string> SearchNameByDate(string date);
 
-	//class Person
-	//{
-	//public:
-	//	Person() = default;
-	//	Person(string name, string date) : name_(name), date_(date)
-	//	{
-	//	}
-
-	//	string name_ = "undefined";
-	//	string date_ = "undefined";
-	//};
-
 private:
 
 	Person person_;

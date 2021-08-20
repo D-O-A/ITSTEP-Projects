@@ -1,4 +1,4 @@
-#include "Headers.h"
+п»ї#include "Headers.h"
 
 int main()
 {
@@ -18,7 +18,7 @@ int main()
 				birthday.AddPerson(UI::EnterName(), UI::EnterDate());
 				break;
 			case Choice::SEARCH_DATE_BY_NAME:
-				UI::PrintDateByNameSearchResult(birthday.SearchDateByName(UI::EnterNameToSearch())); //синтаксис огонь
+				UI::PrintDateByNameSearchResult(birthday.SearchDateByName(UI::EnterNameToSearch())); //СЃРёРЅС‚Р°РєСЃРёСЃ РѕРіРѕРЅСЊ
 				break;
 			case Choice::SEARCH_NAME_BY_DATE:
 				UI::PrintNameByDateSearchResults(birthday.SearchNameByDate(UI::EnterDateToSearch()));

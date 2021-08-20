@@ -1,4 +1,4 @@
-#include "Headers.h"
+п»ї#include "Headers.h"
 
 BirthdayCollection::BirthdayCollection(string name)
 {
@@ -10,7 +10,7 @@ BirthdayCollection::BirthdayCollection(string name)
 
 BirthdayCollection::BirthdayCollection(string name, string date) 
 {
-	//перекладываем ответственность за корректный ввод на пользователя :)
+	//РїРµСЂРµРєР»Р°РґС‹РІР°РµРј РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕСЃС‚СЊ Р·Р° РєРѕСЂСЂРµРєС‚РЅС‹Р№ РІРІРѕРґ РЅР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ :)
 	person_.name_ = name;
 	person_.date_ = date;
 
@@ -20,7 +20,7 @@ BirthdayCollection::BirthdayCollection(string name, string date)
 
 void BirthdayCollection::AddPerson(string name, string date)
 {
-	//перекладываем ответственность за корректный ввод на пользователя :)
+	//РїРµСЂРµРєР»Р°РґС‹РІР°РµРј РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕСЃС‚СЊ Р·Р° РєРѕСЂСЂРµРєС‚РЅС‹Р№ РІРІРѕРґ РЅР° РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ :)
 	person_.name_ = name;
 	person_.date_ = date;
 
