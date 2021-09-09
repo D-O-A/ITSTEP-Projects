@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>HW_09._09._2021_Percentage_per_month</RootNamespace>
+  </PropertyGroup>
+
+</Project>
