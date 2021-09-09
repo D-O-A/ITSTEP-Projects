@@ -24,6 +24,7 @@ namespace HW_09._09._2021_Percentage_per_month
                     }
 
                     Console.WriteLine($"Через {counter} месяцев размер вклада превысит 1500.");
+                    Console.WriteLine($"Итоговый размер вклада будет = {totalAmount}.");
                 }
                 catch (FormatException ex)
                 {
