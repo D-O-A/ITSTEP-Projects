@@ -1,0 +1,58 @@
+﻿<Window x:Class="WpfApp1.Portal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="Portal" Height="450" Width="800" Background="Bisque">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Button 
+            x:Name="Serialization"
+            Content="Сериализация"
+            FontSize="34"
+            Click="Serialization_Click"
+            Background="LightSkyBlue"
+
+            />
+
+        <Button 
+            Grid.Column="0" Grid.Row="1"
+            x:Name="FracCalc"
+            Content="Калькулятор дробей"
+            FontSize="25"
+            Click="FracCalc_Click"
+            Background="LightBlue"
+            />
+
+        <Button 
+            Grid.Column="0" Grid.Row="2"
+            x:Name="Strings"
+            FontSize="25"
+            Click="Strings_Click"
+            Background="AliceBlue">
+
+            <StackPanel Orientation="Horizontal">
+                <Image Source="SnakeAngel.png"
+                       Stretch="Uniform"
+                       Width="100"
+                       />
+                <WrapPanel Orientation="Vertical">
+                    <Label>Работа со</Label>
+                    <Label>строками</Label>
+                </WrapPanel>
+            </StackPanel>
+        </Button>
+    </Grid>
+</Window>
