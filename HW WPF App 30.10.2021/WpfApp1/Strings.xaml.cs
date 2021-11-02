@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.SymbolStore;
 using System.Text.RegularExpressions;
 using System.Windows;
 
@@ -10,17 +9,18 @@ namespace WpfApp1
     /// </summary>
     public partial class Strings : Window
     {
-        delegate string StringProcessor(string str);
+        private delegate string StringProcessor(string str);
+
         //typedef int Processor(int);
 
-        delegate string StringArrayProcessor(string[] words);
+        private delegate string StringArrayProcessor(string[] words);
 
-        StringProcessor reverser, shuffler;
+        private readonly StringProcessor reverser, shuffler;
         //StringProcessor[] processor = new StringProcessor[2];
 
         private readonly StringArrayProcessor reverseArray, shuffleArray;
 
-        string ReverseArray(string[] words)
+        private string ReverseArray(string[] words)
         {
             string res = null;
 
@@ -32,7 +32,7 @@ namespace WpfApp1
             return res;
         }
 
-        string ShuffleArray(string[] words)
+        private string ShuffleArray(string[] words)
         {
             string res = "";
 
@@ -67,7 +67,7 @@ namespace WpfApp1
             return res;
         }
 
-        string wordsReverse(string str)
+        private string wordsReverse(string str)
         {
             string[] words = str.Split(' ');
             string res = null;
@@ -79,7 +79,7 @@ namespace WpfApp1
             return res;
         }
 
-        string wordShuffler(string str)
+        private string wordShuffler(string str)
         {
             string[] words = str.Split(' ');
             string res = "";
@@ -98,11 +98,12 @@ namespace WpfApp1
 
             var rnd = new Random();
 
-            int n1, n2;
+            int n1;
 
             for (int i = 0; i < N; i++)
             {
                 n1 = rnd.Next(N);
+                int n2;
                 do
                 {
                     n2 = rnd.Next(N);
@@ -187,42 +188,21 @@ namespace WpfApp1
 
             Regex digits = new Regex(@"^\s+[123]{3}\s+$");
 
-            if (digits.IsMatch(TextBlock2.Text))
-            {
-                result2.Text = "Yes";
-            }
-            else
-            {
-                result2.Text = "No";
-            }
+            result2.Text = digits.IsMatch(TextBlock2.Text) ? "Yes" : "No";
         }
 
         private void Email_Click(object sender, RoutedEventArgs e)
         {
             Regex email = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
 
-            if (email.IsMatch(TextBlock2.Text))
-            {
-                result2.Text = "Yes";
-            }
-            else
-            {
-                result2.Text = "No";
-            }
+            result2.Text = email.IsMatch(TextBlock2.Text) ? "Yes" : "No";
         }
 
         private void Name_Click(object sender, RoutedEventArgs e)
         {
             Regex name = new Regex(@"^([a-z]{1}[']{1})?[A-Z]{1}[a-z]+([-]{1}[A-Z]{1}[a-z]+)?$");
 
-            if (name.IsMatch(TextBlock2.Text))
-            {
-                result2.Text = "Yep";
-            }
-            else
-            {
-                result2.Text = "Nope";
-            }
+            result2.Text = name.IsMatch(TextBlock2.Text) ? "Yep" : "Nope";
         }
 
         private void ReverseDelegateArray_Click(object sender, RoutedEventArgs e)
