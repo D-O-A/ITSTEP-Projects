@@ -213,9 +213,9 @@ namespace WpfApp1
 
         private void Name_Click(object sender, RoutedEventArgs e)
         {
-            Regex nameCase1Regex = new Regex(@"^([a-z]{1}[']{1})?[A-Z]{1}[a-z]+([-]{1}[A-Z]{1}[a-z]+)?$");
+            Regex name = new Regex(@"^([a-z]{1}[']{1})?[A-Z]{1}[a-z]+([-]{1}[A-Z]{1}[a-z]+)?$");
 
-            if (nameCase1Regex.IsMatch(TextBlock2.Text))
+            if (name.IsMatch(TextBlock2.Text))
             {
                 result2.Text = "Yep";
             }
