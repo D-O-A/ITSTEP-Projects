@@ -10,16 +10,19 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="264*"/>
             <ColumnDefinition Width="264*"/>
-            <ColumnDefinition Width="179*"/>
-            <ColumnDefinition Width="85*"/>
+            <ColumnDefinition Width="264*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
+        <!-- row 1 -->
         <TextBlock
             x:Name="TextBlock"
             Text="C# is the best language, much better than c++"
             TextWrapping="Wrap"
             FontSize="40"/>
-
         <StackPanel
             Grid.Column="1">
 
@@ -42,8 +45,8 @@
                 Content="Reverse delegate array"
                 Margin="10"
                 Click="ReverseDelegateArray_Click"
-            />         
-            
+            />
+
             <Button
                 Grid.Column="1"
                 Content="Shuffle delegate array"
@@ -58,13 +61,59 @@
                 Click="ClearRight_Click"
             />
         </StackPanel>
-
-
         <TextBlock
             x:Name="Label"
             Grid.Column="2"
             FontSize="30"
-            TextWrapping="Wrap"/>
+            TextWrapping="Wrap"
+            />
+
+        <!-- row 2 -->
+        <TextBox
+            x:Name="TextBlock2"
+            Text="1234567890"
+            TextWrapping="Wrap"
+            FontSize="30"
+            Grid.Row="1"
+            VerticalAlignment="Center"
+            />
+        <StackPanel 
+            Orientation="Vertical"
+            Grid.Row="1"
+            Grid.Column="1">
+            <Button
+                x:Name="digits"
+                Content="Digits"
+                FontSize="13"
+                Click="Digits_Click"
+                Margin="10"
+                />
+
+            <Button
+                x:Name="email"
+                Content="Email"
+                FontSize="13"
+                Click="Email_Click"
+                Margin="10"
+                />
+
+            <Button
+                x:Name="name"
+                Content="Name"
+                FontSize="13"
+                Click="Name_Click"
+                Margin="10"
+            />
+
+        </StackPanel>
+        <TextBlock
+            x:Name="result2"
+            Grid.Column="2"
+            Grid.Row="1"
+            TextWrapping="Wrap"
+            FontSize="30"
+            VerticalAlignment="Center"
+            />
 
     </Grid>
 </Window>

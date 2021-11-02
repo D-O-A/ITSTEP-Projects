@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.SymbolStore;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace WpfApp1
@@ -148,6 +149,80 @@ namespace WpfApp1
         {
             string[] words = TextBlock.Text.Split(' ');
             Label.Text = shuffleArray(words);
+        }
+
+        private void Digits_Click(object sender, RoutedEventArgs e)
+        {
+            //Регулярные выражения (Regular Expressions, regex)
+            //Специальные средства для работы со строками:
+            //-проверка по шаблону / поиск шаблона
+            //-разбиение по шаблону-разделителю
+            //-поиск-замена
+
+            //Особенности:
+            //использование спец. символов
+            // \d (digit) - любая цифра
+            // \D (non-digit) - любая НЕ цифра
+            // \s (space)
+            // \S (non-space)
+            // \w (word-sym)  - то, что может быть в слове
+            // \W (non-word)
+            //квантификаторы ( quantifiers - указатели количества)
+            // +  -  1 и более
+            // *  -  0 и более
+            // ?  -  0-1
+            // {3} - ровно 3
+            // {3,5} - от трех до пяти
+            //символы-якоря
+            // ^  -  начало 
+            // $  -  конец
+            //множества (один из)
+            // [123]  -  1 или 2 или 3
+            // [1 2 3] - 1 или 2 или 3 или пробел (!аккуратно!)
+            // [1,2,3] - 1 или 2 или 3 или запятая (!аккуратно!)
+            // [0-9]  -  диапазон
+            // [a-z] - [a-zA-Z] [0-9a-f](hexidecimal) [а-пюя]
+            // [^123]  -  любой символ, кроме 1,2,3
+            //  
+
+            Regex digits = new Regex(@"^\s+[123]{3}\s+$");
+
+            if (digits.IsMatch(TextBlock2.Text))
+            {
+                result2.Text = "Yes";
+            }
+            else
+            {
+                result2.Text = "No";
+            }
+        }
+
+        private void Email_Click(object sender, RoutedEventArgs e)
+        {
+            Regex email = new Regex(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$");
+
+            if (email.IsMatch(TextBlock2.Text))
+            {
+                result2.Text = "Yes";
+            }
+            else
+            {
+                result2.Text = "No";
+            }
+        }
+
+        private void Name_Click(object sender, RoutedEventArgs e)
+        {
+            Regex nameCase1Regex = new Regex(@"^([a-z]{1}[']{1})?[A-Z]{1}[a-z]+([-]{1}[A-Z]{1}[a-z]+)?$");
+
+            if (nameCase1Regex.IsMatch(TextBlock2.Text))
+            {
+                result2.Text = "Yep";
+            }
+            else
+            {
+                result2.Text = "Nope";
+            }
         }
 
         private void ReverseDelegateArray_Click(object sender, RoutedEventArgs e)

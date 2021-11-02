@@ -74,17 +74,29 @@ namespace WpfApp1
             Fraction res = null;
             if (rbMul.IsChecked.Value)
             {
-                res = frac1* frac2;
+                res = frac1 * frac2;
+                res.ReductionOfFraction();
+
             }
 
             if (rbDiv.IsChecked.Value)
             {
                 res = frac1 / frac2;
+                res.ReductionOfFraction();
+
             }
 
             if (rbPlus.IsChecked.Value)
             {
                 res = frac1 + frac2;
+                res.ReductionOfFraction();
+
+            }
+
+            if (rbMinus.IsChecked.Value)
+            {
+                res = frac1 - frac2;
+                res.ReductionOfFraction();
             }
 
 
@@ -113,6 +125,19 @@ namespace WpfApp1
          * задаются для класса, то есть в статическом виде
          */
 
+        public void ReductionOfFraction()
+        {
+            int minValue = (Numerator < Denominator) ? Numerator : Denominator;
+            for (int i = minValue; i > 1; i--)
+            {
+                if (Numerator % i == 0 && Denominator % i == 0)
+                {
+                    Numerator /= i;
+                    Denominator /= i;
+                }
+            }
+        }
+
         public static Fraction operator*(Fraction f1, Fraction f2)
         {
             return new Fraction
@@ -135,10 +160,18 @@ namespace WpfApp1
         {
             return new Fraction
             {
-                Numerator = f1.Numerator * f2.Denominator + f2.Numerator * f1.Denominator,
-                Denominator = f1.Denominator * f2.Denominator
+                Denominator = f1.Denominator * f2.Denominator,
+                Numerator = f1.Numerator * f1.Denominator + f2.Numerator * f2.Denominator
             };
         }
 
+        public static Fraction operator -(Fraction f1, Fraction f2)
+        {
+            return new Fraction
+            {
+                Numerator = f1.Numerator * f2.Denominator - f2.Numerator * f1.Denominator,
+                Denominator = f1.Denominator * f2.Denominator
+            };
+        }
     }
 }
