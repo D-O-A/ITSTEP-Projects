@@ -54,5 +54,13 @@
                 </WrapPanel>
             </StackPanel>
         </Button>
+
+        <Button 
+            Grid.Column="1" Grid.Row="0"
+            x:Name="Tabs"
+            Content="Tab-control"
+            FontSize="25"
+            Click="Tabs_Click"
+            Background="Blue"/>
     </Grid>
 </Window>

@@ -33,7 +33,14 @@ namespace WpfApp1
 
         private void Strings_Click(object sender, RoutedEventArgs e)
         {
-            new Strings().Show();
+            new Strings().Show(); //немодальный режим
+        }
+
+        private void Tabs_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            new Tabs().ShowDialog(); // модальный режим, окно, которое блокирует доступ к предидущему окну
+            this.Show();
         }
     }
 }
