@@ -108,10 +108,13 @@ namespace WpfApp1
                                    (e.GetPosition(this).Y >= xyRange.yStart && e.GetPosition(this).Y <= xyRange.yEnd):
                         X.FontSize++;
                         XAngle.Angle += angleChange;
+
                         Y.FontSize++;
                         YAngle.Angle += angleChange;
+
                         MouseX.FontSize++;
                         MouseXAngle.Angle += angleChange;
+
                         MouseY.FontSize++;
                         MouseYAngle.Angle += angleChange;
                         break;
@@ -121,10 +124,13 @@ namespace WpfApp1
                              (e.GetPosition(this).Y >= xyRange.yStart && e.GetPosition(this).Y <= xyRange.yEnd):
                         X.FontSize--;
                         XAngle.Angle -= angleChange;
+
                         Y.FontSize--;
                         YAngle.Angle -= angleChange;
+
                         MouseX.FontSize--;
                         MouseXAngle.Angle -= angleChange;
+
                         MouseY.FontSize--;
                         MouseYAngle.Angle -= angleChange;
                         break;
