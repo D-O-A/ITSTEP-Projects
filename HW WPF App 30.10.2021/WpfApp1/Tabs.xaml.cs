@@ -94,6 +94,7 @@ namespace WpfApp1
         {
             bool mouseWheelUp = e.Delta > 0;
             const int angleChange = 10;
+            (int xStart, int xEnd, int yStart, int yEnd) xyRange = (5, 105, 35, 45);
 
             //x = 5-105
             //y = 35-45
@@ -103,7 +104,8 @@ namespace WpfApp1
             {
                 switch (mouseWheelUp)
                 {
-                    case true when (e.GetPosition(this).X >= 5 && e.GetPosition(this).X <= 105) && (e.GetPosition(this).Y >= 35 && e.GetPosition(this).Y <= 45):
+                    case true when (e.GetPosition(this).X >= xyRange.xStart && e.GetPosition(this).X <= xyRange.xEnd) &&
+                                   (e.GetPosition(this).Y >= xyRange.yStart && e.GetPosition(this).Y <= xyRange.yEnd):
                         X.FontSize++;
                         XAngle.Angle += angleChange;
                         Y.FontSize++;
@@ -114,7 +116,9 @@ namespace WpfApp1
                         MouseYAngle.Angle += angleChange;
                         break;
 
-                    case false when (e.GetPosition(this).X >= 5 && e.GetPosition(this).X <= 105) && (e.GetPosition(this).Y >= 35 && e.GetPosition(this).Y <= 45):
+                    case false
+                        when (e.GetPosition(this).X >= xyRange.xStart && e.GetPosition(this).X <= xyRange.xEnd) &&
+                             (e.GetPosition(this).Y >= xyRange.yStart && e.GetPosition(this).Y <= xyRange.yEnd):
                         X.FontSize--;
                         XAngle.Angle -= angleChange;
                         Y.FontSize--;
