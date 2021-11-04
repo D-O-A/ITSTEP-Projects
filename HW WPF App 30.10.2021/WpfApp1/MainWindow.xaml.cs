@@ -2,7 +2,6 @@
 using System.IO;
 using System.Xml.Serialization;
 using System.Collections.Generic;
-using System.IO.Pipes;
 using System.Windows;
 
 namespace WpfApp1
@@ -226,8 +225,16 @@ namespace WpfApp1
         public int CompareTo(Product other)
         {
             //return SN.CompareTo(other.SN);
-            if (SN < other.SN) return -1;
-            if (SN > other.SN) return 1;
+            if (SN < other.SN)
+            {
+                return -1;
+            }
+
+            if (SN > other.SN)
+            {
+                return 1;
+            }
+
             return 0;
         }
 

@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace WpfApp1
@@ -32,7 +24,7 @@ namespace WpfApp1
             MouseX.Text = e.GetPosition(this).X.ToString();
             MouseY.Text = e.GetPosition(this).Y.ToString();
 
-            if(mouseHold)
+            if (mouseHold)
             {
                 var p = new Ellipse
                 {
@@ -66,9 +58,20 @@ namespace WpfApp1
         private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
             mouseHold = false;
+            const int defaultFontSize = 12;
+            const int defaultAngle = 0;
 
             if (e.ChangedButton == MouseButton.Middle)
             {
+                //Back to default values
+                X.FontSize = defaultFontSize;
+                Y.FontSize = defaultFontSize;
+                MouseX.FontSize = defaultFontSize;
+                MouseY.FontSize = defaultFontSize;
+                XAngle.Angle = defaultAngle;
+                YAngle.Angle = defaultAngle;
+                MouseXAngle.Angle = defaultAngle;
+                MouseYAngle.Angle = defaultAngle;
                 Canvas.Children.Clear();
             }
         }
@@ -85,6 +88,48 @@ namespace WpfApp1
             Canvas.Children.Add(r);
             Canvas.SetLeft(r, e.GetPosition(Canvas).X);
             Canvas.SetTop(r, e.GetPosition(Canvas).Y);
+        }
+
+        private void Canvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            bool mouseWheelUp = e.Delta > 0;
+            const int angleChange = 10;
+
+            //x = 5-105
+            //y = 35-45
+
+            //отлов исключения чтобы не вылетало приложение если размер текста = 0
+            try
+            {
+                switch (mouseWheelUp)
+                {
+                    case true when (e.GetPosition(this).X >= 5 && e.GetPosition(this).X <= 105) && (e.GetPosition(this).Y >= 35 && e.GetPosition(this).Y <= 45):
+                        X.FontSize++;
+                        XAngle.Angle += angleChange;
+                        Y.FontSize++;
+                        YAngle.Angle += angleChange;
+                        MouseX.FontSize++;
+                        MouseXAngle.Angle += angleChange;
+                        MouseY.FontSize++;
+                        MouseYAngle.Angle += angleChange;
+                        break;
+
+                    case false when (e.GetPosition(this).X >= 5 && e.GetPosition(this).X <= 105) && (e.GetPosition(this).Y >= 35 && e.GetPosition(this).Y <= 45):
+                        X.FontSize--;
+                        XAngle.Angle -= angleChange;
+                        Y.FontSize--;
+                        YAngle.Angle -= angleChange;
+                        MouseX.FontSize--;
+                        MouseXAngle.Angle -= angleChange;
+                        MouseY.FontSize--;
+                        MouseYAngle.Angle -= angleChange;
+                        break;
+                }
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

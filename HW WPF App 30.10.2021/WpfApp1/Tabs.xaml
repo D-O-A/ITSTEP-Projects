@@ -9,27 +9,44 @@
         MouseMove="StackPanel_MouseMove"
         MouseDown="Canvas_MouseDown"
         MouseUp="Canvas_MouseUp"
-        MouseDoubleClick="window_MouseDoubleClick">
-    
+        MouseDoubleClick="window_MouseDoubleClick"
+        MouseWheel="Canvas_MouseWheel">
+
     <TabControl>
         <TabItem Header="Tab 1">
             <TextBlock>
                 Вкладка 1
             </TextBlock>
         </TabItem>
-        
-        <TabItem Header="События мыши" Background="Bisque">
+
+        <TabItem Header="События мыши" Background="Bisque" Height="22" Margin="-2,-2,-2,0" VerticalAlignment="Top">
             <StackPanel>
-                <StackPanel 
-                Orientation="Horizontal">
-                    <TextBlock Text="X: "/>
-                    <TextBlock x:Name="MouseX" Width="30"/>
-                    <TextBlock Text="Y: "/>
-                    <TextBlock x:Name="MouseY" Width="30"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="X" Text="X: " Margin="5,5,5,5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform x:Name="XAngle" Angle="0"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                    <TextBlock x:Name="MouseX" Width="30" Margin="5,5,5,5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform x:Name="MouseXAngle" Angle="0"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                    <TextBlock x:Name="Y" Text="Y: " Margin="5,5,5,5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform x:Name="YAngle" Angle="0"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                    <TextBlock x:Name="MouseY" Width="30" Margin="5,5,5,5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform x:Name="MouseYAngle" Angle="0"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
 
                 </StackPanel>
 
-                <Canvas x:Name="Canvas" Width="750" Height="350"/>
+                <Canvas x:Name="Canvas" Width="790" Height="390"/>
+
             </StackPanel>
         </TabItem>
     </TabControl>

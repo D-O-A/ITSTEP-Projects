@@ -53,7 +53,7 @@ namespace WpfApp1
                 return;
             }
             //вторая дробь
-        
+
             Fraction frac2;
 
             try
@@ -138,7 +138,7 @@ namespace WpfApp1
             }
         }
 
-        public static Fraction operator*(Fraction f1, Fraction f2)
+        public static Fraction operator *(Fraction f1, Fraction f2)
         {
             return new Fraction
             {
