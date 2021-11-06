@@ -14,7 +14,7 @@
         >
         <Image 
             x:Name="TankImage"
-            Source="tank.png"
+            Source="BS.png"
             Width="100"
             Canvas.Left="330"
             Canvas.Top="165"

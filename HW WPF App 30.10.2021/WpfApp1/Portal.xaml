@@ -71,7 +71,7 @@
             Background="Aquamarine">
 
             <StackPanel Orientation="Horizontal">
-                <Image Source="tank.png"
+                <Image Source="BS.png"
                        Stretch="Uniform"
                        Width="100"
                        />
