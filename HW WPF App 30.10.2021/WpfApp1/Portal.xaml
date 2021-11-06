@@ -62,5 +62,25 @@
             FontSize="25"
             Click="Tabs_Click"
             Background="Blue"/>
+
+        <Button 
+            Grid.Column="1" Grid.Row="1"
+            x:Name="Tanks"
+            FontSize="25"
+            Click="Tanks_Click"
+            Background="Aquamarine">
+
+            <StackPanel Orientation="Horizontal">
+                <Image Source="tank.png"
+                       Stretch="Uniform"
+                       Width="100"
+                       />
+                <WrapPanel Orientation="Vertical">
+                    <Label>Battle</Label>
+                    <Label>City</Label>
+                </WrapPanel>
+            </StackPanel>
+        </Button>
+
     </Grid>
 </Window>

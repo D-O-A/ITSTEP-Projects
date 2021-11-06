@@ -42,5 +42,12 @@ namespace WpfApp1
             new Tabs().ShowDialog(); // модальный режим, окно, которое блокирует доступ к предидущему окну
             this.Show();
         }
+
+        private void Tanks_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            new Tanks().ShowDialog();
+            this.Show();
+        }
     }
 }

@@ -90,10 +90,11 @@ namespace WpfApp1
             Canvas.SetTop(r, e.GetPosition(Canvas).Y);
         }
 
-        private void Canvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             bool mouseWheelUp = e.Delta > 0;
             const int angleChange = 10;
+            //координаты текстблоков
             (int xStart, int xEnd, int yStart, int yEnd) xyRange = (5, 105, 35, 45);
 
             //x = 5-105

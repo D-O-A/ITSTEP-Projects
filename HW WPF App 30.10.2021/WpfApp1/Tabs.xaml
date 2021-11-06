@@ -10,7 +10,7 @@
         MouseDown="Canvas_MouseDown"
         MouseUp="Canvas_MouseUp"
         MouseDoubleClick="window_MouseDoubleClick"
-        MouseWheel="Canvas_MouseWheel">
+        MouseWheel="Window_MouseWheel">
 
     <TabControl>
         <TabItem Header="Tab 1">

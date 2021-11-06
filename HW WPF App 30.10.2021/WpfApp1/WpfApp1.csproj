@@ -61,6 +61,9 @@
     <Compile Include="Tabs.xaml.cs">
       <DependentUpon>Tabs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Tanks.xaml.cs">
+      <DependentUpon>Tanks.xaml</DependentUpon>
+    </Compile>
     <Page Include="FracCalc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -89,6 +92,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Tabs.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Tanks.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -124,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="SnakeAngel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="tank.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
