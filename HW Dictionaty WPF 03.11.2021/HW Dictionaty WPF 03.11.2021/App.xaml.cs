@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace HW_Dictionaty_WPF_03._11._2021
+namespace HW_Dictionary_WPF_03._11._2021
 {
     /// <summary>
     /// Interaction logic for App.xaml

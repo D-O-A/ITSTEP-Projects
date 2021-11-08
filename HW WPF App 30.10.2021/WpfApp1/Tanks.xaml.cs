@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace WpfApp1
@@ -23,6 +25,9 @@ namespace WpfApp1
         // признак нажатия кнопок
         HoldKey holdKey;
 
+        // снаряды
+        private readonly List<Bullet> bullets;
+
         public Tanks()
         {
             InitializeComponent();
@@ -34,6 +39,9 @@ namespace WpfApp1
             timer.Tick += Timer_Tick; //делегаты расширяются через +=
             //запускаем таймер
             timer.Start();
+
+            bullets = new List<Bullet>();
+            TankImage.RenderTransform = rotate0;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -52,7 +60,6 @@ namespace WpfApp1
                         Canvas.SetLeft(TankImage, coord);
                     }
                     TankImage.RenderTransform = rotate270;
-                    holdKey = HoldKey.None;
                     break;
                 case HoldKey.Right:
                     coord = Canvas.GetLeft(TankImage);
@@ -62,7 +69,6 @@ namespace WpfApp1
                         Canvas.SetLeft(TankImage, coord);
                     }
                     TankImage.RenderTransform = rotate90;
-                    holdKey = HoldKey.None;
                     break;
                 case HoldKey.Up:
                     coord = Canvas.GetTop(TankImage);
@@ -72,7 +78,6 @@ namespace WpfApp1
                         Canvas.SetTop(TankImage, coord);
                     }
                     TankImage.RenderTransform = rotate0;
-                    holdKey = HoldKey.None;
                     break;
                 case HoldKey.Down:
                     coord = Canvas.GetTop(TankImage);
@@ -82,8 +87,65 @@ namespace WpfApp1
                         Canvas.SetTop(TankImage, coord);
                     }
                     TankImage.RenderTransform = rotate180;
-                    holdKey = HoldKey.None;
                     break;
+            }
+            // полет снарядов
+            Bullet toRemove = null;
+            foreach (var bullet in bullets)
+            {
+                double bulletX = Canvas.GetLeft(bullet.Image) + bullet.Vx;
+                double bulletY = Canvas.GetTop(bullet.Image) + bullet.Vy;
+
+                Canvas.SetLeft(bullet.Image, bulletX);
+                Canvas.SetTop(bullet.Image, bulletY);
+
+                bullet.Trace += Math.Abs(bullet.Vx) + Math.Abs(bullet.Vy);  // abs (absolute value) делает отрицательные числа положительными
+                // излет
+                if (bullet.Trace > 300 || bulletX < 0 || bulletY < 0 || bulletX > Field.Width || bulletY > Field.Height)  // вылет за пределы поля
+                {
+                    // убираем с холста
+                    Field.Children.Remove(bullet.Image);
+                    // помечаем на удаление
+                    toRemove = bullet;
+                }
+            }
+            if (toRemove != null)
+            {
+                bullets.Remove(toRemove);
+            }
+
+            Collisions();
+        }
+
+        private void Collisions() // попадание снаряда в мишень
+        {
+            Bullet toRemove = null;
+            foreach (var bullet in bullets)
+            {
+                double centerX = Canvas.GetLeft(bullet.Image) + bullet.Image.Width / 2;
+                double centerY = Canvas.GetTop(bullet.Image) + bullet.Image.Height / 2;
+
+                double targetX = Canvas.GetLeft(Enemy) + Enemy.Width / 2;
+                double targetY = Canvas.GetTop(Enemy) + Enemy.Height / 2;
+
+                // попадание - расстояние между центрами меньше суммы радиусов
+                double distance = Math.Sqrt(
+                    (centerX - targetX) * (centerX - targetX) +
+                    (centerY - targetX) * (centerY - targetY)
+                    );
+
+                if (distance < bullet.Image.Width / 2 + Enemy.Width / 2)
+                {
+                    Enemy.Width--;
+                    Enemy.Height--;
+                    toRemove = bullet;
+                }
+
+            }
+            if (toRemove != null)
+            {
+                bullets.Remove(toRemove);
+                Field.Children.Remove(toRemove.Image);
             }
         }
 
@@ -106,6 +168,105 @@ namespace WpfApp1
                 case Key.Down:
                     holdKey = HoldKey.Down;
                     break;
+
+                case Key.Space: //выстрел
+                    // Создаем снаряд (если его нет)
+                    if (bullets.Count < 6)
+                    {
+                        // выставляем координаты
+                        // где танк?
+                        double tankX = Canvas.GetLeft(TankImage);
+                        double tankY = Canvas.GetTop(TankImage);
+                        int vx = 0;
+                        int vy = 0;
+                        const int bulletRadius = 5;
+                        // как он повернут?
+                        if (TankImage.RenderTransform == rotate0)
+                        {
+                            // вверх
+                            tankX += TankImage.Width / 2 - bulletRadius;
+                            //vx = 0;
+                            vy = -20;
+                        }
+                        if (TankImage.RenderTransform == rotate90)
+                        {
+                            // вправо
+                            tankX += TankImage.Width;
+                            tankY += TankImage.Height / 2 - bulletRadius;
+                            vx = 20;
+                            //vy = 0;
+                        }
+                        if (TankImage.RenderTransform == rotate180)
+                        {
+                            // вниз
+                            tankX += TankImage.Width / 2 - bulletRadius;
+                            tankY += TankImage.Height;
+                            //vx = 0;
+                            vy = 20;
+                        }
+                        if (TankImage.RenderTransform == rotate270)
+                        {
+                            // влево
+                            tankY += TankImage.Height / 2 - bulletRadius;
+                            vx = -20;
+                            //vy = 0;
+                        }
+
+                        var bullet = new Bullet
+                        {
+                            Image = new Ellipse
+                            {
+                                Fill = Brushes.RosyBrown,
+                                Width = 2 * bulletRadius,
+                                Height = 2 * bulletRadius
+                            },
+
+                            Vx = vx,
+                            Vy = vy,
+                            Trace = 0
+                        };
+                        // добавляем на канвас
+                        Field.Children.Add(bullet.Image);
+                        Canvas.SetLeft(bullet.Image, tankX);
+                        Canvas.SetTop(bullet.Image, tankY);
+                        // включаем в коллекцию
+                        bullets.Add(bullet);
+                    }
+                    break;
+            }
+        }
+
+        private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Left:
+                    if (holdKey == HoldKey.Left)
+                    {
+                        holdKey = HoldKey.None;
+                    }
+                    break;
+
+                case Key.Right:
+                    if (holdKey == HoldKey.Right)
+                    {
+                        holdKey = HoldKey.None;
+                    }
+                    break;
+
+                case Key.Up:
+                    if (holdKey == HoldKey.Up)
+                    {
+                        holdKey = HoldKey.None;
+                    }
+                    break;
+
+                case Key.Down:
+                    if (holdKey == HoldKey.Down)
+                    {
+                        holdKey = HoldKey.None;
+                    }
+                    break;
             }
         }
     }
@@ -117,5 +278,14 @@ namespace WpfApp1
         Right,
         Up,
         Down
+    }
+
+    public class Bullet
+    {
+        public Ellipse Image { get; set; }
+        public int Vx { get; set; } // V - velocity
+        public int Vy { get; set; }
+        public int Trace { get; set; } //проделанный путь (длина)
+
     }
 }

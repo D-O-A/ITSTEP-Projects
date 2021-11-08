@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace HW_Dictionaty_WPF_03._11._2021
+namespace HW_Dictionary_WPF_03._11._2021
 {
     /// <summary>
     /// Interaction logic for SearchByRus.xaml
@@ -26,7 +26,7 @@ namespace HW_Dictionaty_WPF_03._11._2021
 
             var res = MainWindow.dic.FirstOrDefault((p) => p.Value == SearchWordTextBlockRus.Text);
 
-            TextBlockUkr.Text = res.Value != null ? res.Key : "Не найдено!";
+            TextBlockUkr.Text = res.Value == null ? res.Key : "Не найдено!";
         }
     }
 }

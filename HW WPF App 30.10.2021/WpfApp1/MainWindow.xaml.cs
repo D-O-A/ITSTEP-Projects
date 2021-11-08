@@ -1,8 +1,8 @@
 ﻿using System;
-using System.IO;
-using System.Xml.Serialization;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
+using System.Xml.Serialization;
 
 namespace WpfApp1
 {

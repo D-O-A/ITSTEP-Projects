@@ -6,18 +6,30 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="Tanks" Height="450" Width="800"
-        PreviewKeyDown="Window_KeyDown">
+        PreviewKeyDown="Window_KeyDown"
+        PreviewKeyUp="Window_PreviewKeyUp">
 
     <Canvas 
         x:Name="Field"
+        Width="800"
+        Height="450"
         Background="DarkOliveGreen"
         >
         <Image 
             x:Name="TankImage"
             Source="BS.png"
             Width="100"
+            Height="100"
             Canvas.Left="330"
             Canvas.Top="165"
+            />
+        <Ellipse
+            x:Name="Enemy"
+            Width="100"
+            Height="100"
+            Canvas.Left="100"
+            Canvas.Top="100"
+            Fill="Crimson"
             />
     </Canvas>
 

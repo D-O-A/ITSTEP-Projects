@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace HW_Dictionaty_WPF_03._11._2021
+namespace HW_Dictionary_WPF_03._11._2021
 {
     /// <summary>
     /// Interaction logic for AddWordWindow.xaml
@@ -19,7 +19,7 @@ namespace HW_Dictionaty_WPF_03._11._2021
         {
             try
             {
-                Regex r = new Regex(@"^[а-яА-Я-]+$");
+                Regex r = new(@"^[а-яА-Я-]+$");
 
                 if (!r.IsMatch(AddWordTextBlockUkr.Text))
                 {
