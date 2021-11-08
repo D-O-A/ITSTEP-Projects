@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace HW_Dictionaty_WPF_03._11._2021
 {
@@ -19,9 +9,50 @@ namespace HW_Dictionaty_WPF_03._11._2021
     /// </summary>
     public partial class AddWordWindow : Window
     {
+
         public AddWordWindow()
         {
             InitializeComponent();
+        }
+
+        private void AddButton(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Regex r = new Regex(@"^[а-яА-Я-]+$");
+
+                if (!r.IsMatch(AddWordTextBlockUkr.Text))
+                {
+                    MessageBox.Show("Неправильно ввели Укр. слово!");
+                }
+
+                if (!r.IsMatch(AddWordTextBlockRus.Text))
+                {
+                    MessageBox.Show("Неправильно ввели Рус. слово!");
+                    return;
+                }
+
+                MainWindow.dic.Add(AddWordTextBlockUkr.Text, AddWordTextBlockRus.Text);
+                ConfirmLabel.Content = "Добавлено!";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void SaveButton(object sender, RoutedEventArgs e)
+        {
+
+            //XmlSerializer serializer = new XmlSerializer(typeof(Dictionary<string, string>));
+
+            //using (StreamWriter writer = new StreamWriter("dictionary.dic"))
+            //{
+            //    serializer.Serialize(writer, dic);
+            //    MessageBox.Show("Сохранено!");
+            //}
+
+            Close();
         }
     }
 }

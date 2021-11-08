@@ -13,7 +13,6 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
-            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Button
@@ -25,34 +24,45 @@
             Click="AddWord_Click"
             />
 
+        <Button
+            Grid.Row="1"
+            Content="Просмотреть весь словарь"
+            FontSize="30"
+            VerticalContentAlignment="Center"
+            HorizontalContentAlignment="Center"
+            Margin="5"
+            Click="Examine_Click"
+        />
 
+        <Button
+            Grid.Row="2"
+            Content="Найти по Укр. слову"
+            FontSize="30"
+            VerticalContentAlignment="Center"
+            HorizontalContentAlignment="Center"
+            Margin="5"
+            Click="SearchByUkr_Click"
+        />
 
-        <!--<StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock
-                Grid.Column="1"
-                Grid.Row="0"
-                Text=" Добавить слово:"
-                Height="28"
-                FontSize="18" 
-                Width="154"
-                />
-                <TextBox
-                    x:Name="AddWord"
-                    Margin="5,5,0,5"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Width="200"
-                    />
-                <Button
-                    Content="+"
-                    Width="30"
-                    Margin="0,5,5,5"
-                    Click="AddWordButton_Click" 
-                    Height="18"
-                    />
-            </StackPanel>
-        </StackPanel>-->
+        <Button
+            Grid.Row="3"
+            Content="Найти по Рус. слову"
+            FontSize="30"
+            VerticalContentAlignment="Center"
+            HorizontalContentAlignment="Center"
+            Margin="5"
+            Click="SearchByRus_Click"
+        />
+
+        <Button
+            Grid.Row="4"
+            Content="Удалить слово"
+            FontSize="30"
+            VerticalContentAlignment="Center"
+            HorizontalContentAlignment="Center"
+            Margin="5"
+            Click="AddWord_Click"
+        />
 
     </Grid>
 

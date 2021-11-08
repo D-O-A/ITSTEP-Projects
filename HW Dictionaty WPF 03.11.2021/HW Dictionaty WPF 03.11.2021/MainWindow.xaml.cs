@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 
 namespace HW_Dictionaty_WPF_03._11._2021
 {
@@ -7,6 +8,8 @@ namespace HW_Dictionaty_WPF_03._11._2021
     /// </summary>
     public partial class MainWindow : Window
     {
+        internal static Dictionary<string, string> dic = new();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -14,7 +17,30 @@ namespace HW_Dictionaty_WPF_03._11._2021
 
         private void AddWord_Click(object sender, RoutedEventArgs e)
         {
-            new AddWordWindow().Show();
+            this.Hide();
+            new AddWordWindow().ShowDialog();
+            this.Show();
+        }
+
+        private void Examine_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new Examine().ShowDialog();
+            Show();
+        }
+
+        private void SearchByUkr_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new SearchByUkr().ShowDialog();
+            Show();
+        }
+
+        private void SearchByRus_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new SearchByRus().ShowDialog();
+            Show();
         }
     }
 }
