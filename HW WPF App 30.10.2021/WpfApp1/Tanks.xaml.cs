@@ -89,6 +89,7 @@ namespace WpfApp1
                     TankImage.RenderTransform = rotate180;
                     break;
             }
+
             // полет снарядов
             Bullet toRemove = null;
             foreach (var bullet in bullets)
@@ -128,6 +129,8 @@ namespace WpfApp1
                 double targetX = Canvas.GetLeft(Enemy) + Enemy.Width / 2;
                 double targetY = Canvas.GetTop(Enemy) + Enemy.Height / 2;
 
+                //Canvas.SetLeft(Enemy, 200);
+
                 // попадание - расстояние между центрами меньше суммы радиусов
                 double distance = Math.Sqrt(
                     (centerX - targetX) * (centerX - targetX) +
@@ -136,8 +139,8 @@ namespace WpfApp1
 
                 if (distance < bullet.Image.Width / 2 + Enemy.Width / 2)
                 {
-                    Enemy.Width--;
-                    Enemy.Height--;
+                    Enemy.Width -= 10;
+                    Enemy.Height -= 10;
                     toRemove = bullet;
                 }
 

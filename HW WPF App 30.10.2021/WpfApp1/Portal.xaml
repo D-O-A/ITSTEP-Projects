@@ -76,8 +76,27 @@
                        Width="100"
                        />
                 <WrapPanel Orientation="Vertical">
-                    <Label>Battle</Label>
-                    <Label>City</Label>
+                    <Label>События:</Label>
+                    <Label>Танки</Label>
+                </WrapPanel>
+            </StackPanel>
+        </Button>   
+        
+        <Button 
+            Grid.Column="1" Grid.Row="2"
+            x:Name="Minesweeper"
+            FontSize="25"
+            Click="Minesweeper_Click"
+            Background="CadetBlue">
+
+            <StackPanel Orientation="Horizontal">
+                <Image Source="mine.png"
+                       Stretch="Uniform"
+                       Width="100"
+                       />
+                <WrapPanel Orientation="Vertical">
+                    <Label>Связывание:</Label>
+                    <Label>Сапер</Label>
                 </WrapPanel>
             </StackPanel>
         </Button>

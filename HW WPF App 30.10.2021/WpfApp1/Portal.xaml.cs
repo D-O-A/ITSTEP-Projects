@@ -49,5 +49,12 @@ namespace WpfApp1
             new Tanks().ShowDialog();
             this.Show();
         }
+
+        private void Minesweeper_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new Minesweeper().ShowDialog();
+            Show();
+        }
     }
 }
