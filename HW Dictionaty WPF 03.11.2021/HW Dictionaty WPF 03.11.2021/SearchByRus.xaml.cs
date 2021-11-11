@@ -20,13 +20,13 @@ namespace HW_Dictionary_WPF_03._11._2021
 
             if (!r.IsMatch(SearchWordTextBlockRus.Text))
             {
-                MessageBox.Show("Неправильно ввели Укр. слово!");
+                MessageBox.Show("Неправильно ввели Рус. слово!");
                 return;
             }
 
             var res = MainWindow.dic.FirstOrDefault((p) => p.Value == SearchWordTextBlockRus.Text);
 
-            TextBlockUkr.Text = res.Value == null ? res.Key : "Не найдено!";
+            TextBlockUkr.Text = res.Value != null ? res.Key : "Не найдено!";
         }
     }
 }

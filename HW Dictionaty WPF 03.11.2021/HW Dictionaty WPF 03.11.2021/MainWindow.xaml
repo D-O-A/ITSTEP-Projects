@@ -61,7 +61,7 @@
             VerticalContentAlignment="Center"
             HorizontalContentAlignment="Center"
             Margin="5"
-            Click="AddWord_Click"
+            Click="RemoveWord_Click"
         />
 
     </Grid>

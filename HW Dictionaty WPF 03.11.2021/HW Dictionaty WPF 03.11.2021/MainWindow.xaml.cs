@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 
+
 namespace HW_Dictionary_WPF_03._11._2021
 {
     /// <summary>
@@ -40,6 +41,13 @@ namespace HW_Dictionary_WPF_03._11._2021
         {
             Hide();
             new SearchByRus().ShowDialog();
+            Show();
+        }
+
+        private void RemoveWord_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new RemoveWord().ShowDialog();
             Show();
         }
     }

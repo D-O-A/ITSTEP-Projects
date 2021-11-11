@@ -66,19 +66,6 @@
             Width="200"
         />
 
-        <Button
-            Click="SaveButton"
-            Grid.Row="2"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            Height="40"
-            Width="200"
-            Content="Сохранить и вернуться"
-            FontSize="18"
-            Grid.Column="1"
-            Margin="0,10,0,0"
-            />
-
         <Label
             x:Name="ConfirmLabel"
             Content=""
@@ -87,10 +74,10 @@
             VerticalContentAlignment="Center"
             FontSize="20"
             Height="39" 
-            Margin="0,62,0,0"
+            Margin="0,10,0,0"
             Grid.Row="2" 
             VerticalAlignment="Top"
-            Width="120"
+            Width="120" Grid.Column="1"
             />
     </Grid>
 </Window>

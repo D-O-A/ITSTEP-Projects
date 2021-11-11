@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace HW_Dictionary_WPF_03._11._2021
 {
@@ -33,26 +37,17 @@ namespace HW_Dictionary_WPF_03._11._2021
                 }
 
                 MainWindow.dic.Add(AddWordTextBlockUkr.Text, AddWordTextBlockRus.Text);
+
+                //string fileName = "Dictionary.dic";
+                //string jsonString = JsonSerializer.Serialize<Dictionary<string, string>>(MainWindow.dic);
+                //File.WriteAllText(fileName, jsonString);
+
                 ConfirmLabel.Content = "Добавлено!";
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }
-
-        private void SaveButton(object sender, RoutedEventArgs e)
-        {
-
-            //XmlSerializer serializer = new XmlSerializer(typeof(Dictionary<string, string>));
-
-            //using (StreamWriter writer = new StreamWriter("dictionary.dic"))
-            //{
-            //    serializer.Serialize(writer, dic);
-            //    MessageBox.Show("Сохранено!");
-            //}
-
-            Close();
         }
     }
 }
