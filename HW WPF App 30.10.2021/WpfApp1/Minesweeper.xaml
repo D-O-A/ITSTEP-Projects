@@ -12,7 +12,7 @@
         Rows="{x:Static local:App.SizeY}"
         x:Name="Field"
         >
-        
+
     </UniformGrid>
 
 </Window>

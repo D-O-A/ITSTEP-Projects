@@ -27,6 +27,9 @@ namespace WpfApp1
 
         // снаряды
         private readonly List<Bullet> bullets;
+        private uint hitCounter = 0;
+        private readonly Random rX;
+        private readonly Random rY;
 
         public Tanks()
         {
@@ -41,6 +44,8 @@ namespace WpfApp1
             timer.Start();
 
             bullets = new List<Bullet>();
+            rX = new Random();
+            rY = new Random();
             TankImage.RenderTransform = rotate0;
         }
 
@@ -129,8 +134,6 @@ namespace WpfApp1
                 double targetX = Canvas.GetLeft(Enemy) + Enemy.Width / 2;
                 double targetY = Canvas.GetTop(Enemy) + Enemy.Height / 2;
 
-                //Canvas.SetLeft(Enemy, 200);
-
                 // попадание - расстояние между центрами меньше суммы радиусов
                 double distance = Math.Sqrt(
                     (centerX - targetX) * (centerX - targetX) +
@@ -142,6 +145,23 @@ namespace WpfApp1
                     Enemy.Width -= 10;
                     Enemy.Height -= 10;
                     toRemove = bullet;
+
+                    //Если размер достиг 20, то убираем и рисуем в новом месте (в мишень размером 20 и меньше очень ненадежно регистрируются попадания)
+                    if (Enemy.Width <= 20 && Enemy.Height <= 20)
+                    {
+                        Canvas.SetLeft(Enemy, rX.Next(5, 700));
+                        Canvas.SetTop(Enemy, rY.Next(5, 350));
+                        Enemy.Width = 100;
+                        Enemy.Height = 100;
+                    }
+
+                    //после попадания рисуем в новом месте
+                    //координаты меньше размеров поля чтобы избежать попадания мишени в "мертвые зоны" (невозможно попасть по мишени)
+                    Canvas.SetLeft(Enemy, rX.Next(10, 700));
+                    Canvas.SetTop(Enemy, rY.Next(10, 350));
+
+                    hitCounter++;
+                    HitCounterLabel.Content = "Hits: " + hitCounter.ToString();
                 }
 
             }

@@ -31,6 +31,16 @@
             Canvas.Top="100"
             Fill="Crimson"
             />
+        <Label 
+            x:Name="HitCounterLabel"
+            Canvas.Left="690" 
+            Canvas.Top="10"
+            Width="100"
+            Height="39"
+            FontSize="20"
+            Content=""
+            />
+
     </Canvas>
 
 </Window>

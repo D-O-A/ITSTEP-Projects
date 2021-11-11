@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace WpfApp1
 {
@@ -34,11 +36,46 @@ namespace WpfApp1
         private void MineLabel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var mineLabel = sender as MineLabel;
+            var r = new Random();
+
             if (mineLabel == null)
             {
                 return;
             }
-            MessageBox.Show("Click " + mineLabel.X + " " + mineLabel.Y);
+
+            mineLabel.Content = r.Next(0, 9);
+
+            switch (mineLabel.Content)
+            {
+                case 0:
+                    mineLabel.Background = Brushes.Crimson;
+                    break;
+                case 1:
+                    mineLabel.Background = Brushes.Orange;
+                    break;
+                case 2:
+                    mineLabel.Background = Brushes.GreenYellow;
+                    break;
+                case 3:
+                    mineLabel.Background = Brushes.DarkGreen;
+                    break;
+                case 4:
+                    mineLabel.Background = Brushes.DarkBlue;
+                    break;
+                case 5:
+                    mineLabel.Background = Brushes.DeepSkyBlue;
+                    break;
+                case 6:
+                    mineLabel.Background = Brushes.BlueViolet;
+                    break;
+                case 7:
+                    mineLabel.Background = Brushes.DeepPink;
+                    break;
+                case 8:
+                    mineLabel.Background = Brushes.Brown;
+                    break;
+            }
+            //MessageBox.Show("Click " + mineLabel.X + " " + mineLabel.Y);
         }
     }
 
