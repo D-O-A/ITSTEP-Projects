@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Arkanoid.xaml.cs">
+      <DependentUpon>Arkanoid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Minesweeper.xaml.cs">
       <DependentUpon>Minesweeper.xaml</DependentUpon>
     </Compile>
@@ -67,6 +70,10 @@
     <Compile Include="Tanks.xaml.cs">
       <DependentUpon>Tanks.xaml</DependentUpon>
     </Compile>
+    <Page Include="Arkanoid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="FracCalc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -144,6 +151,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="mine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="arkanoid.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ship.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

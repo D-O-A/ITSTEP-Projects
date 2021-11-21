@@ -56,5 +56,12 @@ namespace WpfApp1
             new Minesweeper().ShowDialog();
             Show();
         }
+
+        private void Arkanoid_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new Arkanoid().ShowDialog();
+            Show();
+        }
     }
 }

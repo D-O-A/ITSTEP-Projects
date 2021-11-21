@@ -12,6 +12,7 @@ namespace WpfApp1
     public partial class Minesweeper : Window
     {
         private readonly Random random;
+        private bool winFlag;
 
         public Minesweeper()
         {
@@ -27,6 +28,7 @@ namespace WpfApp1
                     {
                         X = x,
                         Y = y,
+                        labelState = LabelState.Unvisited,
                         FontSize = 30,
                         VerticalContentAlignment = VerticalAlignment.Center,
                         HorizontalContentAlignment = HorizontalAlignment.Center
@@ -42,28 +44,51 @@ namespace WpfApp1
         private void MineLabel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             var mineLabel = sender as MineLabel;
+            winFlag = true;
 
             if (mineLabel == null)
             {
                 return;
             }
 
-            //если клик на мину - конец
-            if (mineLabel.IsMine)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                if (MessageBoxResult.Yes == MessageBox.Show("Еще раз?", "Бух!", MessageBoxButton.YesNo))
+                //если клик на мину - конец
+                if (mineLabel.IsMine)
                 {
-                    Restart();
-                    return;
+                    if (MessageBoxResult.Yes == MessageBox.Show("Еще раз?", "Бух!", MessageBoxButton.YesNo))
+                    {
+                        Restart();
+                        return;
+                    }
+                    else
+                    {
+                        this.Close();
+                    }
                 }
                 else
                 {
-                    this.Close();
+                    mineLabel.labelState = LabelState.Open;
                 }
+            }
+            if (e.RightButton == MouseButtonState.Pressed)
+            {
+                if (mineLabel.labelState == LabelState.Unvisited)
+                {
+                    mineLabel.Content = "\x2690";
+                    mineLabel.labelState = LabelState.Flagged;
+                }
+                else if (mineLabel.labelState == LabelState.Flagged)
+                {
+                    mineLabel.Content = "\x224b";
+                    mineLabel.labelState = LabelState.Unvisited;
+                }
+                return;
             }
 
             //определяем соседей
-            int x = mineLabel.X, y = mineLabel.Y;
+            int x = mineLabel.X;
+            int y = mineLabel.Y;
             //массив предполагаемых имен:
             string[] names =
             {
@@ -85,7 +110,7 @@ namespace WpfApp1
                 MineLabel label = this.FindName(name) as MineLabel;
                 if (label != null) //такое имя найдено
                 {
-                    // Проверям или это мина
+                    // Проверяем мина ли это
                     if (label.IsMine)
                     {
                         //увеличиваем счетчик
@@ -125,6 +150,21 @@ namespace WpfApp1
                     mineLabel.Foreground = Brushes.Brown;
                     break;
             }
+
+            foreach (var child in Field.Children)
+            {
+                MineLabel label = child as MineLabel;
+                if (label.labelState == LabelState.Unvisited && !label.IsMine)
+                {
+                    winFlag = false;
+                }
+            }
+
+            if (winFlag)
+            {
+                MessageBox.Show("Победа, победа, вместо обеда!", "YOU WON!");
+                Close();
+            }
         }
 
         private void Restart()
@@ -134,13 +174,15 @@ namespace WpfApp1
                 MineLabel label = child as MineLabel;
                 if (label != null)
                 {
-                    bool isMine = random.Next(5) == 0;
+                    bool isMine = random.Next(100) == 0;
                     label.IsMine = isMine;
                     label.Content = "\x224b";
                     label.Foreground = Brushes.Black;
                     label.labelState = LabelState.Unvisited;
                 }
             }
+
+            winFlag = true;
         }
     }
 
