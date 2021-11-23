@@ -63,5 +63,12 @@ namespace WpfApp1
             new Arkanoid().ShowDialog();
             Show();
         }
+
+        private void Styles_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new Styles().ShowDialog();
+            Show();
+        }
     }
 }

@@ -18,7 +18,23 @@ namespace WpfApp1
         readonly DispatcherTimer Timer;
         private readonly List<Rectangle> Bricks;
         private readonly List<Ellipse> Balls;
+
+        /* ------- README ---------
+         мои служебные вещи, модификатор "следующего уровня", также переменные для подсчета времени прохождения уровня и сид для генерации случайных значений
+        
+        В конструкторе задается значение "1" и передается в Restart(); для цикла в цикле, при срабатывании условия выигрыша инкриминируется и опять передается в метод Restart(); 
+        который рисует шарик и кирпичи. Дальше цикл в цикле в методе Restart(); рисует новый ряд кирпичей опираясь на значение модификатора.
+        
+        Random нужен для случайной генерации цвета шарика.
+
+        Дальше нехитрые манипуляции с DateTime и TimeSpan чтобы четко высчитать пройденное кол-во секунд от начала игры, ибо опираться на тик таймера
+        очень ненадежно.
+        */
         private readonly Random r;
+        private DateTime timer;
+        private TimeSpan timeToComplete;
+        private int modifier;
+
         public Arkanoid()
         {
             InitializeComponent();
@@ -34,37 +50,13 @@ namespace WpfApp1
             Bricks = new List<Rectangle>();
             Balls = new List<Ellipse>();
             r = new Random();
+            modifier = 1;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            // продолжение конструктора - работа с элементами интерфейса
-            Ball1.Tag = (object)new BallData  // boxing (упаковка)
-            {
-                Vx = 5,
-                Vy = -5
-            };
-            holdKey = HoldKey.None;
-            Balls.Add(Ball1);
-            for (int i = 0; i < 7; i++)
-            {
-                Rectangle rectangle =
-                    new Rectangle
-                    {
-                        Width = 70,
-                        Height = 20,
-                        Fill = Brushes.DarkGoldenrod
-                    };
-
-                Field.Children.Add(rectangle);
-
-                Canvas.SetLeft(rectangle, 40 + 80 * i);
-                Canvas.SetTop(rectangle, 40);
-
-                Bricks.Add(rectangle);
-            }
-
-            Timer.Start();
+            //все, что было тут раннее перенес в Restart();
+            Restart(modifier);
         }
         //private void Timer_Tick_Struct(object sender, EventArgs e)
         //{
@@ -130,6 +122,8 @@ namespace WpfApp1
         //}
         private void Timer_Tick(object sender, EventArgs e)
         {
+            timeToComplete = DateTime.Now - timer;
+
             List<Ellipse> toRemove = new List<Ellipse>();
             foreach (var Ball in Balls)
             {
@@ -198,6 +192,7 @@ namespace WpfApp1
             {
                 Timer.Stop();
                 MessageBox.Show("Game Over", "Looser", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                Close();
             }
 
         }
@@ -230,6 +225,22 @@ namespace WpfApp1
         {
             List<Rectangle> toRemove = new List<Rectangle>();
             List<Ellipse> toDuplicate = new List<Ellipse>();
+
+            if (Bricks.Count == 0)
+            {
+                Timer.Stop();
+                if (MessageBoxResult.Yes == MessageBox.Show($"Время прохождения - {timeToComplete.Seconds.ToString()} секунд.\nЕще раз?", "Победа, победа, вместо обеда!", MessageBoxButton.YesNo))
+                {
+                    modifier++;
+                    Restart(modifier);
+
+                }
+                else
+                {
+                    this.Close();
+                }
+
+            }
 
             foreach (var Ball in Balls)
             {
@@ -340,6 +351,61 @@ namespace WpfApp1
 
         }
 
+        private void Restart(int modifier)
+        {
+            Ball1.Tag = (object)new BallData  // boxing (упаковка)
+            {
+                Vx = 5,
+                Vy = -5
+            };
+
+            holdKey = HoldKey.None;
+
+            // если "прошли уровень", то надо очистить все мячики из коллекции и с канваса, а потом добавить только один мячик.
+            if (Balls.Count > 0)
+            {
+                foreach (var ball in Balls)
+                {
+                    Field.Children.Remove(ball);
+                }
+                Balls.Clear();
+                Canvas.SetLeft(Ball1, 370);
+                Canvas.SetTop(Ball1, 200);
+                Balls.Add(Ball1);
+                Field.Children.Add(Ball1);
+            }
+            else
+            {
+                //это условие нужно для первичного запуска игры, так как изначально коллекция шариков пуста.
+                //поскольку при первичном запуске первый мячик создается в xaml'е, то добавлять в коде не нужно
+                Balls.Add(Ball1);
+            }
+
+            for (int j = 1; j <= modifier; j++)
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    Rectangle rectangle =
+                        new Rectangle
+                        {
+                            Width = 70,
+                            Height = 20,
+                            Fill = Brushes.DarkGoldenrod
+                        };
+
+                    Field.Children.Add(rectangle);
+
+                    Canvas.SetLeft(rectangle, 35 + 80 * i);
+                    Canvas.SetTop(rectangle, 25 * j);
+
+                    Bricks.Add(rectangle);
+                }
+            }
+
+            timer = DateTime.Now;
+            Timer.Start();
+        }
+
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Left)
@@ -361,7 +427,6 @@ namespace WpfApp1
                     Timer.Start();
                 }
             }
-
         }
 
         private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
@@ -387,7 +452,4 @@ namespace WpfApp1
         public double Vx;
         public double Vy;
     }
-
-
-
 }
