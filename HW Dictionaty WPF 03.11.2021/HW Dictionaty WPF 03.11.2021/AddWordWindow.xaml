@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:HW_Dictionary_WPF_03._11._2021"
         mc:Ignorable="d"
         Title="AddWord" Height="450" Width="400" Background="Bisque">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="173*"/>
@@ -79,5 +80,6 @@
             VerticalAlignment="Top"
             Width="120" Grid.Column="1"
             />
+
     </Grid>
 </Window>

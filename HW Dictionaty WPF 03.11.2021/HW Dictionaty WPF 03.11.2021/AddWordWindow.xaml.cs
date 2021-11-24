@@ -39,7 +39,6 @@ namespace HW_Dictionary_WPF_03._11._2021
 
                 MainWindow.dic.Add(AddWordTextBlockUkr.Text, AddWordTextBlockRus.Text);
 
-                //const string fileName = "Dictionary.dic";
                 string jsonString = JsonSerializer.Serialize<Dictionary<string, string>>(MainWindow.dic);
                 File.WriteAllText(MainWindow.fileName, jsonString);
 

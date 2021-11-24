@@ -24,6 +24,7 @@
             Height="19"
             Width="134"
         />
+
         <TextBox 
             x:Name="SearchWordTextBlockUkr"
             Grid.Column="1"
@@ -57,5 +58,6 @@
             FontSize="25"
             Margin="5"
         />
+
     </Grid>
 </Window>
