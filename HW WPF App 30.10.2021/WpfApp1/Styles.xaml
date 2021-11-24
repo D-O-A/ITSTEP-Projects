@@ -6,69 +6,173 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="Styles" Height="450" Width="800" Background="Bisque">
-    
+
     <!-- Ресурсы окна - отдельная секция-->
     <Window.Resources>
         <!-- Стили - наборы установок, 
         применяемых ко всем элементам определенного типа -->
         <Style TargetType="Label">
-            <!-- Вместо "FontSize = 30" 
+            <Style.Triggers>
+                <Trigger 
+                    Property="IsMouseOver"
+                    Value="True">
+                    <Setter
+                        Property="FontSize"
+                        Value="50"/>
+                </Trigger>
+
+                <DataTrigger Binding="{Binding ElementName=check1, Path=IsChecked}"
+                             Value="True">
+                    <Setter Property="Foreground" Value="Salmon" />
+                    
+                </DataTrigger>
+
+
+            </Style.Triggers>
+            <Style.Setters>
+                <!-- Вместо "FontSize = 30" 
             используется Setter -->
-            <Setter 
+                <Setter 
                 Property="FontSize"
                 Value="30"
                 />
-            <!-- Сеттеров в ресурсе может быть
+                <!-- Сеттеров в ресурсе может быть
             несколько -->
-            <Setter 
+                <Setter 
                 Property="Foreground"
                 Value="SteelBlue"
                 />
 
-            <Setter 
+                <Setter 
                 Property="FontFamily"
                 Value="Comic Sans MS"
                 />
 
+            </Style.Setters>
         </Style>
 
         <Style TargetType="{x:Type Button}">
-            <Setter Property="FontSize">
-                <!-- Для сложных значений Value выносится 
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="border" BorderThickness="2"
+                                    BorderBrush="DarkGray" CornerRadius="15"
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Name="content"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush
+                                                  StartPoint="1 1"
+                                                  EndPoint="0 0">
+                                                <GradientStop
+                                                  Offset="0.5"
+                                                  Color="Aquamarine"/>
+                                                <GradientStop
+                                                   Offset="1"
+                                                   Color="Aqua"/>
+                                                <GradientStop
+                                                   Offset="0.2"
+                                                   Color="LimeGreen"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="LimeGreen"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+
+
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="FontSize">
+                    <!-- Для сложных значений Value выносится 
                 в отдельную секцию -->
-                <Setter.Value>
-                    35
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Background">
-                <Setter.Value>
-                    <LinearGradientBrush
+                    <Setter.Value>
+                        35
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush
                         StartPoint="0 0"
                         EndPoint="1 1">
-                        <GradientStop
+                            <GradientStop
                             Offset="0.5"
                             Color="Aquamarine"/>
-                        <GradientStop
+                            <GradientStop
                             Offset="1"
                             Color="Aqua"/>
-                        <GradientStop
+                            <GradientStop
                             Offset="0.2"
                             Color="LimeGreen"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+
+            </Style.Setters>
+            
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Click">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Height"
+                                    Duration="0:0:0.5"
+                                    From="50" To="100"/>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Width"
+                                    Duration="0:0:0.5"
+                                    From="50" To="200"/>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    Duration="0:0:0.5"
+                                    From="0.5" To="1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+
+                </EventTrigger>
+            </Style.Triggers>
         </Style>
-        
+
         <!-- Именованные ресурсы -->
         <Style x:Key="CenteredContent">
-            <Setter 
+            <Style.Triggers>
+                <Trigger 
+                    Property="Control.IsMouseOver"
+                    Value="True">
+
+                    <Setter
+                        Property="Control.Background"
+                        Value="DarkSlateGray"/>
+
+                    <Setter
+                        Property="Control.FontSize"
+                        Value="50"/>
+
+                </Trigger>
+            </Style.Triggers>
+
+            <Style.Setters>
+                <Setter 
                 Property="Control.VerticalContentAlignment"
                 Value="Center"
                 />
-            <Setter 
+                <Setter 
                 Property="Control.HorizontalContentAlignment"
                 Value="Center"
                 />
+            </Style.Setters>
         </Style>
 
         <Style x:Key="BigLabel">
@@ -78,18 +182,31 @@
                 />
         </Style>
 
-            <!-- Ресурсы можно наследовать 
+        <!-- Ресурсы можно наследовать 
         (базировать на других ресурсах) -->
         <Style x:Key="BigCentered"
                BasedOn="{StaticResource BigLabel}">
-            <Setter 
+            <Style.Triggers>
+                <Trigger 
+                    Property="Control.IsMouseOver"
+                    Value="True">
+
+                    <Setter
+                        Property="Control.FontSize"
+                        Value="10"/>
+
+                </Trigger>
+            </Style.Triggers>
+            <Style.Setters>
+                <Setter 
                 Property="Control.VerticalContentAlignment"
                 Value="Center"
                 />
-            <Setter 
+                <Setter 
                 Property="Control.HorizontalContentAlignment"
                 Value="Center"
                 />
+            </Style.Setters>
         </Style>
 
         <Style
@@ -125,11 +242,11 @@
             />
         </Style>
     </Window.Resources>
-    
-    
+
+
     <!-- Контент окна - содержимое -->
     <UniformGrid Columns="4" Rows="4" x:Name="uniGrid">
-        
+
         <Label>Label 1</Label>
         <Label>Label 2</Label>
         <Label>Label 3</Label>
@@ -139,12 +256,33 @@
         <Button Click="Button_Click2">Button 2</Button>
         <Button Click="Button_Click3">Button 3</Button>
         <Button>Button 4</Button>
-        
-         <!--Применение индивидуального стиля полностью отменяет глобальный-->
+
+        <!--Применение индивидуального стиля полностью отменяет глобальный-->
         <Label Style="{StaticResource ResourceKey=CenteredContent}">Label 5</Label>
-        <Label Style="{StaticResource ResourceKey=BigCentered}"> Label 6</Label>
+        <Label Style="{StaticResource ResourceKey=BigCentered}">Label 6</Label>
         <Label Style="{StaticResource ResourceKey=MyStyle}">Label 7</Label>
         <Label>Label 8</Label>
 
+        <CheckBox x:Name="check1">Отметить</CheckBox>
+
     </UniformGrid>
 </Window>
+
+<!--
+    Триггеры
+    В общем: переключатели 
+    В технике: системы с несколькими состояниями
+    В программировнии: действия, выполняемые при совпадении определенных условий
+    Это устойчивое состояние системы, в отличие от событий
+    
+    trigger event - обработать событие
+    Тригерры есть условий, событий и данных.
+    Стилевые триггеры меняют только стиль (ограниченно), но не контент.
+    
+    В WPF 
+    Стилевые триггеры 
+        применяют стили при заданных условиях  
+    
+    Триггеры данных
+        отслеживают изменения в данных и реагируют на них
+        -->
