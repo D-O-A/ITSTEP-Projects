@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using System.Text.RegularExpressions;
+using System.Windows;
 
 namespace HW_Dictionary_WPF_03._11._2021
 {
@@ -14,7 +18,25 @@ namespace HW_Dictionary_WPF_03._11._2021
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            TextBlockResult.Text = MainWindow.dic.Remove(SearchWordTextBlockUkr.Text) ? "Слово удалено!" : "Слово не найдено!";
+            Regex ukr = new(@"^[А-ЩЬЮЯҐЄІЇа-щьюяґєії'-]+$");
+
+            if (!ukr.IsMatch(SearchWordTextBlockUkr.Text))
+            {
+                MessageBox.Show("Неправильно ввели Укр. слово!");
+                return;
+            }
+
+            if (MainWindow.dic.Remove(SearchWordTextBlockUkr.Text))
+            {
+                TextBlockResult.Text = "Слово удалено!";
+
+                string jsonString = JsonSerializer.Serialize<Dictionary<string, string>>(MainWindow.dic);
+                File.WriteAllText(MainWindow.fileName, jsonString);
+            }
+            else
+            {
+                TextBlockResult.Text = "Слово не найдено!";
+            }
         }
     }
 }

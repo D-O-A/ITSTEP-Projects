@@ -10,10 +10,13 @@ namespace HW_Dictionary_WPF_03._11._2021
     {
         public Examine()
         {
+            InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             try
             {
-                InitializeComponent();
-
                 foreach (var pair in MainWindow.dic)
                 {
                     TextBlockUkr.Text += pair.Key + "\n";
@@ -25,6 +28,5 @@ namespace HW_Dictionary_WPF_03._11._2021
                 MessageBox.Show(ex.Message);
             }
         }
-
     }
 }

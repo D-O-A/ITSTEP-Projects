@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HW_Dictionary_WPF_03._11._2021"
         mc:Ignorable="d"
-        Title="Examine" Height="450" Width="400" Background="Bisque">
+        Title="Examine" Height="450" Width="400" Background="Bisque"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

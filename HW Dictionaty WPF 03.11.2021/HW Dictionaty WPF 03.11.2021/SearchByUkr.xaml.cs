@@ -16,9 +16,9 @@ namespace HW_Dictionary_WPF_03._11._2021
 
         private void Search_Click(object sender, RoutedEventArgs e)
         {
-            Regex r = new(@"^[а-яА-Я-]+$");
+            Regex ukr = new(@"^[А-ЩЬЮЯҐЄІЇа-щьюяґєії'-]+$");
 
-            if (!r.IsMatch(SearchWordTextBlockUkr.Text))
+            if (!ukr.IsMatch(SearchWordTextBlockUkr.Text))
             {
                 MessageBox.Show("Неправильно ввели Укр. слово!");
                 return;

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 using System.Windows;
 
 
@@ -10,10 +13,11 @@ namespace HW_Dictionary_WPF_03._11._2021
     public partial class MainWindow : Window
     {
         internal static Dictionary<string, string> dic = new();
-
+        internal const string fileName = "Dictionary.dic";
         public MainWindow()
         {
             InitializeComponent();
+            Deserialize();
         }
 
         private void AddWord_Click(object sender, RoutedEventArgs e)
@@ -49,6 +53,23 @@ namespace HW_Dictionary_WPF_03._11._2021
             Hide();
             new RemoveWord().ShowDialog();
             Show();
+        }
+
+        private void Deserialize()
+        {
+            try
+            {
+                string jsonString = File.ReadAllText(fileName);
+                dic = JsonSerializer.Deserialize<Dictionary<string, string>>(jsonString) ?? throw new InvalidOperationException();
+            }
+            catch (FileNotFoundException)
+            {
+                //ignored
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

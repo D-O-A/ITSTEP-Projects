@@ -174,7 +174,7 @@ namespace WpfApp1
                 MineLabel label = child as MineLabel;
                 if (label != null)
                 {
-                    bool isMine = random.Next(100) == 0;
+                    bool isMine = random.Next(8) == 0;
                     label.IsMine = isMine;
                     label.Content = "\x224b";
                     label.Foreground = Brushes.Black;
