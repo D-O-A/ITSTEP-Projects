@@ -38,5 +38,10 @@ namespace HW_Dictionary_WPF_03._11._2021
                 TextBlockResult.Text = "Слово не найдено!";
             }
         }
+
+        private void SearchWordTextBlockUkr_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            TextBlockResult.Text = "";
+        }
     }
 }

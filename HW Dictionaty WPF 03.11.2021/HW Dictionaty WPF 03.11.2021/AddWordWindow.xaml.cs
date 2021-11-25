@@ -49,5 +49,16 @@ namespace HW_Dictionary_WPF_03._11._2021
                 MessageBox.Show(ex.Message);
             }
         }
+
+        private void AddWordTextBlockUkr_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            ConfirmLabel.Content = "";
+        }
+
+
+        private void AddWordTextBlockRus_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            ConfirmLabel.Content = "";
+        }
     }
 }

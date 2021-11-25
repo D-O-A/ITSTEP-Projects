@@ -26,6 +26,7 @@
         />
 
         <TextBox 
+            GotFocus="SearchWordTextBlockUkr_OnGotFocus"
             x:Name="SearchWordTextBlockUkr"
             Grid.Column="1"
             HorizontalAlignment="Center" 
