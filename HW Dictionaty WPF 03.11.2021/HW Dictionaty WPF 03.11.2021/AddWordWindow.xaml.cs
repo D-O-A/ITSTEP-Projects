@@ -49,10 +49,5 @@ namespace HW_Dictionary_WPF_03._11._2021
                 MessageBox.Show(ex.Message);
             }
         }
-
-        private void AddWordTextBlockUkr_GotFocus(object sender, RoutedEventArgs e)
-        {
-           MessageBox.Show("Test");
-        }
     }
 }
