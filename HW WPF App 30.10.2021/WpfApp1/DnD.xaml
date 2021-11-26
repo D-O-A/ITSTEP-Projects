@@ -1,0 +1,35 @@
+﻿<Window x:Class="WpfApp1.DnD"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="DnD" Height="450" Width="800" Background="Bisque"
+        MouseMove="Mouse_Move"
+        MouseUp="Mouse_Up">
+    <Canvas x:Name="Field">
+        
+        <Rectangle
+            MouseDown="Subject_MouseDown"
+            
+            x:Name="Subject"
+            Fill="DarkSalmon"
+            Width="100"
+            Height="150"
+            Canvas.Left="100"
+            Canvas.Top="75"
+            />
+
+        <Rectangle
+            x:Name="LandingZone"
+            Stroke="SeaGreen"
+            Width="200"
+            Height="300"
+            Canvas.Left="400"
+            Canvas.Top="105"
+            />
+
+    </Canvas>
+
+</Window>

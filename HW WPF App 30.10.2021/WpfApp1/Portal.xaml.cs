@@ -70,5 +70,12 @@ namespace WpfApp1
             new Styles().ShowDialog();
             Show();
         }
+
+        private void DnD_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new DnD().ShowDialog();
+            Show();
+        }
     }
 }
