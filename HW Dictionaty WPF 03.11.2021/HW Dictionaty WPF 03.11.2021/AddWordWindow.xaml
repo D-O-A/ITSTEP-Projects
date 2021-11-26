@@ -28,6 +28,7 @@
             />
         <TextBox 
             x:Name="AddWordTextBlockUkr"
+            GotFocus="AddWordTextBlockUkr_GotFocus"
             Grid.Column="1"
             HorizontalAlignment="Center" 
             Height="21" 
