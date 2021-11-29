@@ -19,55 +19,94 @@ namespace WpfApp1
     /// </summary>
     public partial class DnD : Window
     {
-        private bool isDragged;
+        private FrameworkElement draggedObject;
+        private FrameworkElement phantomObject;
+
         private Point touchPoint;
+        private Point initialPoint;
 
         public DnD()
         {
             InitializeComponent();
-            isDragged = false;
+            draggedObject = null;
+            phantomObject = null;
         }
 
         private void Mouse_Up(object sender, MouseButtonEventArgs e)
         {
-            touchPoint.X = Canvas.GetLeft(Subject) + Subject.Width / 2;
-            touchPoint.Y = Canvas.GetTop(Subject) + Subject.Height / 2;
-                
-            switch (e.ChangedButton)
+            if (draggedObject != null)
             {
-                case MouseButton.Left:
-                    isDragged = false;
-                    if ((touchPoint.X < Canvas.GetLeft(LandingZone) || touchPoint.X > Canvas.GetLeft(LandingZone) + LandingZone.Width)
-                        || (touchPoint.Y < Canvas.GetTop(LandingZone) || touchPoint.Y > Canvas.GetTop(LandingZone) + LandingZone.Height))
+                try
+                {
+                    switch (e.ChangedButton)
                     {
-                        Canvas.SetLeft(Subject, 100);
-                        Canvas.SetTop(Subject, 75);
-                        Field.ReleaseMouseCapture();
+                        case MouseButton.Left: //дз
+                            if (Canvas.GetLeft(draggedObject) < 400)
+                            {
+                                //возвращаем в исходную позицию
+                                Canvas.SetLeft(draggedObject, initialPoint.X);
+                                Canvas.SetTop(draggedObject, initialPoint.Y);
+                            }
+
+                            draggedObject = null;
+                            Field.ReleaseMouseCapture(); // освобождение мыши
+                            break;
                     }
-                    else
-                    {
-                        Field.ReleaseMouseCapture(); // освобождение мыши
-                    }
-                    break;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+            try
+            {
+
+                Canvas.SetLeft(SubjectEllipse, Canvas.GetLeft(phantomObject));
+                Canvas.SetTop(SubjectEllipse, Canvas.GetTop(phantomObject));
+            }
+            catch(Exception)
+            {
+            }
+
+            //******* Phantom ********
+            if (phantomObject != null)
+            {
+                Field.Children.Remove(phantomObject);
+                Field.ReleaseMouseCapture();
+                phantomObject = null;
             }
         }
-
         private void Mouse_Move(object sender, MouseEventArgs e)
         {
-            if (isDragged)
+            if (draggedObject != null)
             {
-                Canvas.SetLeft(Subject, e.GetPosition(Field).X - touchPoint.X);
-                Canvas.SetTop(Subject, e.GetPosition(Field).Y - touchPoint.Y);
+                Canvas.SetLeft(draggedObject, e.GetPosition(Field).X - touchPoint.X);
+                Canvas.SetTop(draggedObject, e.GetPosition(Field).Y - touchPoint.Y);
+            }
+
+            //******* Phantom ********
+            if (phantomObject != null)
+            {
+                Canvas.SetLeft(phantomObject, e.GetPosition(Field).X - touchPoint.X);
+                Canvas.SetTop(phantomObject, e.GetPosition(Field).Y - touchPoint.Y);
             }
         }
-
         private void Subject_MouseDown(object sender, MouseButtonEventArgs e)
         {
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
-                    isDragged = true;
-                    touchPoint = e.GetPosition(Subject);
+                    draggedObject = sender as FrameworkElement;
+
+                    if (draggedObject == null)
+                    {
+                        return;
+                    }
+
+                    touchPoint = e.GetPosition(draggedObject);
+                    initialPoint.X = Canvas.GetLeft(draggedObject);
+                    initialPoint.Y = Canvas.GetTop(draggedObject);
                     Field.CaptureMouse(); // захват - события
                     // мыши будут попадать в это окно, даже если указатель из него выйдет
                     break;
@@ -81,8 +120,25 @@ namespace WpfApp1
                     break;
             }
 
+        }
+
+        private void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Вариация с фантомным объектом
+            Ellipse proto = sender as Ellipse;
+            phantomObject = new Ellipse
+            {
+                Width = proto.Width,
+                Height = proto.Height,
+                Stroke = Brushes.Tomato
+            };
+            Field.Children.Add(phantomObject);
+            Field.CaptureMouse();
+            Canvas.SetLeft(phantomObject, Canvas.GetLeft(proto));
+            Canvas.SetTop(phantomObject, Canvas.GetTop(proto));
+            touchPoint = e.GetPosition(proto);
+        }
     }
-}
 }
 /* DnD (Drag 'n' Drop)
  * Технология визуального интерфейса, связанная с "перетсаскиваним" объектов мышью
@@ -104,6 +160,12 @@ namespace WpfApp1
  * - похожая на п.1 ситуация возможна с окном:
  * при выходе указателя мыши из окна "теряется" событие "отжатия" кнопки.
  * Решается "захватом" указателя на время нажатия
+ * 
+ * 
+ * 
+ * 
+ * Событийное программирвание (Событийно ориентированная модель) хорошо показывает себя в задачах расширяемости
+ * BIOS дает эту самую модель
  * 
  * 
  */

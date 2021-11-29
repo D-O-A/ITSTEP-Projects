@@ -9,16 +9,35 @@
         MouseMove="Mouse_Move"
         MouseUp="Mouse_Up">
     <Canvas x:Name="Field">
-        
+
         <Rectangle
-            MouseDown="Subject_MouseDown"
-            
+            MouseDown="Subject_MouseDown"          
             x:Name="Subject"
             Fill="DarkSalmon"
             Width="100"
-            Height="150"
+            Height="50"
             Canvas.Left="100"
             Canvas.Top="75"
+            />
+
+        <Rectangle
+            MouseDown="Subject_MouseDown"
+            x:Name="Subject2"
+            Fill="Salmon"
+            Width="100"
+            Height="50"
+            Canvas.Left="100"
+            Canvas.Top="150"
+            />
+
+        <Ellipse
+            MouseDown="Subject_MouseDown"
+            x:Name="Subject3"
+            Fill="Salmon"
+            Width="100"
+            Height="50"
+            Canvas.Left="100"
+            Canvas.Top="230"
             />
 
         <Rectangle
@@ -29,6 +48,28 @@
             Canvas.Left="400"
             Canvas.Top="105"
             />
+
+        <Image 
+            MouseDown="Subject_MouseDown"
+            x:Name="Subject4"
+            Source="BS.png"
+            Width="100"
+            Height="100"
+            Canvas.Left="100"
+            Canvas.Top="300"
+            />
+
+        <Ellipse
+            MouseDown="Ellipse_MouseDown"
+            x:Name="SubjectEllipse"
+            Fill="Tomato"
+            Width="50"
+            Height="100"
+            Canvas.Left="279"
+            Canvas.Top="127"
+            />
+
+
 
     </Canvas>
 
