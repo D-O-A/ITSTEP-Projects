@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace WpfApp1
@@ -21,9 +14,13 @@ namespace WpfApp1
     {
         private FrameworkElement draggedObject;
         private FrameworkElement phantomObject;
+        private FrameworkElement prototypeObject;
 
         private Point touchPoint;
+        private Point landingZoneCenter;
+        private Point subjectCenter;
         private Point initialPoint;
+        private double heightModifier;
 
         public DnD()
         {
@@ -41,11 +38,30 @@ namespace WpfApp1
                     switch (e.ChangedButton)
                     {
                         case MouseButton.Left: //дз
-                            if (Canvas.GetLeft(draggedObject) < 400)
+
+                            subjectCenter.X = Canvas.GetLeft(draggedObject) + draggedObject.Width / 2;
+                            subjectCenter.Y = Canvas.GetTop(draggedObject) + draggedObject.Height / 2;
+
+                            if ((subjectCenter.X < Canvas.GetLeft(LandingZone) || subjectCenter.X > Canvas.GetLeft(LandingZone) + LandingZone.Width)
+                                || (subjectCenter.Y < Canvas.GetTop(LandingZone) || subjectCenter.Y > Canvas.GetTop(LandingZone) + LandingZone.Height))
                             {
                                 //возвращаем в исходную позицию
                                 Canvas.SetLeft(draggedObject, initialPoint.X);
                                 Canvas.SetTop(draggedObject, initialPoint.Y);
+                            }
+                            else
+                            {
+                                // модификатор размера по Y для центрирования чтобы фигурки размешались одна под другой.
+                                // если модификатор больше, чем можно "вместить" фигурки, то обнуляем и начинаем центрировать снова с верха допустимой зоны
+                                // но все равно фигурки могут "наслаиваться" друг на друга
+                                if (heightModifier > Canvas.GetTop(LandingZone) + LandingZone.Height / 3.5)
+                                {
+                                    heightModifier = 0;
+                                }
+
+                                Canvas.SetLeft(draggedObject, landingZoneCenter.X);
+                                Canvas.SetTop(draggedObject, landingZoneCenter.Y + heightModifier);
+                                heightModifier += 60;
                             }
 
                             draggedObject = null;
@@ -59,20 +75,32 @@ namespace WpfApp1
                 }
             }
 
-            try
-            {
-
-                Canvas.SetLeft(SubjectEllipse, Canvas.GetLeft(phantomObject));
-                Canvas.SetTop(SubjectEllipse, Canvas.GetTop(phantomObject));
-            }
-            catch(Exception)
-            {
-            }
-
             //******* Phantom ********
             if (phantomObject != null)
             {
+                subjectCenter.X = Canvas.GetLeft(phantomObject) + phantomObject.Width / 2;
+                subjectCenter.Y = Canvas.GetTop(phantomObject) + phantomObject.Height / 2;
+
                 Field.Children.Remove(phantomObject);
+
+                if ((subjectCenter.X < Canvas.GetLeft(LandingZone) || subjectCenter.X > Canvas.GetLeft(LandingZone) + LandingZone.Width)
+                    || (subjectCenter.Y < Canvas.GetTop(LandingZone) || subjectCenter.Y > Canvas.GetTop(LandingZone) + LandingZone.Height))
+                {
+                    Canvas.SetLeft(phantomObject, initialPoint.X);
+                    Canvas.SetTop(phantomObject, initialPoint.Y);
+                }
+                else
+                {
+                    if (heightModifier > Canvas.GetTop(LandingZone) + LandingZone.Height / 3.5)
+                    {
+                        heightModifier = 0;
+                    }
+
+                    Canvas.SetLeft(prototypeObject, landingZoneCenter.X);
+                    Canvas.SetTop(prototypeObject, landingZoneCenter.Y + heightModifier);
+                    heightModifier += 60;
+                }
+
                 Field.ReleaseMouseCapture();
                 phantomObject = null;
             }
@@ -105,8 +133,13 @@ namespace WpfApp1
                     }
 
                     touchPoint = e.GetPosition(draggedObject);
+
+                    landingZoneCenter.X = Canvas.GetLeft(LandingZone) + LandingZone.Width / 4;
+                    landingZoneCenter.Y = Canvas.GetTop(LandingZone) + 10;
+
                     initialPoint.X = Canvas.GetLeft(draggedObject);
                     initialPoint.Y = Canvas.GetTop(draggedObject);
+
                     Field.CaptureMouse(); // захват - события
                     // мыши будут попадать в это окно, даже если указатель из него выйдет
                     break;
@@ -119,29 +152,42 @@ namespace WpfApp1
                 case MouseButton.XButton2:
                     break;
             }
-
         }
 
         private void Ellipse_MouseDown(object sender, MouseButtonEventArgs e)
         {
             // Вариация с фантомным объектом
-            Ellipse proto = sender as Ellipse;
+            prototypeObject = sender as FrameworkElement;
+
+            if (prototypeObject == null)
+            {
+                return;
+            }
+
+            // ellipse конечно в идеале только для фантомов, которые имеют форму круга, а для "квадратных" фантомов лучше создавать rectangle и другой обработчик событий
             phantomObject = new Ellipse
             {
-                Width = proto.Width,
-                Height = proto.Height,
-                Stroke = Brushes.Tomato
+                Width = prototypeObject.Width,
+                Height = prototypeObject.Height,
+                Stroke = Brushes.Black
             };
             Field.Children.Add(phantomObject);
             Field.CaptureMouse();
-            Canvas.SetLeft(phantomObject, Canvas.GetLeft(proto));
-            Canvas.SetTop(phantomObject, Canvas.GetTop(proto));
-            touchPoint = e.GetPosition(proto);
+
+            landingZoneCenter.X = Canvas.GetLeft(LandingZone) + LandingZone.Width / 4;
+            landingZoneCenter.Y = Canvas.GetTop(LandingZone) + 10;
+
+            initialPoint.X = Canvas.GetLeft(phantomObject);
+            initialPoint.Y = Canvas.GetTop(phantomObject);
+
+            Canvas.SetLeft(phantomObject, Canvas.GetLeft(prototypeObject));
+            Canvas.SetTop(phantomObject, Canvas.GetTop(prototypeObject));
+            touchPoint = e.GetPosition(prototypeObject);
         }
     }
 }
 /* DnD (Drag 'n' Drop)
- * Технология визуального интерфейса, связанная с "перетсаскиваним" объектов мышью
+ * Технология визуального интерфейса, связанная с "перетаскиванием" объектов мышью
  * 
  * Для реализации необходимо:
  * - по событию нажатия перейти в режим "перетаскивания"
@@ -156,7 +202,7 @@ namespace WpfApp1
  * - событие нажатия получает сам объект, тогда как движение и "отжатие" - все окно
  * Иначе при резких движениях курсор уходит с объекта и он треяет события
  * - для перетягивания за точку "взятия" необходимо запоминать координаты этой точки в событии "нажатия",
- * а корректировать в событии движеия мыши
+ * а корректировать в событии движения мыши
  * - похожая на п.1 ситуация возможна с окном:
  * при выходе указателя мыши из окна "теряется" событие "отжатия" кнопки.
  * Решается "захватом" указателя на время нажатия
@@ -164,7 +210,7 @@ namespace WpfApp1
  * 
  * 
  * 
- * Событийное программирвание (Событийно ориентированная модель) хорошо показывает себя в задачах расширяемости
+ * Событийное программирование (Событийно ориентированная модель) хорошо показывает себя в задачах расширяемости
  * BIOS дает эту самую модель
  * 
  * 

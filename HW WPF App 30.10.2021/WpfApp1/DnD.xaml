@@ -63,13 +63,21 @@
             MouseDown="Ellipse_MouseDown"
             x:Name="SubjectEllipse"
             Fill="Tomato"
-            Width="50"
+            Width="100"
             Height="100"
-            Canvas.Left="279"
-            Canvas.Top="127"
+            Canvas.Left="254"
+            Canvas.Top="117"
             />
 
-
+        <Image
+            MouseDown="Ellipse_MouseDown"
+            x:Name="SubjectImage"
+            Source="SnakeAngel.png"
+            Width="100"
+            Height="85"
+            Canvas.Left="254"
+            Canvas.Top="265"
+        />
 
     </Canvas>
 
