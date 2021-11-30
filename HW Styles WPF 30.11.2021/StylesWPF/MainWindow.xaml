@@ -1,0 +1,189 @@
+﻿<Window x:Class="StylesWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StylesWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="135" Width="318" Background="Bisque">
+
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Name="border" BorderThickness="2"
+                                    BorderBrush="DarkRed" CornerRadius="10"
+                                    Background="{TemplateBinding Background}">
+                                <ContentPresenter
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Name="content"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush
+                                                  StartPoint="1 1"
+                                                  EndPoint="0 0">
+                                                <GradientStop
+                                                  Offset="0.5"
+                                                  Color="Crimson"/>
+                                                <GradientStop
+                                                   Offset="1"
+                                                   Color="Black"/>
+                                                <GradientStop
+                                                   Offset="0.2"
+                                                   Color="DeepPink"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="FontSize">
+                    <Setter.Value>
+                        25
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        WhiteSmoke
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush
+                        StartPoint="0 0"
+                        EndPoint="1 1">
+                            <GradientStop
+                            Offset="0.5"
+                            Color="DeepPink"/>
+                            <GradientStop
+                            Offset="1"
+                            Color="Black"/>
+                            <GradientStop
+                            Offset="0.2"
+                            Color="Crimson"/>
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=CheckBox, Path=IsChecked}"
+                             Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border Name="border" BorderThickness="2"
+                                        BorderBrush="LawnGreen" CornerRadius="10"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Name="content"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush
+                                                    StartPoint="1 1"
+                                                    EndPoint="0 0">
+                                                    <GradientStop
+                                                        Offset="0.5"
+                                                        Color="Crimson"/>
+                                                    <GradientStop
+                                                        Offset="1"
+                                                        Color="Black"/>
+                                                    <GradientStop
+                                                        Offset="0.2"
+                                                        Color="DeepPink"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+                <EventTrigger RoutedEvent="Click">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Width"
+                                    Duration="0:0:0.5"
+                                    From="10" To="130"/>
+                                <DoubleAnimation
+                                    Storyboard.TargetProperty="Opacity"
+                                    Duration="0:0:0.5"
+                                    From="0.5" To="1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid Margin="0,0,0,-6">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="74*"/>
+            <ColumnDefinition Width="85*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="63*"/>
+            <RowDefinition Height="141*"/>
+        </Grid.RowDefinitions>
+
+        <Label
+            Content="Ваше мнение:"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            FontSize="15" Height="30" Width="106"
+            />
+
+        <TextBox
+            Grid.Column="1"
+            x:Name="TextBox"
+            VerticalAlignment="Center"
+            Height="26"
+            HorizontalAlignment="Center"
+            Width="134"
+            />
+
+        <CheckBox
+            Grid.Row="1"
+            x:Name="CheckBox"
+            Content="Уведомить об ответе"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center" 
+            Height="15"
+            Width="136"
+            />
+
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            Content="Отправить" Width="132"
+            Click="ButtonSend_Click"
+            x:Name="MyButton"
+            />
+
+    </Grid>
+</Window>

@@ -21,11 +21,11 @@
                         Value="50"/>
                 </Trigger>
 
-                <DataTrigger Binding="{Binding ElementName=check1, Path=IsChecked}"
+                <!--<DataTrigger Binding="{Binding ElementName=check1, Path=IsChecked}"
                              Value="True">
                     <Setter Property="Foreground" Value="Salmon" />
                     
-                </DataTrigger>
+                </DataTrigger>-->
 
 
             </Style.Triggers>
