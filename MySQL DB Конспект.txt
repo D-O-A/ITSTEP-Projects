@@ -1,0 +1,156 @@
+База Данных - структурированная коллекция данных, условная "таблица".
+
+Primary key (Основной ключ) - уникальное значение для идентификации "ряда"
+В базе данных Primary Key всегда будет уникальным.
+
+Surragate key (Суррагатнй ключ) - значение, которое никак не привязано к занчениям из реального мира (который ничего не значит)
+
+Natural key (Естественный (натуральный) ключ) - значение, которое привязано к значениям из реального мира (который имеет какое-то значение)
+
+Foreign key - значение, которое может связывать нашу базу данных с другой базой данных. Хранит Primary Key ряда в другой базе данных. Также он позволяет определять связи между базами данных. Таких ключей у базы данных может быть несколько, тем самым может связывать одну и ту же таблицу. 
+
+Composite key - значение, которое состоит из нескольких primary key, по отдельности primary key не может уникально определить ряд. Только все значения primary key вместе могут уникально определить ряд в БД.
+Также composite key может состоять из нескольких foreign keys, которые являются primary key в других БД
+ 
+
+Structured Query Language (SQL)
+Может отличаться между разными ситемами, но есть стандарт
+
+SQL состоит из 4 разных типов языков:
+
+Data Query Language (DQL)
+Посылание запросов в БД для получения информации, которая уже хранится в БД
+Получение информации, которая уже хранится в БД
+
+Data Definition Language (DDL)
+Определение схемы БД
+
+Data Control Language (DCL)
+Контроль доступа к данным в БД
+Управление пользователями и правами доступа
+
+Data Manipulation Language (DML)
+Вставка, апдейт и удаление данных из БД
+
+Query - это набор инструкций (запрос), отправленный RDBMS (Relational DataBase Management System), который "говорит" БД какую информацию нужно получить. Цель написания запроса - получить только ту информацию, которая нам нужна
+
+SELECT employee.name, enmployee.age //выбрать имя и возраст сотрудника
+FROM employee                       //в БД сотрудники
+WHERE employee.salary > 30000       //где ЗП сотрудника > 30000
+
+Основные типы данных в SQL:
+
+INT -- Целые числа
+DECIMAL(M,N) -- Числа с плавающей точкой. M - общее кол-во цифр для хранения. N - кол-во цифр для хранения после точки.
+VARCHAR(1) -- Строки. 1 - Максимальный размер символов в строке.
+BLOB -- Бинарные объекты (Binary Large OBject), хранят большие данные (структуры, файлы, изображения)
+DATE -- YYYY-MM-DD (Формат)
+TIMESTAMP -- YYYY-MM-DD HH:MM:SS, используется для фиксирования времени события
+
+//запросы в SQL принято писать заглавными буквами
+
+//Query на создание таблицы с тремя "колонками", где student_id - primary key
+CREATE TABLE student
+(
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(20),
+    student_major VARCHAR(20) 
+);
+
+//Query на отображение информации о таблице, без данных в самих колонках
+DESCRIBE student;
+
+//Query на редактирование таблицы, добавление новой "колонки" типа DECIMAL, которая содержит 3 цифры, 2 после //точки
+ALTER TABLE student ADD gpa DECIMAL(3,2);
+
+//Query на редактирование таблицы, удаление "колонки" по названию
+ALTER TABLE student DROP COLUMN gpa;
+
+//net start MySQL80, net stop MySQL80 - команды в консоли для запуска\остановки сервера mysql
+
+//Query на добавление значений в таблицу. Данные передаются в порядке создания колонн
+INSERT INTO student VALUES(1, 'Jack', 'Biology');
+
+//Query на получение данных из таблицы. Получаем ВСЕ данные
+SELECT * FROM student;
+
+//Query на добавление значений в таблицу только в определенные колонки
+INSERT INTO student(student_id, student_name) VALUES(3, 'Claire');
+
+//Query на смену пароля для пользователя
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'NewPassword';
+
+В БД нельзя дублировать primary key.
+
+
+Ключевые слова (Constraints) для создания таблиц в БД:
+
+
+NOT NULL - Запрещает полю иметь значение NULL.
+UNIQUE - не позволяет дублировать значение этого поля
+DEFAULT - задает значение "по умолчанию" если данные не были указаны.
+AUTO INCREMENT - автоматически инкриментирует primary key (или другие колонки) в случае, если значение не было указано при запросе.
+
+//Query на создание таблицы, с ключевыми словами.
+CREATE TABLE student
+(
+    student_id INT AUTO INCREMENT,
+    student_name VARCHAR(20) NOT NULL,
+    student_surname VARCHAR(20) DEFAULT 'undefined',
+    student_major VARCHAR(20) UNIQUE, 
+    PRIMARY KEY(student_id)
+);
+
+
+//Query на изменение информации в таблице. Изменяем данные в колонке student_major на "Bio" только в тех рядах, //где 
+//student_major = "Biology"
+UPDATE student
+SET student_major = 'Bio'        //SET - задать
+WHERE student_major = 'Biology'; //WHERE - наше условие, аналог оператора ветвления "if"
+
+
+Операции сравнения в SQL:
+
+= - равно
+<> - не равно
+> - больше
+< - меньше
+>= - больше или равно
+<= - меньше или равно
+
+
+Ключевые слова для обновления и удаления информации в БД:
+
+UPDATE - Запрос на обновление информации
+SET - Запрос на задавание значения
+WHERE - условие, аналог "if"
+DELETE - Запрос на удаление 
+FROM - указывание "откуда" удалять
+OR - или, аналог "||"
+AND - и, агалог "&&"
+
+
+//Query на изменение информации в таблтце. Пример другого условия WHERE
+UPDATE student SET student_major = 'Comp Sci' WHERE student_id = 4;
+
+//Query на изменение информации в таблтце. Пример с добавлением условия OR, аналог оператора "||" в С# 
+UPDATE student SET student_major = 'Biochemistry' WHERE student_major = 'Bio' OR student_major = 'Chemistry';
+
+//Query на изменение информации в таблице. Еще пример разных условий
+UPDATE student SET student_name = 'Tom', student_major = 'undecided' WHERE student_id = 1;
+
+//Query на изменение информации в таблице. Пример БЕЗ условия WHERE. В данной ситуации, SET student_major будет //применено ко всем рядам в колонке
+UPDATE student SET student_major = 'undecided';
+
+//Query на удаление информации из таблицы. В данном случае будет удалена вся информация с таблицы в БД.
+DELETE FROM student;
+
+//Query на удаление информации из таблицы. Пример с использованием WHERE, будет удалена только информация, где //ключ соответсвтует заданному условию
+DELETE FROM student WHERE student_id = 5;
+
+//Query на удаление инфомрации из таблицы. Пример с использованием AND.
+DELETE FROM student WHERE student_name = 'Tom' AND student_major = 'undecided';
+
+
+
+
