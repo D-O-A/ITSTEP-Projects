@@ -16,6 +16,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Button 
@@ -136,6 +137,24 @@
             Click="DnD_Click"
             Background="Firebrick"/>
 
+        <Button 
+            Grid.Column="0" Grid.Row="3"
+            x:Name="Snake"
+            FontSize="25"
+            Click="Snake_Click"
+            Background="SpringGreen">
+
+            <StackPanel Orientation="Horizontal">
+                <Image Source="mine.png"
+                       Stretch="Uniform"
+                       Width="100"
+                       />
+                <WrapPanel Orientation="Vertical">
+                    <Label FontSize="20">Взаимодействие:</Label>
+                    <Label FontSize="20">Snake</Label>
+                </WrapPanel>
+            </StackPanel>
+        </Button>
 
     </Grid>
 </Window>

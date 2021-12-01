@@ -77,5 +77,12 @@ namespace WpfApp1
             new DnD().ShowDialog();
             Show();
         }
+
+        private void Snake_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            new Snake().ShowDialog();
+            Show();
+        }
     }
 }

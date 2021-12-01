@@ -64,6 +64,9 @@
     <Compile Include="Minesweeper.xaml.cs">
       <DependentUpon>Minesweeper.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Snake.xaml.cs">
+      <DependentUpon>Snake.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Strings.xaml.cs">
       <DependentUpon>Strings.xaml</DependentUpon>
     </Compile>
@@ -108,6 +111,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Portal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Snake.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
