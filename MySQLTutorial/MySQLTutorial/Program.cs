@@ -9,7 +9,7 @@ namespace MySQLTutorial
         static void Main(string[] args)
         {
 
-            var db = new DBConnect("localhost", "giraffe", "root", "Vladikus1");
+            var db = new DBConnect("localhost", "giraffe", "root", "password");
 
             db.Insert(Console.ReadLine());
 
