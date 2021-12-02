@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace WpfApp1
@@ -19,7 +11,7 @@ namespace WpfApp1
     /// </summary>
     public partial class Snake : Window
     {
-        private List<Segment> Python;
+        private readonly List<Segment> Python;
 
         public Snake()
         {
@@ -36,9 +28,9 @@ namespace WpfApp1
                         Fill = Brushes.Turquoise
                     },
                     X = 100 + i * 10,
-                    Y = 100 
+                    Y = 100
                 });
-                    
+
             }
         }
 
@@ -58,7 +50,7 @@ namespace WpfApp1
 
         public double X { get; set; }
         public double Y { get; set; }
-        
+
         public void Show(Canvas field)  // тип связи - зависимость
         {
             if (!field.Children.Contains(Figure))
@@ -76,7 +68,7 @@ namespace WpfApp1
 /*
  * Силы связи: (от сильной к слабой)
  * Наследование (обобщение)
- * Компиозиция
+ * Композиция
  * Агрегация
  * Ассоциация
  * Зависимость
