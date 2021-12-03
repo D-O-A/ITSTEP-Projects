@@ -15,6 +15,10 @@
 
 База Данных - структурированная коллекция данных, условная "таблица", это следующий уровень, который кроме файлов (данных) еще включает связи между ними.
 
+//Все базы данных по совей природе - реляционные
+
+БД дают преимущества когда объем данных очень большой и несколько (или более) человек должны работать с данными одновременно.
+
 Primary key (Основной ключ) - уникальное значение для идентификации "ряда"
 В базе данных Primary Key всегда будет уникальным.
 
@@ -86,9 +90,6 @@ ALTER TABLE student DROP COLUMN gpa;
 //Query на добавление значений в таблицу. Данные передаются в порядке создания колонн
 INSERT INTO student VALUES(1, 'Jack', 'Biology');
 
-//Query на получение данных из таблицы. Получаем ВСЕ данные
-SELECT * FROM student;
-
 //Query на добавление значений в таблицу только в определенные колонки
 INSERT INTO student(student_id, student_name) VALUES(3, 'Claire');
 
@@ -105,6 +106,11 @@ NOT NULL - Запрещает полю иметь значение NULL.
 UNIQUE - не позволяет дублировать значение этого поля
 DEFAULT - задает значение "по умолчанию" если данные не были указаны.
 AUTO INCREMENT - автоматически инкриментирует primary key (или другие колонки) в случае, если значение не было указано при запросе.
+ON DELETE SET NULL - "обнуляет" связанные данные из производной "колонки", когда в базовой таблице ряд был удален. 
+ON DELETE CASCADE - удаляет связанный ряд из производной таблицы автоматически, когда в базовой таблице ряд был удален. 
+
+В БД Primary Key НЕ может быть равен NULL.
+
 
 //Query на создание таблицы, с ключевыми словами.
 CREATE TABLE student
@@ -165,6 +171,508 @@ DELETE FROM student WHERE student_id = 5;
 
 //Query на удаление инфомрации из таблицы. Пример с использованием AND.
 DELETE FROM student WHERE student_name = 'Tom' AND student_major = 'undecided';
+
+
+Ключевые слова для запроса информации из БД:
+
+
+SELECT - указывает какую информацию (колонку) нужно получить
+* - получить все
+ORDER BY - "модификатор" сортировки данных при получении (упорядочивание), по умолчанию в алфавитном порядке
+DESC - "модификатор" для сортировки данных при получении, данные будут получены в обратном порядке, от большего к меньшему
+ASC - "модификатор" для сортировки данных при получении, данные будут получены от меньшего к большему
+LIMIT - ограничивает количетсво полученных данных (рядов) из таблицы.
+WHERE - "модификатор" фильтрации, аналог с "if"
+IN() - "модификатор" фильтрации, в "скобочках" указываются критерии для получения данных
+AS - форматирует название колонки // прим. SELECT first_name AS forename; - колонка first_name будет переименована //в forename в полученных данных
+DISTINCT - возвращает только уникальные значения из колонки, без дубликатов. Полезно, когда хотим посмотреть какие значения хранятся в колонке.
+GROUP BY - группирует данные по указанной колонке.
+
+//Query на получение данных из таблицы. Получаем ВСЕ данные
+SELECT * FROM student;
+
+//Query на получение данных из таблицы. Получим только данные из колонки student_name
+SELECT student_name FROM student;
+
+//Еще пример
+SELECT student.student_name, student.student_major FROM student;
+
+//Query на получение данных из таблицы. Данные будут отсортированы в алфавитном порядке
+SELECT student.student_name, student.student_major FROM student ORDER BY student_name;
+
+//Теперь данные будут получены в обратном порядке.
+SELECT student.student_name, student.student_major FROM student ORDER BY student_name DESC;
+
+//Еще пример сортировки полученных данных. Сначала данные будут отсортированы по ключу student_major, если ключ //повторяется, то данные будут еще отсортированы по student_id
+SELECT * FROM student ORDER BY student_major, student_id;
+
+//Пример с органичением количества полученных данных из таблицы. Получим только 2 ряда из таблицы
+SELECT * FROM student LIMIT 2;
+
+//Еще пример на совмешение разных "модификаторв" запроса
+SELECT * FROM student ORDER BY student_id DESC LIMIT 2;
+
+//Query на получение данных из таблицы с применением условия WHERE
+SELECT * FROM student WHERE student_major = 'Biology';
+
+//Еще пример запроса с "модификаторами"
+SELECT student_name, student_major FROM student WHERE student_major = 'Biology';
+
+//Пример с использованием "модификатора" OR
+SELECT student_name, student_major FROM student WHERE student_major = 'Biology' OR student_major = 'Chemistry';
+
+// -- в SQL тоже самое, что и ","
+
+//Пример запроса с использованием операторов сравнения. Получим все ряды, где ключ НЕ равен "Chemistry"
+SELECT student_name, student_major FROM student WHERE student_major <> 'Chemistry';
+
+//Пример запроса с использованием "модификатора IN. Получим только те ряды, которые проходят условие в "скобочка" //IN.
+SELECT * FROM student WHERE student_name IN('Claire', 'Kate', 'Mike');
+
+//Еще пример с ипользованием IN.
+SELECT * FROM student WHERE student_major IN('Biology', 'Chemistry');
+
+//Пример более сложного запроса
+SELECT * FROM student WHERE student_major IN('Biology', 'Chemistry') AND student_id > 2;
+
+
+Создание "сложной" БД:
+
+
+CREATE TABLE employee
+(
+    emp_id INT PRIMARY KEY,
+    first_name VARCHAR(40),
+    last_name VARCHAR(40),
+    birth_day DATE,
+    sex VARCHAR(1),
+    salary INT,
+    super_id INT,  // эти значения FOREIGN KEY для другой таблицы, но поскольку она пока не создана, мы не можем       branch_id INT  // сразу указать что эта колонка является foreign key 
+);
+
+CREATE TABLE branch
+(
+    branch_id INT PRIMARY KEY,
+    branch_name VARCHAR(40),
+    mgr_id INT,
+    mrg_start_date DATE,
+    FOREIGN KEY(mgr_id) REFERENCES employee(emp_id) ON DELETE SET NULL // это значение можем сразу задать как                                    // FOREIGN KEY, так как таблица employee уже существует и на нее можно ссылаться
+);
+
+// теперь, когда таблица "branch" уже существует, можем построить связь
+ALTER TABLE employee
+ADD FOREIGN KEY(branch_id)
+REFERENCES branch(branch_id)
+ON DELETE SET NULL;
+
+ALTER TABLE employee
+ADD FOREIGN KEY(super_id)
+REFERENCES employee(emp_id)
+ON DELETE SET NULL;
+
+CREATE TABLE client
+(
+    client_id INT PRIMARY KEY,
+    client_name VARCHAR(40),
+    branch_id INT,
+    FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE SET NULL
+);
+
+CREATE TABLE works_with
+(
+    emp_id INT,
+    client_id INT,
+    total_sales INT,
+    PRIMARY KEY(emp_id, client_id),
+    FOREIGN KEY(emp_id) REFERENCES employee(emp_id) ON DELETE CASCADE,
+    FOREIGN KEY(client_id) REFERENCES client(client_id) ON DELETE CASCADE
+);
+
+CREATE TABLE branch_supplier
+(
+    branch_id INT,
+    supplier_name VARCHAR(40),
+    supply_type VARCHAR(40),
+    PRIMARY KEY(branch_id, supplier_name),
+    FOREIGN KEY(branch_id) REFERENCES branch(branch_id) ON DELETE CASCADE
+);
+
+
+Заполнение таблицы данными:
+
+
+-- Corporate
+INSERT INTO employee VALUES(100, 'David', 'Wallace', '1967-11-17', 'M', 250000, NULL, NULL);
+
+INSERT INTO branch VALUES(1, 'Corporate', 100, '2006-02-09');
+
+UPDATE employee
+SET branch_id = 1
+WHERE emp_id = 100;
+
+INSERT INTO employee VALUES(101, 'Jan', 'Levinson', '1961-05-11', 'F', 110000, 100 , 1);
+
+-- Scranton
+INSERT INTO employee VALUES(102, 'Michael', 'Scott', '1964-03-15','M', 75000, 100, NULL);
+
+INSERT INTO branch VALUES(2, 'Scranton', 102, '1992-04-06');
+
+UPDATE employee
+SET branch_id = 2
+WHERE emp_id = 102;
+
+INSERT INTO employee VALUES(103, 'Angela', 'Martin', '1971-06-25', 'F', 63000, 102, 2);
+INSERT INTO employee VALUES(104, 'Kelly', 'Kapoor', '1980-02-05', 'F', 55000, 102, 2);
+INSERT INTO employee VALUES(105, 'Stanley', 'Hudson', '1958-02-19','M', 69000, 102, 2);
+
+-- Stamford
+INSERT INTO employee VALUES(106, 'Josh', 'Porter', '1969-09-05', 'M', 78000, 100, NULL);
+
+INSERT INTO branch VALUES(3, 'Stamford', 106, '1998-02-13');
+
+UPDATE employee
+SET branch_id = 3
+WHERE emp_id = 106;
+
+INSERT INTO employee VALUES(107,'Andy', 'Bernard', '1973-07-22', 'M', 65000, 106, 3);
+INSERT INTO employee VALUES(108, 'Jim', 'Halpert', '1978-10-01', 'M', 71000, 106, 3);
+
+//Порядок ввода данных зависит от связей, которые установлены между таблицами.
+
+-- BRANCH SUPPLIER
+INSERT INTO branch_supplier VALUES(2, 'Hammer Mill', 'Paper');
+INSERT INTO branch_supplier VALUES(2, 'Uni-ball', 'Writing Utensils');
+INSERT INTO branch_supplier VALUES(3, 'Patriot Paper', 'Paper');
+INSERT INTO branch_supplier VALUES(2, 'J.T. Forms & Labels', 'Custom Forms');
+INSERT INTO branch_supplier VALUES(3, 'Uni-ball', 'Writing Utensils');
+INSERT INTO branch_supplier VALUES(3, 'Hammer Mill', 'Paper');
+INSERT INTO branch_supplier VALUES(3, 'Stamford Lables', 'Custom Forms');
+
+-- CLIENT
+INSERT INTO client VALUES(400, 'Dunmore Highschool', 2);
+INSERT INTO client VALUES(401, 'Lackawana Country', 2);
+INSERT INTO client VALUES(402, 'FedEx', 3);
+INSERT INTO client VALUES(403, 'John Daly Law, LLC', 3);
+INSERT INTO client VALUES(404,  'Scranton Whitepages', 2);
+INSERT INTO client VALUES(405, 'Times Newspaper', 3);
+INSERT INTO client VALUES(406, 'FedEx', 2);
+
+-- WORKS_WITH
+INSERT INTO works_with VALUES(105, 400, 55000);
+INSERT INTO works_with VALUES(102, 401, 267000);
+INSERT INTO works_with VALUES(108, 402, 22500);
+INSERT INTO works_with VALUES(107, 403, 5000);
+INSERT INTO works_with VALUES(108, 403, 12000);
+INSERT INTO works_with VALUES(105, 404, 33000);
+INSERT INTO works_with VALUES(107, 405, 26000);
+INSERT INTO works_with VALUES(102, 406, 15000);
+INSERT INTO works_with VALUES(105, 406, 130000);
+
+
+Сложные запросы:
+
+
+// -- Find all employees ordered by salary
+SELECT * FROM employee ORDER BY salary DESC;
+
+// -- Find all employees ordered by sex then name
+SELECT * FROM employee ORDER BY sex, first_name;
+
+// -- Find the first 5 employees in the table
+SELECT * FROM employee LIMIT 5;
+
+// -- Find the first and last names of all employess
+SELECT first_name, last_name FROM employee;
+
+// -- Find the forename and surnames names of all employees
+SELECT first_name AS forname, last_name AS surname FROM employee;
+
+// -- Find  out all the different genders
+SELECT DISTINCT sex FROM employee;
+
+
+
+SQL функции:
+
+
+SQL функции - ключевые слова, которые возвращают результат переданных в них параметров (колонок).
+
+COUNT() - считает сколько записей в колонке и возвращает кол-во.
+AVG() - возвращает среднее арифметическое значение в указанной колонке.
+SUM() - возвращает сумму всех значений в колонке.
+
+// -- Find the number of employees
+SELECT COUNT(emp_id) FROM employee; 
+
+// -- Find the number of female employees born after 1970
+SELECT COUNT(emp_id) FROM employee WHERE sex = 'F' AND birth_day > '1971-01-01';
+
+// -- Find the average of all employees's salaries
+SELECT AVG(salary) FROM employee;
+
+// -- Find the average of male employee's salaries
+SELECT AVG(salary) FROM employee WHERE sex = 'M';
+
+// -- Find the sum of all employee's salaries
+SELECT SUM(salary) FROM employee;
+
+//Пример аггрегации данных
+// -- Find out how many males and females there are
+SELECT COUNT(sex), sex FROM employee GROUP BY sex;
+
+// -- Find the total sales of each salesman
+SELECT SUM(total_sales), emp_id FROM works_with GROUP BY emp_id;
+
+// -- Find the total sales of each client
+SELECT SUM(total_sales), client_id FROM works_with GROUP BY client_id;
+
+
+
+Модификаторы поиска (Wildcards):
+
+
+% = любое количетсво символов, _ = один символ
+
+Модификаторы поиска позволяют задать определенную последовательность, с которой мы хотим сравнивать данные при поиске. Так называемые "упрощенные" регулярные выражения.
+
+LIKE - ключевое слово для использования модификаторов поиска
+
+// -- Find any client's who are an LLC
+SELECT * FROM client WHERE client_name LIKE '%LLC';
+
+// -- Find any employee born in October
+SELECT * FROM employee WHERE birth_day LIKE '____-10%';
+
+// -- Find any clients who are schools
+SELECT * FROM client WHERE client_name LIKE '%school%';
+
+
+
+SQL союзы (Union):
+
+
+SQL союз - объединение нескольких ключевых слов SELECT в одно.
+
+// -- Find a list of employee and branch names
+SELECT first_name
+FROM employee
+UNION
+SELECT branch_name
+FROM branch;
+
+UNION - объединяет запросы SELECT и возвращает результат в одной колонке
+
+Правила использования UNION:
+1. Количество колон в SELECT должны совпадать.
+2. Типы данных должны совпадать
+3. Название "общей" колонки будет совпадать с названием колонки первого запроса SELECT
+
+//Пример многократного использования UNION
+SELECT first_name
+FROM employee
+UNION
+SELECT branch_name
+FROM branch
+UNION 
+SELECT client_name
+from client;
+
+// -- Find a list of all clients & branch supplier's names
+SELECT client_name, client.branch_id
+FROM client
+UNION
+SELECT supplier_name, branch_supplier.branch_id
+FROM branch_supplier;
+
+// -- Find a list of all money spent or earned by the company
+SELECT salary
+FROM employee
+UNION
+SELECT total_sales
+FROM works_with;
+
+
+
+SQL Joins (объединение):
+
+Join используется для объединения данных из двух или более таблиц основываясь на связях между "колонками".
+
+Виды Join:
+(Inner) Join - возвращает данные, которые совпадают в обоих таблицах.
+Left (Outer) Join - возвращает все данные из "левой" таблицы но только совпавшие данные из "правой" таблицы.
+Right (Outer) Join - возвращает все данные из "правой" таблицы но только совпавшие данные из "левой" таблицы.
+Full (Outer) Join - возвращает все данные когда есть совпадение в "левой" или "правой" таблице (отсувствует в MySQL).
+
+// -- Find all branches and the names of their managers
+SELECT employee.emp_id, employee.first_name, branch.branch_name
+FROM employee
+JOIN branch
+ON employee.emp_id = branch.mgr_id; // ON - Соединять колонки из таблиц, когда emp_id = mgr_id
+
+// -- Find all branches and the names of their managers
+SELECT employee.emp_id, employee.first_name, branch.branch_name
+FROM employee
+LEFT JOIN branch                    
+ON employee.emp_id = branch.mgr_id;  
+
+// -- Find all branches and the names of their managers
+SELECT employee.emp_id, employee.first_name, branch.branch_name
+FROM employee
+RIGHT JOIN branch                   
+ON employee.emp_id = branch.mgr_id;
+
+
+
+Nested queries:
+
+
+// -- Find names of all employees who have
+// -- sold over 30,000 to a single client
+SELECT employee.first_name, employee.last_name
+FROM employee
+WHERE employee.emp_id IN            //Nested query происходит в "скобочках" IN
+(                                   //проверяем есть ли emp_id в возвращенном результате из "скобочек"
+    SELECT works_with.emp_id
+    FROM works_with 
+    WHERE works_with.total_sales > 30000
+);
+
+//-- Find all clients who are handled by the branch
+// -- that Michael Scott manages
+// -- Assume you know Michael's ID
+SELECT client.client_name
+FROM client
+WHERE client.branch_if =              //в данном случае выполнение запроса будет двигаться "изнутри наружу"
+(                                     //иными словами сначала выполнится запрос "справа" от знака = 
+    SELECT branch.branch_id           //а потом запрос "слева" от знака =
+    FROM branch
+    WHERE branch.mgr_id = 102
+    LIMIT 1                           //предотвращаем возможный возврат нескольких значений, например если бы
+);                                    //mgr_id дублировался 
+
+
+
+SQL Triggers:
+
+
+SQL Trigger - блок SQL кода, который мы можем написать, который определит действие, которое должно случиться когда определенная операция выполняется или была выполнена.
+
+Триггеры нужно объявлять в консоли, потому-что нам нужно изменить delimiter (знак, который "закрывает" строку запроса ";"). Не все "среды" запросов поддерживают возможность изменения delimiter'ов.
+
+
+//Создание таблицы для примера с триггером
+CREATE TABLE trigger_test
+(
+    message VARCHAR(100)
+);
+
+//В консоли
+DELIMITER $$
+CREATE
+    TRIGGER my_trigger BEFORE INSERT //Объявляем триггер, BEFORE INSERT - перед тем, как вставить ON employee -
+    ON employee                      //в employee
+    FOR EACH ROW BEGIN               //FOR EACH ROW - для каждого нового "добавления" BEGIN - начать INSERT INTO
+        INSERT INTO trigger_test VALUES('added new employee'); //добавлять INTO - в trigger_test VALUES() -            END$$                                                      // значения
+DELIMITER;
+
+Автоматизация процесса при добавления данных в таблицу "employee".
+
+//Проверка триггера
+INSERT INTO employee
+VALUES(109, 'Oscar', 'Martinez', '1968-02-19', 'M', 69000, 106, 3);
+SELECT * FROM trigger_test;
+
+//Новый триггер
+DELIMITER $$
+CREATE
+    TRIGGER my_trigger2 BEFORE INSERT
+    ON employee
+    FOR EACH ROW BEGIN
+        INSERT INTO trigger_test VALUES(NEW.first_name);  //NEW.first_name - ссылается на данные табицы из         END$$                                                 //только-что добавленной колонки и добавляет в                                                                     //нашу "таблицу триг-геров имя. Старый триггер тоже 
+DELIMITER ;                                               //сработает.
+
+//Проверка нового триггера
+INSERT INTO employee
+VALUES(110, 'Kevin', 'Malone', '1978-02-19', 'M', 69000, 106, 3);
+
+SELECT * FROM trigger_test;
+
+//Еще пример "сложного" триггера с использованием операторов ветвления. Все как в VS, ничего нового)
+DELIMITER $$
+CREATE
+    TRIGGER my_trigger3 BEFORE INSERT
+    ON employee
+    FOR EACH ROW BEGIN
+         IF NEW.sex = 'M' THEN
+               INSERT INTO trigger_test VALUES('added male employee');
+         ELSEIF NEW.sex = 'F' THEN
+               INSERT INTO trigger_test VALUES('added female');
+         ELSE
+               INSERT INTO trigger_test VALUES('added other employee');
+         END IF;
+    END$$
+DELIMITER ;
+
+//Проверка
+INSERT INTO employee
+VALUES(111, 'Pam', 'Beesly', '1988-02-19', 'F', 69000, 106, 3);
+
+SELECT * FROM trigger_test;
+
+Триггеры можно настроить при:
+INSERT
+UPDATE
+DELETE
+
+Также, в зависимости от ситуации, BEFORE можно заменить на AFTER, в этом случае триггер сработает ПОСЛЕ выполнения условия.
+
+
+
+ER (Entity Relationship) Diagrams:
+
+//Как UML, но для БД
+
+Entity(Сущность) - Объект, который мы хотим "спроектировать" и хранить о нем информацию.
+
+Attributes - Набор информации о сущности.
+
+Composite Attribute - Аттрибут, который может быть "разбит" на под-атррибуты.
+
+Multi-valued Attribute - Аттрибут, который может содержать больше, чем одно значение.
+
+Derived Attribute - Аттрибут, который может быть унаследован от других аттрибутов.
+
+В ER таблице можно определить более чем одну сущность.
+
+Relationship - Определяет связь между двумя сущностями.
+
+Total Participation - Все члены должны быть частью связи.
+
+Relationship Attribute - Аттрибут связи.
+
+Relationship Cardinality - ??? the number of instances of an entity from a relation that can be associated with the relation.
+1 - только одна сущность 
+N - любое количество сущностей
+M - несколько сущностей (больше 1)
+
+Weak Entity - Сущность, которая не может быть уникально определена только по ее аттрибутам. Другими словами сущность, которая будет зависеть от другой сущности (композиция). Weak Entity всегда должна иметь Total Participation.
+
+Identifying Relationship - Связь, которая необходима для уникального определения weak entity.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
