@@ -8,7 +8,8 @@
         Title="Snake" Height="450" Width="800" Background="Bisque"
         Loaded="Window_Loaded"
         PreviewKeyDown="Window_PreviewKeyDown">
-    <Canvas x:Name="Field">
-        
+    <Canvas x:Name="Field"
+            Width="790"
+            Height="420">
     </Canvas>
 </Window>

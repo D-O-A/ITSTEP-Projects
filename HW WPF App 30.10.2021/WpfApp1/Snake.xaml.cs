@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -11,21 +10,23 @@ using System.Windows.Threading;
 
 namespace WpfApp1
 {
+
     /// <summary>
     /// Interaction logic for Snake.xaml
     /// </summary>
     public partial class Snake : Window
     {
         private readonly List<Segment> Python;
-        private DispatcherTimer timer;
+        private readonly DispatcherTimer timer;
         private MoveDirection moveDirection;
-        private Random r;
+        public static readonly Random r = new Random();
+        private Food fruit;
+        private List<int> foodIndexes;
 
         public Snake()
         {
             InitializeComponent();
 
-            r = new Random();
 
             timer = new DispatcherTimer
             {
@@ -50,6 +51,10 @@ namespace WpfApp1
                 });
 
             }
+
+            fruit = new Food();
+            foodIndexes = new List<int>();
+
         }
 
         // 1. (Простое решение) Хвостовой сегмент перенести вперед
@@ -83,9 +88,116 @@ namespace WpfApp1
             tail.Show(Field);
         }
 
-
+        // 2. (Сложное решение) Двигаем все сегменты
         private void TimerTickColor(object sender, EventArgs e)
         {
+            Segment head = Python[0];
+
+            #region Движение змейки
+
+
+
+
+            /*
+            for (int i = Python.Count - 1; i >= 1; i--)
+            {
+                Segment seg = Python[i];
+                Segment seg_1 = Python[i - 1];
+                seg.X = seg_1.X;
+                seg.Y = seg_1.Y;
+            }
+            */
+
+            // Коррекция - еда "мигрирует" в хвост
+
+            #region С одной едой
+
+
+            //int foodIndex = -1;
+            //for (int i = Python.Count - 1; i >= 1; i--)
+            //{
+            //    //проходим все элементы, проверяем на еду
+            //    if (Python[i] as Food != null)
+            //    {
+            //        foodIndex = i;
+            //    }
+            //}
+
+            //if (foodIndex != -1)
+            //{
+            //    Segment food = Python[foodIndex];
+
+            //    //еда в змейке
+            //    if (foodIndex == Python.Count - 1)
+            //    {
+            //        //еда в самом хвосте - меняем ее на обычный сегмент
+            //        Python[foodIndex] = new Segment
+            //        {
+            //            X = food.X,
+            //            Y = food.Y,
+            //            Figure = new Ellipse
+            //            {
+            //                Width = food.Figure.Width,
+            //                Height = food.Figure.Height,
+            //                Fill = (food.Figure as Rectangle).Fill
+            //            }
+            //        };
+            //        // убираем с поля
+            //        Field.Children.Remove(food.Figure);
+
+            //    }
+            //    else
+            //    {
+            //        //еда в середине - сдвигаем ее на 1 позицию
+            //        Python.Remove(food);
+            //        Python.Insert(foodIndex + 1, food);
+            //    }
+
+            //}
+            #endregion
+
+            foodIndexes.Clear();
+
+            for (int i = 1; i < Python.Count; i++)
+            {
+                if ((Python[i] as Food) != null)
+                {
+                    foodIndexes.Add(i);
+                }
+            }
+
+            foreach (int foodIndex in foodIndexes)
+            { 
+                Segment food = Python[foodIndex];
+
+                //еда в змейке
+                if (foodIndex == Python.Count - 1)
+                {
+                    //еда в самом хвосте - меняем ее на обычный сегмент
+                    Python[foodIndex] = new Segment
+                    {
+                        X = food.X,
+                        Y = food.Y,
+                        Figure = new Ellipse
+                        {
+                            Width = food.Figure.Width,
+                            Height = food.Figure.Height,
+                            Fill = (food.Figure as Rectangle).Fill
+                        }
+                    };
+                    // убираем с поля
+                    Field.Children.Remove(food.Figure);
+
+                }
+                else
+                {
+                    //еда в середине - сдвигаем ее на 1 позицию
+                    Python.Remove(food);
+                    Python.Insert(foodIndex + 1, food);
+                }
+
+            }
+
             for (int i = Python.Count - 1; i >= 1; i--)
             {
                 Segment seg = Python[i];
@@ -97,18 +209,87 @@ namespace WpfApp1
             switch (moveDirection)
             {
                 case MoveDirection.Left:
-                    Python[0].X -= 20;
+                    head.X -= 20;
                     break;
                 case MoveDirection.Right:
-                    Python[0].X += 20;
+                    head.X += 20;
                     break;
                 case MoveDirection.Up:
-                    Python[0].Y -= 20;
+                    head.Y -= 20;
                     break;
                 case MoveDirection.Down:
-                    Python[0].Y += 20;
+                    head.Y += 20;
                     break;
             }
+
+            // голова после "шага" попала в ячейку с едой:
+            if (Python[0].X == fruit.X && Python[0].Y == fruit.Y)
+            {
+                // делаем еще один шаг в том направлении
+                switch (moveDirection)
+                {
+                    case MoveDirection.Left:
+                        head.X -= 20;
+                        break;
+                    case MoveDirection.Right:
+                        head.X += 20;
+                        break;
+                    case MoveDirection.Up:
+                        head.Y -= 20;
+                        break;
+                    case MoveDirection.Down:
+                        head.Y += 20;
+                        break;
+                }
+                // вставляем "еду" в змейку сразу за головой
+                Python.Insert(1, fruit);
+                // генерируем новую "еду"
+                fruit = new Food();
+                // проверяем чтобы не попала на змею
+                bool collision;
+                do
+                {
+                    collision = false;
+
+                    fruit.X = Snake.r.Next(1, 40) * 20;
+                    foreach (Segment seg in Python)
+                    {
+                        if (Math.Abs(seg.X - fruit.X) <= seg.Figure.Width)
+                        {
+                            collision = true;
+                        }
+                    }
+
+                } while (collision);
+                // отображаем ее
+                fruit.Show(Field);
+
+            }
+            #endregion
+
+            #region Выход за пределы экрана
+
+            if (moveDirection == MoveDirection.Left && head.X < 0)
+            {
+                head.X = Field.Width - Field.Width % head.Figure.Width;
+            }
+
+            if (moveDirection == MoveDirection.Right && head.X >= Field.Width - Field.Width % head.Figure.Width)
+            {
+                head.X = 0;
+            }
+
+            if (moveDirection == MoveDirection.Down && head.Y >= Field.Height - Field.Height % head.Figure.Height)
+            {
+                head.Y = 0;
+            }
+
+            if (moveDirection == MoveDirection.Up && head.Y < 0)
+            {
+                head.Y = Field.Height - Field.Height % head.Figure.Height;
+            }
+            #endregion
+
 
             ShowPython();
         }
@@ -117,6 +298,9 @@ namespace WpfApp1
         {
             ShowPython();
             moveDirection = MoveDirection.Left;
+
+            fruit.Show(Field);
+
             timer.Start();
         }
 
@@ -185,6 +369,22 @@ namespace WpfApp1
 
             Canvas.SetLeft(Figure, X);
             Canvas.SetTop(Figure, Y);
+        }
+    }
+
+    public class Food : Segment
+    {
+        public Food()
+        {
+            Figure = new Rectangle
+            {
+                Width = 20,
+                Height = 20,
+                Fill = new SolidColorBrush(Color.FromRgb((byte)Snake.r.Next(0, 250), (byte)Snake.r.Next(0, 250),
+                    (byte)Snake.r.Next(0, 250))) /*Brushes.Turquoise*/
+            };
+            X = Snake.r.Next(1, 40) * 20;
+            Y = 300;
         }
     }
 }
