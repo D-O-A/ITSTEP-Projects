@@ -58,6 +58,9 @@
     <Compile Include="Arkanoid.xaml.cs">
       <DependentUpon>Arkanoid.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DT.xaml.cs">
+      <DependentUpon>DT.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DnD.xaml.cs">
       <DependentUpon>DnD.xaml</DependentUpon>
     </Compile>
@@ -82,6 +85,10 @@
     <Page Include="Arkanoid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DT.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DnD.xaml">
       <SubType>Designer</SubType>

@@ -156,5 +156,13 @@
             </StackPanel>
         </Button>
 
+        <Button 
+            Grid.Column="1" Grid.Row="3"
+            x:Name="DT"
+            Content="DT"
+            FontSize="25"
+            Click="DT_Click"
+            Background="Coral"/>
+
     </Grid>
 </Window>
