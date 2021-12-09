@@ -145,7 +145,7 @@
             Background="SpringGreen">
 
             <StackPanel Orientation="Horizontal">
-                <Image Source="mine.png"
+                <Image Source="snake.png"
                        Stretch="Uniform"
                        Width="100"
                        />

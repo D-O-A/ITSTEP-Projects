@@ -21,7 +21,7 @@ namespace WpfApp1
         private MoveDirection moveDirection;
         public static readonly Random r = new Random();
         private Food fruit;
-        private List<int> foodIndexes;
+        private readonly List<int> foodIndexes;
 
         public Snake()
         {
@@ -167,7 +167,7 @@ namespace WpfApp1
             }
 
             foreach (int foodIndex in foodIndexes)
-            { 
+            {
                 Segment food = Python[foodIndex];
 
                 //еда в змейке
