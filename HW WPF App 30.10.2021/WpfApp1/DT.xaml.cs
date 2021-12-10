@@ -16,39 +16,83 @@ namespace WpfApp1
 
         private void DoneButton_Click(object sender, RoutedEventArgs e)
         {
-            //Хранить датувремя лучше всего как timestamp
-            DateTime dateTime = DTPicker.SelectedDate.Value;
-            DTText.Text = "ToString: " + dateTime.ToString()
-                          + "\nToBinary: " + dateTime.ToBinary()
-                          + "\nToLocalTime: " + dateTime.ToLocalTime()
-                          + "\nToLongDateString " + dateTime.ToLongDateString()
-                          + "\nToLongTimeString " + dateTime.ToLongTimeString()
-                          + "\nToShortDateString " + dateTime.ToShortDateString()
-                          + "\nToShortTimeString " + dateTime.ToShortTimeString()
-                          + "\nToUniversalTime " + dateTime.ToUniversalTime();
+            ////Хранить датувремя лучше всего как timestamp
+            //DateTime dateTime = DTPicker.SelectedDate.Value;
+            //DTText.Text = "ToString: " + dateTime.ToString()
+            //              + "\nToBinary: " + dateTime.ToBinary()
+            //              + "\nToLocalTime: " + dateTime.ToLocalTime()
+            //              + "\nToLongDateString " + dateTime.ToLongDateString()
+            //              + "\nToLongTimeString " + dateTime.ToLongTimeString()
+            //              + "\nToShortDateString " + dateTime.ToShortDateString()
+            //              + "\nToShortTimeString " + dateTime.ToShortTimeString()
+            //              + "\nToUniversalTime " + dateTime.ToUniversalTime();
 
-            string iso8601 =
-                $"{dateTime.Year}-{(dateTime.Month < 10 ? "0" + dateTime.Month : dateTime.Month.ToString())}" +
-                $"-{(dateTime.Day < 10 ? "0" + dateTime.Day : dateTime.Day.ToString())}" +
-                $" {(dateTime.Hour < 10 ? "0" + dateTime.Hour : dateTime.Hour.ToString())}" +
-                $":{(dateTime.Minute < 10 ? "0" + dateTime.Minute : dateTime.Minute.ToString())}" +
-                $":{(dateTime.Second < 10 ? "0" + dateTime.Second : dateTime.Second.ToString())}";
+            //string iso8601 =
+            //    $"{dateTime.Year}-{(dateTime.Month < 10 ? "0" + dateTime.Month : dateTime.Month.ToString())}" +
+            //    $"-{(dateTime.Day < 10 ? "0" + dateTime.Day : dateTime.Day.ToString())}" +
+            //    $" {(dateTime.Hour < 10 ? "0" + dateTime.Hour : dateTime.Hour.ToString())}" +
+            //    $":{(dateTime.Minute < 10 ? "0" + dateTime.Minute : dateTime.Minute.ToString())}" +
+            //    $":{(dateTime.Second < 10 ? "0" + dateTime.Second : dateTime.Second.ToString())}";
 
-            //https://www.w3.org/Protocols/rfc822/#z28 Стандарт RFC-1123. По документации подходит под RFC-2822 вариант ниже
-            string rfc2822 = dateTime.ToString("R");
+            ////https://www.w3.org/Protocols/rfc822/#z28 Стандарт RFC-1123. По документации подходит под RFC-2822 вариант ниже
+            //string rfc2822 = dateTime.ToString("R");
 
-            string question = dateTime.ToString("O"); //По документации именно это является стандартом 8601 а не то, что мы писали сверху?
-           
-            string rfc3339 = $"{dateTime.Year}-{(dateTime.Month < 10 ? "0" + dateTime.Month : dateTime.Month.ToString())}" +
-                             $"-{(dateTime.Day < 10 ? "0" + dateTime.Day : dateTime.Day.ToString())}" +
-                             $"T{(dateTime.Hour < 10 ? "0" + dateTime.Hour : dateTime.Hour.ToString())}" +
-                             $":{(dateTime.Minute < 10 ? "0" + dateTime.Minute : dateTime.Minute.ToString())}" +
-                             $":{(dateTime.Second < 10 ? "0" + dateTime.Second : dateTime.Second.ToString())} " + dateTime.ToString("zzz");
+            //string question = dateTime.ToString("O"); //По документации именно это является стандартом 8601 а не то, что мы писали сверху?
+
+            //string rfc3339 = $"{dateTime.Year}-{(dateTime.Month < 10 ? "0" + dateTime.Month : dateTime.Month.ToString())}" +
+            //                 $"-{(dateTime.Day < 10 ? "0" + dateTime.Day : dateTime.Day.ToString())}" +
+            //                 $"T{(dateTime.Hour < 10 ? "0" + dateTime.Hour : dateTime.Hour.ToString())}" +
+            //                 $":{(dateTime.Minute < 10 ? "0" + dateTime.Minute : dateTime.Minute.ToString())}" +
+            //                 $":{(dateTime.Second < 10 ? "0" + dateTime.Second : dateTime.Second.ToString())} " + dateTime.ToString("zzz");
 
 
-            DTText.Text += "\nISO-8601: " + iso8601;
-            DTText.Text += "\nRFC-2822: " + rfc2822;
-            DTText.Text += "\nRFC-3339: " + rfc3339;
+            //DTText.Text += "\nISO-8601: " + iso8601;
+            //DTText.Text += "\nRFC-2822: " + rfc2822;
+            //DTText.Text += "\nRFC-3339: " + rfc3339;
+
+            try
+            {
+                DTText.Text = "To String: " + DTCalendar.SelectedDate.Value.ToString()
+                    + "\nNow: " + DateTime.Now.ToString()
+                    + "\nDifference: " + Convert.ToString(DateTime.Now - DTCalendar.SelectedDate);
+
+
+            }
+            catch
+            {
+                DTText.Text = "Select date";
+            }
+        }
+
+        private void parseDate_Click(object sender, RoutedEventArgs e)
+        {
+            string dtStr = tbDate.Text;
+            try
+            {
+                var dt = DateTime.Parse(dtStr);
+                DTText.Text = dt.ToString();
+            }
+            catch
+            {
+                DTText.Text = "--";
+
+            }
+
+            try
+            {
+                DTText.Text += "\n" + Convert.ToDateTime(dtStr).ToString();
+            }
+            catch
+            {
+                DTText.Text = "--";
+            }
+
+
+        }
+
+        private void Add3Days_Click(object sender, RoutedEventArgs e)
+        {
+            DTText.Text = "+ 3 Days: " + DTCalendar.SelectedDate.Value.AddDays(3.5);
         }
     }
 }

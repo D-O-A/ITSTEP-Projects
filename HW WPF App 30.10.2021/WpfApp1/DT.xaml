@@ -14,12 +14,13 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        
+
         <DatePicker x:Name="DTPicker"/>
-        
-        <Calendar x:Name="DTCalendar"
-                  Grid.Row="1"/>
+
+        <Calendar x:Name="DTCalendar" Margin="0,40,0,0" Grid.RowSpan="2"/>
 
         <TextBlock x:Name="DTText"
                    Grid.Column="1"/>
@@ -29,6 +30,23 @@
                 Grid.Row="1"
                 Content="Done"
                 Click="DoneButton_Click"/>
-        
+
+        <TextBox Grid.Column="0" Grid.Row="2"
+                 x:Name="tbDate"
+                 Text="2021-12-10 18:10:21"/>
+
+        <Button x:Name="parseDate"
+                Grid.Column="1"
+                Grid.Row="2"
+                Content="Parse"
+                Click="parseDate_Click"/>
+
+        <Button x:Name="Add3Days"
+                Grid.Column="1"
+                Grid.Row="3"
+                Content="Add 3 days"
+                Click="Add3Days_Click"/>
+
+
     </Grid>
 </Window>
