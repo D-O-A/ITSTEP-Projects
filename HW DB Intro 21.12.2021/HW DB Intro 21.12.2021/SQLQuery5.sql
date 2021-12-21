@@ -1,0 +1,1 @@
+﻿INSERT INTO Literals (num_value, txt_value) VALUES(42, 'HW Row')
