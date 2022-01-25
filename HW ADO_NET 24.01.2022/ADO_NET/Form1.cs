@@ -51,7 +51,7 @@ namespace ADO_NET
 
             if (IsTableExists()) return;
 
-                SqlCommand cmd = new SqlCommand();
+            SqlCommand cmd = new SqlCommand();
 
             cmd.Connection = _connection;
             // создание таблицы
