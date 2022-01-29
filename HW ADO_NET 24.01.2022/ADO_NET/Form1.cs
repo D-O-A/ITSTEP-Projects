@@ -1,30 +1,59 @@
 ﻿using ADO_NET.Models;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ADO_NET
 {
     public partial class Form1 : Form
     {
-        private readonly SqlConnection _connection;
+        private SqlConnection _connection;
         private readonly string _tableName;
+        private readonly IConfiguration _configuration;
+        private string dbMode = string.Empty;
 
         public Form1()
         {
-            InitializeComponent();
+
+
+            //вынести в хелпер
+            string currentDir = Application.StartupPath;
+            int binIndex = currentDir.IndexOf(@"\bin\");
+
+            //добавить метод проверки радиокнопок (без обработчика событий)
+            //решить вопрос если радиокнопки не отмечены то ЕХ
+            // проверить в радиокнопках если выбрана после того, как открыто подключение
+            // напомнить про присоединенный\отсоединенный режим
+
+            string projectPath = binIndex == -1 ? currentDir : currentDir.Substring(0, binIndex);
 
             //для себя, чтоб можно было легко менять строки
-            var connectionStrings = new Dictionary<string, string>{
-                { "Desktop DB", @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=J:\GitHub\HW ADO_NET 24.01.2022\ADO_NET\Database1.mdf;Integrated Security=True" },
-                { "Laptop DB", @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vladislav.yavorskiy\OneDrive\Документы\ШАГ\HW ADO_NET 24.01.2022\ADO_NET\Database1.mdf;Integrated Security=True" }
-            };
+            //var connectionStrings = new Dictionary<string, string>{
+            //    { "Desktop DB", @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=J:\GitHub\HW ADO_NET 24.01.2022\ADO_NET\Database1.mdf;Integrated Security=True" },
+            //    { "Laptop DB", @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vladislav.yavorskiy\OneDrive\Документы\ШАГ\HW ADO_NET 24.01.2022\ADO_NET\Database1.mdf;Integrated Security=True" }
+            //};
 
-            _connection = new SqlConnection(connectionStrings.FirstOrDefault(c => c.Key is "Desktop DB").Value);
+            try
+            {
+                _configuration = new ConfigurationBuilder()
+                    .AddJsonFile(projectPath + @"\appsettings.json")
+                    .Build();
+            }
+            catch (FileNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+                Close();
+                Application.Exit();
+                return;
+            }
+
+
             _tableName = "Nums";
+
+            InitializeComponent();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
@@ -218,6 +247,38 @@ namespace ADO_NET
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void LaptopDb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (LaptopDb.Checked)
+            {
+                dbMode = "laptopDb";
+                try
+                {
+                    _connection = new SqlConnection(_configuration.GetConnectionString(dbMode));
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void DesktopDb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (DesktopDb.Checked)
+            {
+                dbMode = "desktopDb";
+                try
+                {
+                    _connection = new SqlConnection(_configuration.GetConnectionString(dbMode));
+                }
+                catch (SqlException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }

@@ -42,6 +42,8 @@ namespace ADO_NET
             this.contextDbBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.contextDbBindingSource3 = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.DesktopDb = new System.Windows.Forms.RadioButton();
+            this.LaptopDb = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.contextDbBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDbBindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.contextDbBindingSource2)).BeginInit();
@@ -149,11 +151,37 @@ namespace ADO_NET
             this.dataGridView1.Size = new System.Drawing.Size(380, 364);
             this.dataGridView1.TabIndex = 7;
             // 
+            // DesktopDb
+            // 
+            this.DesktopDb.AutoSize = true;
+            this.DesktopDb.Location = new System.Drawing.Point(27, 12);
+            this.DesktopDb.Name = "DesktopDb";
+            this.DesktopDb.Size = new System.Drawing.Size(86, 19);
+            this.DesktopDb.TabIndex = 8;
+            this.DesktopDb.TabStop = true;
+            this.DesktopDb.Text = "Desktop DB";
+            this.DesktopDb.UseVisualStyleBackColor = true;
+            this.DesktopDb.CheckedChanged += new System.EventHandler(this.DesktopDb_CheckedChanged);
+            // 
+            // LaptopDb
+            // 
+            this.LaptopDb.AutoSize = true;
+            this.LaptopDb.Location = new System.Drawing.Point(127, 12);
+            this.LaptopDb.Name = "LaptopDb";
+            this.LaptopDb.Size = new System.Drawing.Size(80, 19);
+            this.LaptopDb.TabIndex = 9;
+            this.LaptopDb.TabStop = true;
+            this.LaptopDb.Text = "Laptop DB";
+            this.LaptopDb.UseVisualStyleBackColor = true;
+            this.LaptopDb.CheckedChanged += new System.EventHandler(this.LaptopDb_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(946, 450);
+            this.Controls.Add(this.LaptopDb);
+            this.Controls.Add(this.DesktopDb);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.SelectModel);
             this.Controls.Add(this.buttonSelect);
@@ -170,6 +198,7 @@ namespace ADO_NET
             ((System.ComponentModel.ISupportInitialize)(this.contextDbBindingSource3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -187,6 +216,8 @@ namespace ADO_NET
         private System.Windows.Forms.BindingSource contextDbBindingSource2;
         private System.Windows.Forms.BindingSource contextDbBindingSource3;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.RadioButton DesktopDb;
+        private System.Windows.Forms.RadioButton LaptopDb;
     }
 }
 
