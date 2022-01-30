@@ -1,45 +1,38 @@
-﻿using ADO_NET.Models;
+﻿using ADO_NET.Helpers;
+using ADO_NET.Models;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace ADO_NET
 {
     public partial class Form1 : Form
     {
-        private SqlConnection _connection;
+        private readonly SqlConnection _connection;
         private readonly string _tableName;
-        private readonly IConfiguration _configuration;
-        private string dbMode = string.Empty;
+        private readonly Dictionary<string, string> _connectionStrings;
+        private readonly List<RadioButton> _radioButtons;
 
         public Form1()
         {
-
-
-            //вынести в хелпер
-            string currentDir = Application.StartupPath;
-            int binIndex = currentDir.IndexOf(@"\bin\");
-
-            //добавить метод проверки радиокнопок (без обработчика событий)
-            //решить вопрос если радиокнопки не отмечены то ЕХ
-            // проверить в радиокнопках если выбрана после того, как открыто подключение
             // напомнить про присоединенный\отсоединенный режим
-
-            string projectPath = binIndex == -1 ? currentDir : currentDir.Substring(0, binIndex);
-
-            //для себя, чтоб можно было легко менять строки
-            //var connectionStrings = new Dictionary<string, string>{
-            //    { "Desktop DB", @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=J:\GitHub\HW ADO_NET 24.01.2022\ADO_NET\Database1.mdf;Integrated Security=True" },
-            //    { "Laptop DB", @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vladislav.yavorskiy\OneDrive\Документы\ШАГ\HW ADO_NET 24.01.2022\ADO_NET\Database1.mdf;Integrated Security=True" }
-            //};
+            IConfiguration configuration;
+            _connectionStrings = new Dictionary<string, string>();
+            _radioButtons = new List<RadioButton>();
+            _connection = new SqlConnection();
+            _tableName = "Nums";
+            var radioButtonCoord = new Point(27, 12);
 
             try
             {
-                _configuration = new ConfigurationBuilder()
-                    .AddJsonFile(projectPath + @"\appsettings.json")
+                configuration = new ConfigurationBuilder()
+                    .AddJsonFile(CurrentDirHelper.GetCurrentDir() + @"\appsettings.json")
                     .Build();
             }
             catch (FileNotFoundException ex)
@@ -49,29 +42,46 @@ namespace ADO_NET
                 Application.Exit();
                 return;
             }
+            catch (InvalidDataException ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
 
+            foreach (var connectionString in configuration.GetSection("ConnectionStrings").GetChildren())
+            {
+                _connectionStrings.Add(connectionString.Key, connectionString.Value);
+            }
 
-            _tableName = "Nums";
+            _radioButtons = RadioButtonBuilderHelper.BuildRadioButton(_connectionStrings, radioButtonCoord);
+
+            foreach (var button in _radioButtons)
+            {
+                Controls.Add(button);
+            }
 
             InitializeComponent();
         }
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            ConnectionCreator(_radioButtons);
+
             try
             {
                 if (SqlConnectionChecker())
                 {
-                    MessageBox.Show(@"Connection is already opened");
+                    //MessageBox.Show(@"Connection is already opened");
+                    listBox1.Items.Add("Connection is already opened");
                     return;
                 }
 
-                _connection.Open();
-                listBox1.Items.Add("Connected");
+                OpenConnection();
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add(ex.Message);
             }
         }
 
@@ -79,7 +89,8 @@ namespace ADO_NET
         {
             if (!SqlConnectionChecker())
             {
-                MessageBox.Show(@"Open connection first");
+                //MessageBox.Show(@"Open connection first");
+                listBox1.Items.Add("Open connection first");
                 return;
             }
 
@@ -105,7 +116,8 @@ namespace ADO_NET
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add(ex.Message);
             }
         }
 
@@ -113,7 +125,8 @@ namespace ADO_NET
         {
             if (!SqlConnectionChecker())
             {
-                MessageBox.Show(@"Open connection first");
+                //MessageBox.Show(@"Open connection first");
+                listBox1.Items.Add("Open connection first");
                 return;
             }
 
@@ -132,7 +145,8 @@ namespace ADO_NET
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add(ex.Message);
             }
         }
 
@@ -142,16 +156,17 @@ namespace ADO_NET
             {
                 if (!SqlConnectionChecker())
                 {
-                    MessageBox.Show(@"Connection is already closed");
+                    //MessageBox.Show(@"Connection is already closed");
+                    listBox1.Items.Add("Connection is already closed");
                     return;
                 }
 
-                _connection.Close();
-                listBox1.Items.Add("Disconnected");
+                CloseConnection();
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add(ex.Message);
             }
         }
 
@@ -162,8 +177,6 @@ namespace ADO_NET
 
         private bool IsTableExists()
         {
-            //не хватило мне мозгов придумать красивее решение
-
             SqlCommand cmd = new SqlCommand();
             bool tableExists = true;
 
@@ -186,7 +199,8 @@ namespace ADO_NET
         {
             if (!SqlConnectionChecker())
             {
-                MessageBox.Show(@"Open connection first");
+                //MessageBox.Show(@"Open connection first");
+                listBox1.Items.Add("Open connection first");
                 return;
             }
 
@@ -210,11 +224,13 @@ namespace ADO_NET
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add(ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add(ex.Message);
             }
         }
 
@@ -222,7 +238,8 @@ namespace ADO_NET
         {
             if (!SqlConnectionChecker())
             {
-                MessageBox.Show(@"Open connection first");
+                //MessageBox.Show(@"Open connection first");
+                listBox1.Items.Add("Open connection first");
                 return;
             }
 
@@ -230,8 +247,6 @@ namespace ADO_NET
 
             try
             {
-                //поздно уже играться чтобы поле масштабировалось, и так сойдет
-                //может на паре подскажете)
                 dataGridView1.DataSource = data.Nums;
 
                 listBox1.Items.Add("++++++++++++++++++");
@@ -242,44 +257,87 @@ namespace ADO_NET
             }
             catch (SqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add(ex.Message);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add(ex.Message);
             }
         }
 
-        private void LaptopDb_CheckedChanged(object sender, EventArgs e)
+        private void ConnectionCreator(List<RadioButton> buttons)
         {
-            if (LaptopDb.Checked)
+            foreach (var button in buttons.Where(button => button.Checked))
             {
-                dbMode = "laptopDb";
                 try
                 {
-                    _connection = new SqlConnection(_configuration.GetConnectionString(dbMode));
+                    if (!IsConnectionStringEmpty(_connection))
+                    {
+                        return;
+                    }
+
+                    _connection.ConnectionString = _connectionStrings.FirstOrDefault(c => c.Key == button.Name).Value;
                 }
                 catch (SqlException ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    //MessageBox.Show(ex.Message);
+                    listBox1.Items.Add(ex.Message);
+                }
+                catch (ArgumentException)
+                {
+                    //MessageBox.Show("Wrong connection string format");
+                    listBox1.Items.Add("Wrong connection string format");
                 }
             }
         }
 
-        private void DesktopDb_CheckedChanged(object sender, EventArgs e)
+        private void OpenConnection()
         {
-            if (DesktopDb.Checked)
+            try
             {
-                dbMode = "desktopDb";
-                try
+                if (_connectionStrings.Count is 0)
                 {
-                    _connection = new SqlConnection(_configuration.GetConnectionString(dbMode));
+                    //MessageBox.Show("Connections not found");
+                    listBox1.Items.Add("Connection not found");
+                    return;
                 }
-                catch (SqlException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+
+                _connection.Open();
+                listBox1.Items.Add("Connected");
             }
+            catch (SqlException)
+            {
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add("Failed to connect to database");
+                _connection.ConnectionString = string.Empty;
+            }
+            catch (Exception)
+            {
+                //MessageBox.Show("Connection string not found");
+                listBox1.Items.Add("Connection string not found");
+            }
+        }
+
+        private void CloseConnection()
+        {
+            try
+            {
+                _connection.Close();
+                _connection.ConnectionString = string.Empty;
+                listBox1.Items.Add("Disconnected");
+            }
+            catch (SqlException ex)
+            {
+                //MessageBox.Show(ex.Message);
+                listBox1.Items.Add(ex.Message);
+            }
+        }
+
+        private bool IsConnectionStringEmpty(SqlConnection connection)
+        {
+            return connection.ConnectionString == string.Empty;
         }
     }
 }
