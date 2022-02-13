@@ -1,7 +1,4 @@
-﻿using Microsoft.Practices.Unity;
-using System;
-using System.Data;
-using System.Linq;
+﻿using System;
 using System.Windows.Forms;
 
 namespace ADO_LINQ

@@ -37,7 +37,7 @@ namespace ADO_NET.Helpers
                 Text = key,
                 UseVisualStyleBackColor = true
             };
-
+            
             return buffer;
         }
     }
