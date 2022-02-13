@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ADO_EF
 {
     public partial class Form1 : Form
     {
-        private Model.FirmContext Firm;
-        private Random random = new();
+        private readonly Model.FirmContext Firm;
+        private readonly Random random = new();
 
         public Form1()
         {
@@ -23,15 +17,14 @@ namespace ADO_EF
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Firm.InstallDepartments();
-            // Firm.InstallManagers();
-            // Firm.InstallProducts();
+            //Firm.InstallDepartments();
+            //Firm.InstallManagers();
+            //Firm.InstallProducts();
 
             labelDepartments.Text = Firm.Departments.Count().ToString();
             labelManagers.Text = Firm.Managers.Count().ToString();
             labelProducts.Text = Firm.Products.Count().ToString();
             labelSales.Text = Firm.Sales.Count().ToString();
-            
         }
 
         private void buttonDepartments_Click(object sender, EventArgs e)
@@ -45,6 +38,18 @@ namespace ADO_EF
             }
         }
 
+        private void buttonManagers_Click(object sender, EventArgs e)
+        {
+            listBox1.Items.Clear();
+
+            foreach (var man in
+                     Firm.Managers.OrderBy(d => d.Name))
+            {
+                listBox1.Items.Add(man);
+            }
+
+        }
+
         private void buttonProdPrice_Click(object sender, EventArgs e)
         {
             var query = Firm.Products
@@ -52,7 +57,7 @@ namespace ADO_EF
                 .OrderByDescending(p => p.Price);
 
             listBox1.Items.Clear();
-            foreach(Model.Product p in query)
+            foreach (Model.Product p in query)
             {
                 listBox1.Items.Add(p);
             }
@@ -74,7 +79,7 @@ namespace ADO_EF
                 return;
             }
             // Generation
-            
+
             while (n > 0)
             {
                 Firm.Sales.Add(new Model.Sale
@@ -97,7 +102,7 @@ namespace ADO_EF
 
                     Cnt = random.Next(1, 10),
 
-                    Moment = DateTime.Parse($"2021-01-01")
+                    Moment = DateTime.Parse("2021-01-01")
                         .AddSeconds(random.Next(60 * 60 * 24 * 365))
                 });
 
@@ -114,23 +119,24 @@ namespace ADO_EF
         private void buttonSalesAll_Click(object sender, EventArgs e)
         {
             listBox1.Items.Clear();
-            foreach(var item in
+            foreach (var item in
                 Firm.Sales
-                .Join(Firm.Managers, s => s.Id_Manager, m => m.Id, 
-                (Sale, Manager) => new { Sale, Manager } )
+                .Join(Firm.Managers, s => s.Id_Manager, m => m.Id,
+                (Sale, Manager) => new { Sale, Manager })
                 .Join(Firm.Products, SM => SM.Sale.Id_Product, p => p.Id,
                 (SM, Product) => new { SM.Sale, SM.Manager, Product })
-                
-            ) {
+
+            )
+            {
                 listBox1.Items.Add(
                     item.Sale.Moment.ToShortDateString()
                     + " "
-                    + item.Manager.Surname  
-                        + " " + item.Manager.Name.Substring(0,1) + "."
-                        + " " + item.Manager.SecName.Substring(0,1) + "."
+                    + item.Manager.Surname
+                        + " " + item.Manager.Name.Substring(0, 1) + "."
+                        + " " + item.Manager.SecName.Substring(0, 1) + "."
                     );
             }
-                
+
         }
     }
 }

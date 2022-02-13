@@ -48,6 +48,7 @@ namespace ADO_EF
             this.buttonSalesAll = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.buttonManagers = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -74,7 +75,7 @@ namespace ADO_EF
             // 
             // buttonProdPrice
             // 
-            this.buttonProdPrice.Location = new System.Drawing.Point(12, 51);
+            this.buttonProdPrice.Location = new System.Drawing.Point(12, 69);
             this.buttonProdPrice.Name = "buttonProdPrice";
             this.buttonProdPrice.Size = new System.Drawing.Size(91, 23);
             this.buttonProdPrice.TabIndex = 2;
@@ -237,11 +238,22 @@ namespace ADO_EF
             this.dateTimePicker1.Size = new System.Drawing.Size(129, 23);
             this.dateTimePicker1.TabIndex = 6;
             // 
+            // buttonManagers
+            // 
+            this.buttonManagers.Location = new System.Drawing.Point(12, 40);
+            this.buttonManagers.Name = "buttonManagers";
+            this.buttonManagers.Size = new System.Drawing.Size(91, 23);
+            this.buttonManagers.TabIndex = 7;
+            this.buttonManagers.Text = "Managers";
+            this.buttonManagers.UseVisualStyleBackColor = true;
+            this.buttonManagers.Click += new System.EventHandler(this.buttonManagers_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.buttonManagers);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -282,6 +294,7 @@ namespace ADO_EF
         private System.Windows.Forms.Button buttonSalesAll;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.Button buttonManagers;
     }
 }
 

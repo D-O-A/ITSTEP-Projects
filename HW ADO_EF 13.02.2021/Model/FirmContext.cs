@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.Data.Entity;
+using System.Linq;
 
 namespace ADO_EF.Model
 {
-    class FirmContext : DbContext
+    internal class FirmContext : DbContext
     {
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Department> Departments { get; set; }
@@ -156,7 +152,7 @@ namespace ADO_EF.Model
             Products.Add(new Model.Product { Id = Guid.Parse("4A550D3B-D1F2-40EF-AE4E-963612C6713A"), Name = "Сварочный аппарат", Price = 2099 });
             Products.Add(new Model.Product { Id = Guid.Parse("17DB11D1-F50E-4CF4-9C54-CF1BD45802EA"), Name = "Электроды 3мм", Price = 49.98 });
             Products.Add(new Model.Product { Id = Guid.Parse("7264D33A-16B9-4E22-B3F1-63D6DAE60078"), Name = "Паяльник 40 Вт", Price = 199.98 });
-            
+
             SaveChanges();
         }
     }
